@@ -3,9 +3,27 @@ import Langevin_Machine_Learning.Integrator as Integrator
 import Langevin_Machine_Learning.Integrator.methods as methods
 import Langevin_Machine_Learning.utils as confStat # configuration statistics
 import numpy as np
+import argparse
 
-N_particle = 4
-samples = 1000
+parser = argparse.ArgumentParser('MD simulation')
+args = parser.add_argument('--particle', type= int, default = 2, help="particle")
+args = parser.add_argument('--temp', type= float, default = 0.1, help="temperature")
+args = parser.add_argument('--samples', type= int, default = 1000, help="samples")
+args = parser.add_argument('--iterations', type= int, default = 1000, help="iterations")
+args = parser.add_argument('--ts', type= float, default = 0.1, help="time_step")
+args = parser.parse_args()
+
+N_particle =args.particle
+T =args.temp
+samples =args.samples
+iterations=args.iterations
+ts =args.ts
+print("N_particle",N_particle)
+print("T:",T)
+print("N_samples",samples)
+print("iterations",iterations)
+print("ts",ts)
+
 
 energy = Hamiltonian.Hamiltonian()
 LJ06 = Hamiltonian.LJ_term(epsilon =1, sigma =1, exponent= 6, boxsize=np.sqrt(N_particle/0.2)) #'density': 0.2
@@ -15,7 +33,7 @@ energy.append(Hamiltonian.kinetic_energy(mass = 1))
 
 configuration = {
     'kB' : 1.0, # put as a constant 
-    'Temperature' : 0.01, # desired temperature for NVE Ensemble
+    'Temperature' : T, # desired temperature for NVE Ensemble
     'DIM' : 2,
     'm' : 1,
     'particle' : N_particle,
@@ -26,10 +44,10 @@ configuration = {
     }
 
 integration_setting = {
-    'iterations' : 1000,
+    'iterations' : iterations,
     'DumpFreq' : 1,
     'gamma' : 0, # gamma 0 turns off the Langevin heat bath, setting it to NVE Ensemble
-    'time_step' : 0.01,
+    'time_step' : ts,
     'integrator_method' : methods.velocity_verlet, #method class to be passed
     }
 
@@ -63,4 +81,4 @@ confStat.plot_stat(inital_q_hist, inital_p_hist,q_hist, p_hist, 'all',**configur
 #plot the statistic of q distribution based on current state configuration
 
 #to save the current phase space to continue as a checkpoint
-MD_integrator.save_phase_space(inital_q_hist, inital_p_hist,q_hist, p_hist,'/N{}_T{}_ts{}_vv_{}sampled.npy'.format(configuration["particle"],configuration["Temperature"],integration_setting['time_step'],samples)) # by default, it is in init file
+MD_integrator.save_phase_space(inital_q_hist, inital_p_hist,q_hist, p_hist,'/N{}_T{}_ts{}_vv_{}sampled.npy'.format(N_particle,T,ts,samples)) # by default, it is in init file
