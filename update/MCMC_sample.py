@@ -8,33 +8,36 @@ import os
 import argparse
 
 parser = argparse.ArgumentParser('MC simulation')
+args = parser.add_argument('--particle', type= int, default = 2, help="particle")
 args = parser.add_argument('--temp', type= float, default = 0.1, help="temperature")
 args = parser.add_argument('--dq', type= float, default = 0.1, help="dq")
 args = parser.parse_args()
 
+N_particle =args.particle
 T =args.temp
 dq =args.dq
+print("N_particle",N_particle)
 print("T:",T)
 print("dq",dq)
 energy = Hamiltonian.Hamiltonian() # energy model container
-LJ06 = Hamiltonian.LJ_term(epsilon =1, sigma =1, exponent= 6, boxsize=np.sqrt(4/0.2))
-LJ12 = Hamiltonian.LJ_term(epsilon =1, sigma =1, exponent= 12, boxsize=np.sqrt(4/0.2))
-energy.append(Hamiltonian.Lennard_Jones(LJ06,LJ12, boxsize=np.sqrt(4/0.2)))
+LJ06 = Hamiltonian.LJ_term(epsilon =1, sigma =1, exponent= 6, boxsize=np.sqrt(N_particle/0.2))
+LJ12 = Hamiltonian.LJ_term(epsilon =1, sigma =1, exponent= 12, boxsize=np.sqrt(N_particle/0.2))
+energy.append(Hamiltonian.Lennard_Jones(LJ06,LJ12, boxsize=np.sqrt(N_particle/0.2)))
 
 configuration = {
     'kB' : 1.0, # put as a constant
     'Temperature' : T,
     'DIM' : 2,
     'm' : 1,
-    'particle' : 4,
+    'particle' : N_particle,
     'N' : 1,
-    'BoxSize': np.sqrt(4/0.2),
+    'BoxSize': np.sqrt(N_particle/0.2),
     'hamiltonian' : energy,
     }
 
 integration_setting = {
-    'iterations' : 12000,
-    'DISCARD' : 2000,
+    'iterations' : 14000,
+    'DISCARD' : 4000,
     'dq' : dq,
     }
 
