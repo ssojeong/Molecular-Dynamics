@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ee7b3c34-547a-4fe8-a177-6800315d6c5a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../HNNwLJ20210128/phase_space/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/current.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/current.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/MC_sample.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/MC_sample.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/ML_sample.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/ML_sample.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/Test/hamiltonian_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/Test/hamiltonian_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/hamiltonian/LJ_term.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/hamiltonian/LJ_term.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/hamiltonian/hamiltonian.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/hamiltonian/hamiltonian.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/hamiltonian/kinetic_energy.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/hamiltonian/kinetic_energy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/hamiltonian/lennard_jones.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/hamiltonian/lennard_jones.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/hamiltonian/pb.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/phase_space/pb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/pair_wise_HNN/MD_learner.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/pair_wise_HNN/MD_learner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/pair_wise_HNN/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/pair_wise_HNN/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/pair_wise_HNN/dataset_split.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/pair_wise_HNN/data_io.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/pair_wise_HNN/pair_wise_HNN.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/pair_wise_HNN/pair_wise_HNN.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HNNwLJ20210128/phase_space/phase_space.py" beforeDir="false" afterPath="$PROJECT_DIR$/../HNNwLJ20210128/phase_space/phase_space.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="126" />
+    <option name="y" value="27" />
+    <option name="width" value="1657" />
+    <option name="height" value="1053" />
+  </component>
+  <component name="ProjectId" id="1mgwUsxvfmcUWVIvbm2NtfycQdj" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Course" />
+      <pane id="ProjectPane" />
+    </panes>
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="hk_HNN" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ee7b3c34-547a-4fe8-a177-6800315d6c5a" name="Default Changelist" comment="" />
+      <created>1609928560955</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1609928560955</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="126" y="27" width="1657" height="1053" extended-state="0" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.249694" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Python Console" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>8</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/../ML_sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-575">
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
