@@ -42,25 +42,6 @@ class lennard_jones:
 
         return self.dimensionless_phase_space
 
-    def dimensionless_grids(self, phase_space, grids): 
-        # grids shape is [gridL * gridL, DIM=(x coord, y coord)]
-
-        dimensionless_grids_list = grids /  phase_space.get_boxsize()
-        return dimensionless_grids_list
-
-    def phi_fields(self, phase_space, grid_list):
-        ''' phi fields function to get phi fields each grid
-
-        parameters :
-        grid_list : shape is [gridL * gridL, DIM=(x coord, y coord)]
-        '''
-        xi_space = self.dimensionless(phase_space)
-        # shape is [nsamples, nparticle, DIM]
-
-        grids_list = self.dimensionless_grids(phase_space, grid_list)
-        # shape is [gridL*gridL, DIM]
-
-        return self.phi.phi_fields(xi_space, grids_list)
 
     def energy(self, phase_space):
         ''' energy function to get potential energy '''
