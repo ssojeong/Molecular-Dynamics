@@ -1,0 +1,14 @@
+{
+    "nparticle": 2,
+    "temperature": 0.1,
+    "MC_output_filename": "../data/gen_by_MC/n2T0.1bs4.47nsamples1/n2T0.1bs4.47nsamples1.pt",
+    "seed": 1,
+    "DIM": 2,
+    "rho": 0.1,
+    "nsamples": 1,
+    "mcstep": 1,
+    "max_energy": 1000.0,
+    "DISCARD": 320,
+    "interval": 4,
+    "dq": 0.001
+}
