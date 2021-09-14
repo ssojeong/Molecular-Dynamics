@@ -1,0 +1,25 @@
+#!/bin/sh
+#PBS -q parallel
+#PBS -l nodes=1:ppn=8:spark
+#PBS -N log-f-rho0.2lambda0.0001T0.71e4750
+#PBS -V 
+#PBS -r y
+
+cd $PBS_O_WORKDIR
+echo Time is `date`
+echo Directory is $PWD
+echo This job runs on following nodes:
+echo $PBS_NODEFILE
+
+
+#slep 2
+######################################
+conda activate py37
+e#####################################
+#./f-run-lambda0.0001decay200retrain.sh > ./log/f-auto-lambda0.0001decay200retrain.log
+CUDA_VISIBLE_DEVICES='' python MD_sampler.py ../data/gen_by_MD/f-n16rho0.2lambda0.0001T0.71-hard1-e4750/MD_config.dict ../data/gen_by_MD/f-n16rho0.2lambda0.0001T0.71-hard1-e4750/ML_config.dict > ./log/fn16rho0.2lambda0.0001T0.71hard1e4750.log
+#CUDA_VISIBLE_DEVICES='' python MD_sampler.py ../data/gen_by_MD/f-n16rho0.2lambda0.0001T0.71-hard1-e47509595metriclt0.05metriclt0.05-lt0.05--lt0.05/MD_config.dict ../data/gen_by_MD/f-n16rho0.2lambda0.0001T0.71-hard1-e47509595metriclt0.05metriclt0.05-lt0.05--lt0.05/ML_config.dict > f-n16rho0.2lambda0.0001T0.71-hard1-e47509595metriclt0.05metriclt0.05-lt0.05--lt0.05.log
+######################################
+conda deactivate
+######################################
+slep 2

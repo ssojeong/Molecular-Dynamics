@@ -1,0 +1,98 @@
+forward 1rho0.10, first run no save model .....
+optimizer initialized : op  <class 'torch.optim.sgd.SGD'>  lr  0.01
+pid :  328453
+uname :  posix.uname_result(sysname='Linux', nodename='jae6', release='5.8.0-55-generic', version='#62~20.04.1-Ubuntu SMP Wed Jun 2 08:55:04 UTC 2021', machine='x86_64')
+code run start time  20210914, 22:59:21
+my device here
+pb initialized
+phase_space initialized
+check4particle_crash_dummy initialized
+linear_integrator initialized 
+MLP_net initialized :  5 -> ... -> 64 -> 2
+MLP_net initialized :  5 -> ... -> 64 -> 2
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+HNN_base initialized
+pairwise_HNN initialized 
+MLP_net initialized :  25 -> ... -> 256 -> 2
+MLP_net initialized :  25 -> ... -> 256 -> 2
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+HNN_base initialized
+grids initialized : gridL  0.2 ngrid  6
+phi_fields initialized : ngrids 6 dgrid 0.2  dphi maxcut  108.35
+fields_HNN initialized 
+my_data initialized : train_filename  ../data/gen_by_MD/train/n16rho0.1lt0.1nsamples24000_shuffle.pt  val_filename  ../data/gen_by_MD/valid/n16rho0.1lt0.1nsamples4800_shuffle.pt  test_filename  ../data/gen_by_MD/valid/n16rho0.1lt0.1nsamples4800_shuffle.pt  train_pts  24000  val_pts  4800  test_pts  4800
+kwargs  {}
+created  SGD  with lr  0.01
+checkpoint initialized : net list  [mlp_net(
+  (layers): ModuleList(
+    (0): Linear(in_features=25, out_features=256, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=256, out_features=64, bias=True)
+    (3): Tanh()
+    (4): Dropout(p=0, inplace=False)
+    (5): Linear(in_features=64, out_features=256, bias=True)
+    (6): Tanh()
+    (7): Dropout(p=0, inplace=False)
+    (8): Linear(in_features=256, out_features=2, bias=True)
+  )
+), mlp_net(
+  (layers): ModuleList(
+    (0): Linear(in_features=25, out_features=256, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=256, out_features=64, bias=True)
+    (3): Tanh()
+    (4): Dropout(p=0, inplace=False)
+    (5): Linear(in_features=64, out_features=256, bias=True)
+    (6): Tanh()
+    (7): Dropout(p=0, inplace=False)
+    (8): Linear(in_features=256, out_features=2, bias=True)
+  )
+), mlp_net(
+  (layers): ModuleList(
+    (0): Linear(in_features=5, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=64, bias=True)
+    (3): Tanh()
+    (4): Dropout(p=0, inplace=False)
+    (5): Linear(in_features=64, out_features=2, bias=True)
+  )
+), mlp_net(
+  (layers): ModuleList(
+    (0): Linear(in_features=5, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=64, bias=True)
+    (3): Tanh()
+    (4): Dropout(p=0, inplace=False)
+    (5): Linear(in_features=64, out_features=2, bias=True)
+  )
+)]  opt  SGD (
+Parameter Group 0
+    dampening: 0
+    initial_lr: 0.01
+    lr: 0.01
+    momentum: 0
+    nesterov: False
+    weight_decay: 0
+) sch <torch.optim.lr_scheduler.StepLR object at 0x7f08cc545090>
+MD_learner initialized : tau_cur  0.1  boxsize  12.649110640673518 pothrsh 159.5294604629323 Lambda 0.01 clip value 10.0
+5 epoch: train_loss:1.066688 valid_loss:1.268344 each epoch time:25.42538
+optimizer lr 0.01000  boxsize 12.64911  train_dq/boxsize 0.076567  valid_dq/boxsize 0.084481  train_dp 0.357392  valid_dp 0.355535 reg_loss 0.096970
+memory usage : 3.4  at e= 5
+end date/time : 20210914, 23:01:29
+run time  0:02:08.592397
+mean mem :  3.4 , std mem :  0.0
+cp ../data/gen_by_ML/fpw-auto-bs40lambda0.01decay200/1rho0.10/1rho0.10_5.pth ../data/gen_by_ML/fpw-auto-bs40lambda0.01decay200/rho0/forward_1/forward_1_5.pth
+cp ../data/gen_by_ML/fpw-auto-bs40lambda0.01decay200/1rho0.10/1rho0.10_loss.txt ../data/gen_by_ML/fpw-auto-bs40lambda0.01decay200/1rho0.10/forward_1/forward_1_loss.txt
+forward 2rho0.14
