@@ -1,0 +1,3 @@
+{
+    "filelist": ["../data/gen_by_MD/train/n16rho0.1lt0.1nsamples24000_shuffle.pt","../data/gen_by_MD/train/n16rho0.14lt0.1nsamples24000_shuffle.pt","../data/gen_by_MD/train/n16rho0.2lt0.1nsamples24000_shuffle.pt","../data/gen_by_MD/train/n16rho0.27lt0.1nsamples24000_shuffle.pt","../data/gen_by_MD/train/n16rho0.38lt0.1nsamples24000_shuffle.pt"]
+}

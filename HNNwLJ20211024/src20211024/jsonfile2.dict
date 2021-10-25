@@ -1,0 +1,5 @@
+{
+    "filelist": ["../data/gen_by_MC/pw-crash_data1/pw-n16rho0.1crashed.pt","../data/gen_by_MC/pw-crash_data1/pw-n16rho0.14crashed.pt","../data/gen_by_MC/pw-crash_data1/pw-n16rho0.2crashed.pt","../data/gen_by_MC/pw-crash_data1/pw-n16rho0.27crashed.pt","../data/gen_by_MC/pw-crash_data1/pw-n16rho0.38crashed.pt"],
+    "label":[0.1, 0.14, 0.2, 0.27, 0.38],
+    "crash_path": "../data/crash_dir/pw-n16soft1e20990-check-test/pw-n16rho0.38-hard1-e20990-ML0/"
+}

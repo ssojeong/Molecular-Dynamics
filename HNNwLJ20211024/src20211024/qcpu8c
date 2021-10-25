@@ -1,0 +1,28 @@
+#!/bin/sh
+#PBS -q parallel
+#PBS -l nodes=1:ppn=8:slave
+#PBS -N log-n16rho0.1metriclt0.01
+#PBS -V 
+#PBS -r y
+
+cd $PBS_O_WORKDIR
+echo Time is `date`
+echo Directory is $PWD
+echo This job runs on following nodes:
+echo $PBS_NODEFILE
+
+
+#sleep 2
+######################################
+conda activate py37
+######################################
+#./run-metriclt0.1.sh 0.1
+#./run-metriclt0.04.sh 0.1
+#./run-metriclt0.1.sh 0.1
+./run-metriclt0.01.sh 0.1
+#./run-metricst1e-4lt0.1.sh 0.1
+#./run-metricst1e-4lt0.04.sh 0.1
+######################################
+conda deactivate
+######################################
+sleep 2
