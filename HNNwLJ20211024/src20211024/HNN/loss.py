@@ -55,7 +55,13 @@ def qp_MSE_loss(qp_quantities, label, phase_space, w):
     return loss,qloss,ploss
 
 def qp_l1_loss(qp_quantities, label, phase_space):
-
+    '''
+    Returns
+    ----------
+   w : q and p ratio ; setting 0.5
+    qloss, ploss : float
+        function to calculate L1 loss and use total MAE loss or total exp loss
+    '''
     q_quantity, p_quantity = qp_quantities
     q_label, p_label = label
 
@@ -81,6 +87,13 @@ def qp_l1_loss(qp_quantities, label, phase_space):
     return qloss,ploss
 
 def qp_MAE_loss(qp_quantities, label, phase_space, w):
+    '''
+    Returns
+    ----------
+    w : q and p ratio ; setting 0.5
+    loss, qloss, ploss : float
+        Total MAE loss calculated
+    '''
 
     qloss,ploss = qp_l1_loss(qp_quantities, label, phase_space)
     loss = 2 * (1 - w) * qloss + 2 * w * ploss
@@ -88,7 +101,12 @@ def qp_MAE_loss(qp_quantities, label, phase_space, w):
     return loss,qloss,ploss
 
 def qp_exp_loss(qp_quantities, label, phase_space, a):
-
+    '''
+    Returns
+    ----------
+    loss, qloss, ploss : float
+        Total exp loss calculated
+    '''
     qloss,ploss = qp_l1_loss(qp_quantities, label, phase_space)
     loss =  1 - torch.exp(-a * ( qloss + ploss )) + (qloss + ploss)
 

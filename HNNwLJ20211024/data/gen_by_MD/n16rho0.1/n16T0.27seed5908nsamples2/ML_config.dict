@@ -1,0 +1,37 @@
+{
+    "ML_chk_pt_filename": null,
+    "train_filename": "None",
+    "valid_filename": "None",
+    "write_chk_pt_filename": "../data/gen_by_ML/n16rho0.1/n16T0.27seed5908nsamples2/n16T0.27seed5908nsamples2_",
+    "write_loss_filename": "../data/gen_by_ML/n16rho0.1/n16T0.27seed5908nsamples2/n16T0.27seed5908nsamples2_loss.txt",
+    "checkpoint_interval": 5,
+    "train_pts": 2,
+    "valid_pts": 2,
+    "seed": 9372211,
+    "qp_weight": 0.5,
+    "Lambda": 0.1,
+    "clip_value": 10.0,
+    "lr": 0.01,
+    "lr_decay_step": 100,
+    "lr_decay_rate": 0.99,
+    "lr_thrsh": 1e-5,
+    "sch_reset" : null,
+    "lr_reset" : 1e-4,
+    "loss_type": "MSE_loss",        
+    "nepoch": 3,
+    "batch_size": 2,
+    "layer_list": [
+        5,
+        64,
+        64,
+        2
+    ],
+    "dropout_list": [
+        0,
+        0
+    ],
+    "activation": "tanh",
+    "on_off_noML": "off",
+    "dgrid": 0.2,
+    "ngrid": 6
+}

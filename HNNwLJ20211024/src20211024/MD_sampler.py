@@ -19,7 +19,7 @@ import torch
 if __name__=='__main__':
     # need to load ML json file to get ML paramters
     # run something like this
-    # python MD_sampler.py ../data/gen_by_MD/basename/MD_config.dict ../data/gen_by_MD/basename/ML_config.dict
+    # python MD_sampler.py ../data/gen_by_MD/n16rho0.2/n16T0.27seed1299nsamples5/MD_config.dict ../data/gen_by_MD/n16rho0.2/n16T0.27seed1299nsamples5/ML_config.dict
 
     argv = sys.argv
     MDjson_file = argv[1]
@@ -110,7 +110,7 @@ if __name__=='__main__':
     for i in range(n_out_files):
 
         if long_traj_no_crash_save == 'yes':
-        # use to prepare label, histogram about crash data
+        # use to prepare label ; save trajectory with no care crash
 
             qp_list, crash_flag, crash_iter, crash_ct = linear_integrator_obj.nsteps(hamiltonian_obj, phase_space, tau_cur,
                                                                                      save2file_strike, append_strike)
@@ -137,7 +137,7 @@ if __name__=='__main__':
                 else:
                     print('not save file .... large storage... only collect crash data....')
 
-            else:
+            else: # to plot crash histogram
                 print('collect iter that get crash..')
                 # To continue to iterate every index of n_out_files, sum iter and index * save2file_strike
                 crash_niter = torch.tensor(crash_iter) + save2file_strike * i
@@ -152,7 +152,7 @@ if __name__=='__main__':
                 quit()
 
         else:
-            # write file to save qp list that remove crash data in intermediate steps of integration
+            # write file to save qp list that "remove crash data" in intermediate steps of integration
             print('rm crash and save file idx', i)
             qp_list = linear_integrator_obj.rm_crash_nsteps(hamiltonian_obj, phase_space, tau_cur, save2file_strike)
             print('qp list shape', qp_list.shape)

@@ -1,0 +1,21 @@
+{
+    "MC_init_config_filename": "../data/gen_by_MC/n16rho0.2/n16T0.27seed1299nsamples5/n16T0.27seed1299nsamples5.pt",
+    "MD_data_dir": "../data/gen_by_MD/n16rho0.2/n16T0.27seed1299nsamples5",
+    "MD_output_basenames": "../data/gen_by_MD/n16rho0.2/n16T0.27seed1299nsamples5/n16T0.27seed1299nsamples5",
+    "crash_filename": "../data/gen_by_MD/n16rho0.2/n16T0.27seed1299nsamples5/crash_info.pt",
+    "crash_path": "../data/crash_dir/foldername/",
+    "crash_checker": "no",
+    "crash_thrsh": "no",
+    "long_traj_no_crash_save": "yes",
+    "long_traj_save2file": "yes",
+    "rthrsh0": 0.9146,
+    "pthrsh0": "4.2913",
+    "rthrsh": 0.9146,
+    "pthrsh": "4.2913",
+    "tau_short": 0.0001,
+    "append_strike": 1000,
+    "save2file_strike": 1000,
+    "tau_long": 0.1,
+    "niter_tau_short": 1000,
+    "hamiltonian_type": "noML"
+}
