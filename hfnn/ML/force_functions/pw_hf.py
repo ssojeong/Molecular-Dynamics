@@ -16,7 +16,7 @@ class pw_hf(pw_base):
         H = self.evalall(self.net1,q_list,p_list,l_list,tau)
         # do autograd here
         self.zero_grad(q_list)
-        force = grad(H,q_list,create_graph=True, grad_outputs=torch.ones_like(H))[0]
+        force = -grad(H,q_list,create_graph=True, grad_outputs=torch.ones_like(H))[0]
         force = torch.clamp(force,min=-self.force_clip,max=self.force_clip)
         return force
     # ===================================================
@@ -24,7 +24,7 @@ class pw_hf(pw_base):
         H = self.evalall(self.net2,q_list,p_list,l_list,tau)
         # do autograd here
         self.zero_grad(q_list)
-        force = grad(H,q_list,create_graph=True, grad_outputs=torch.ones_like(H))[0]
+        force = -grad(H,q_list,create_graph=True, grad_outputs=torch.ones_like(H))[0]
         force = torch.clamp(force,min=-self.force_clip,max=self.force_clip)
         return force
     # ===================================================
