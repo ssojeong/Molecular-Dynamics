@@ -7,7 +7,7 @@ from utils.mydevice import mydevice
 
 class loss:
 
-    def __init__(self,potential_function,eth=1e6):
+    def __init__(self,potential_function,eweight,poly_deg,eth=1e6):
         self.potential_function = potential_function
 
         self.loss_dict = { "total" : [], 
@@ -18,9 +18,11 @@ class loss:
                            "eshape": [], "mshape": [] }
         self.ethrsh = torch.tensor(eth)
         self.ethrsh = mydevice.load(self.ethrsh)
+        self.eweight = eweight
+        self.poly_deg = poly_deg
     
     # =============================================================
-    def eval(self,q_list, p_list, q_label, p_label, q_init, p_init, l_list, ew=1e-2):
+    def eval(self,q_list, p_list, q_label, p_label, q_init, p_init, l_list):
 
         self.nsamples = q_list.shape[0]
 
@@ -49,7 +51,7 @@ class loss:
         mmae = self.conserve_RMSE_mloss(p_list,p_init) 
         mmae = torch.sum(mmae) / self.nsamples
         
-        total = self.total_loss(qrmse,prmse,emse,mmae,ew)
+        total = self.total_loss(qrmse,prmse,emse,mmae,self.eweight)
   
         self.loss_dict["total"].append(total.item())      
         self.loss_dict["*qrmse"].append(qrmse.item())      
@@ -87,7 +89,7 @@ class loss:
         print('\n')
 
     # =============================================================
-    def total_loss(self,qloss,ploss,eloss,mloss,ew=1e-2):
+    def total_loss(self,qloss,ploss,eloss,mloss,ew):
 
         qshape = self.loss_shape_func(qloss)
         pshape = self.loss_shape_func(ploss)
@@ -108,12 +110,11 @@ class loss:
     # =============================================================
     def loss_shape_func(self,x):
 
-        x1 = x
-        x2 = 2*x
-        x3 = 3*x
-        x4 = 4*x
-        
-        return x1 + x2**2/2 + x3**3/3 + x4**4/4
+        loss  = x
+        for d in range(1,self.poly_deg+1):
+            xt = 2*d*x
+            loss = loss + (xt**d)/d
+        return loss
 
     # =============================================================
     def del_q_adjust(self,q_quantity, q_label, l_list):

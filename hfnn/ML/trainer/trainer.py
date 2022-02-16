@@ -21,7 +21,7 @@ from optimizers.DecayCosineAnnealingWarmRestarts import DecayCosineAnnealingWarm
 
 class trainer:
 
-    def __init__(self,train_dict):
+    def __init__(self,train_dict,loss_dict):
 
         self.train_dict = train_dict
 
@@ -65,7 +65,7 @@ class trainer:
         self.mlvv = velocity_verlet(self.mbpwff)
 
         lj = lennard_jones2d()
-        self.loss_obj = loss(lj)
+        self.loss_obj = loss(lj,loss_dict["eweight"],loss_dict["polynomial_degree"])
 
         self.ckpt = checkpoint(self.net_list,self.mbpwff,self.opt,self.opta,self.sch)
     # ==========================================================
