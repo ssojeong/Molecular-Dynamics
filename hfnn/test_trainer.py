@@ -10,7 +10,13 @@ from MD.velocity_verlet import velocity_verlet
 from ML.trainer.trainer import trainer
 from utils.mydevice import mydevice
 
-
+# TODO: Make it as a standalone class that they can just plug in...
+#   Package them as one function using the following interface:
+# def check_input(q_list,p_list,l_list)
+# this function checks that:
+# l_list --> gives only square boxes, l_list gives box dimension Lx, Ly, we want Lx=Ly
+# q_list --> gives location of particles within the box
+# p_list --> make a large range p_max, then check that all momentum p is bounded by:   -p_max < px, py < p_max
 class TrainerTest(unittest.TestCase):
     train_config = {"loadfile": None,  # to load previously trained model
                     "nn_mode": 'ff',  # 'hf' or 'ff' predict hamiltonian or predict force
