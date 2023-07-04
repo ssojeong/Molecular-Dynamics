@@ -1,0 +1,6 @@
+{
+    "file_list": ["../gen_by_MD/n4T0.03lt0.1hard/crash_info.pt","../gen_by_MD/n4T0.35lt0.1hard/crash_info.pt","../gen_by_MD/n4T0.67lt0.1hard/crash_info.pt","../gen_by_MD/pw-n4T0.03-hard1-e501/crash_info.pt","../gen_by_MD/pw-n4T0.35-hard1-e501/crash_info.pt","../gen_by_MD/pw-n4T0.67-hard1-e501/crash_info.pt","../gen_by_MD/f-n4T0.03-hard1-e501/crash_info.pt","../gen_by_MD/f-n4T0.35-hard1-e501/crash_info.pt","../gen_by_MD/f-n4T0.67-hard1-e501/crash_info.pt"],
+    "filenames": ["noMLlt0.1-T0.03","noMLlt0.1-T0.35","noMLlt0.1-T0.67","pwML-hard1-T0.03","pwML-hard1-T0.35","pwML-hard1-T0.67","fML-hard1-T0.03","fML-hard1-T0.35","fML-hard1-T0.67"],
+    "file_ts": [0.1, 0.1, 0.1,0.1, 0.1, 0.1,0.1, 0.1, 0.1],    
+    "color":["k", "k:", "k--", "r", "r:",  "r--", "b", "b:",  "b--"]
+}

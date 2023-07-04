@@ -1,0 +1,276 @@
+n16 T0.27 seed 123456 nsamples 1
+pid :  988040
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 18:52:40
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.9  at every sample= 1
+finished taking 0 configuration,  temp:  0.27 Accratio:  tensor(0.6502) spec:  tensor(1.1429) dq:  0.02 rho:  0.2 Discard:  32000 time:  60.41633892059326
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.27seed123456nsamples1/n16T0.27seed123456nsamples1.pt
+end date/time : 20210826, 18:53:41
+run time  0:01:00.419453
+mean mem :  10.9 , std mem :  0.0
+n16 T0.31 seed 123456 nsamples 1
+pid :  989377
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 18:53:41
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.31 Accratio:  tensor(0.5899) spec:  tensor(1.1026) dq:  0.025 rho:  0.2 Discard:  32000 time:  59.73820519447327
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.31seed123456nsamples1/n16T0.31seed123456nsamples1.pt
+end date/time : 20210826, 18:54:41
+run time  0:00:59.741579
+mean mem :  10.8 , std mem :  0.0
+n16 T0.35 seed 123456 nsamples 1
+pid :  989676
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 18:54:42
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.35 Accratio:  tensor(0.5680) spec:  tensor(1.0722) dq:  0.03 rho:  0.2 Discard:  32000 time:  59.22601819038391
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.35seed123456nsamples1/n16T0.35seed123456nsamples1.pt
+end date/time : 20210826, 18:55:41
+run time  0:00:59.229414
+mean mem :  10.8 , std mem :  0.0
+n16 T0.39 seed 123456 nsamples 1
+pid :  990026
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 18:55:41
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.39 Accratio:  tensor(0.6065) spec:  tensor(1.4235) dq:  0.03 rho:  0.2 Discard:  32000 time:  59.6518828868866
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.39seed123456nsamples1/n16T0.39seed123456nsamples1.pt
+end date/time : 20210826, 18:56:41
+run time  0:00:59.655269
+mean mem :  10.8 , std mem :  0.0
+n16 T0.43 seed 123456 nsamples 1
+pid :  990420
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 18:56:41
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.43 Accratio:  tensor(0.5223) spec:  tensor(3.1152) dq:  0.05 rho:  0.2 Discard:  32000 time:  61.75031495094299
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.43seed123456nsamples1/n16T0.43seed123456nsamples1.pt
+end date/time : 20210826, 18:57:43
+run time  0:01:01.753716
+mean mem :  10.8 , std mem :  0.0
+n16 T0.47 seed 123456 nsamples 1
+pid :  990764
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 18:57:44
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.47 Accratio:  tensor(0.5475) spec:  tensor(1.2975) dq:  0.05 rho:  0.2 Discard:  32000 time:  59.84058117866516
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.47seed123456nsamples1/n16T0.47seed123456nsamples1.pt
+end date/time : 20210826, 18:58:44
+run time  0:00:59.843944
+mean mem :  10.8 , std mem :  0.0
+n16 T0.51 seed 123456 nsamples 1
+pid :  991094
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 18:58:44
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.51 Accratio:  tensor(0.5640) spec:  tensor(1.7064) dq:  0.06 rho:  0.2 Discard:  32000 time:  59.26691555976868
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.51seed123456nsamples1/n16T0.51seed123456nsamples1.pt
+end date/time : 20210826, 18:59:43
+run time  0:00:59.270291
+mean mem :  10.8 , std mem :  0.0
+n16 T0.55 seed 123456 nsamples 1
+pid :  991410
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 18:59:44
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.55 Accratio:  tensor(0.5359) spec:  tensor(1.8313) dq:  0.07 rho:  0.2 Discard:  32000 time:  59.41488981246948
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.55seed123456nsamples1/n16T0.55seed123456nsamples1.pt
+end date/time : 20210826, 19:00:43
+run time  0:00:59.418324
+mean mem :  10.8 , std mem :  0.0
+n16 T0.59 seed 123456 nsamples 1
+pid :  991994
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 19:00:44
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.59 Accratio:  tensor(0.5237) spec:  tensor(1.0692) dq:  0.08 rho:  0.2 Discard:  32000 time:  59.31181788444519
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.59seed123456nsamples1/n16T0.59seed123456nsamples1.pt
+end date/time : 20210826, 19:01:43
+run time  0:00:59.315174
+mean mem :  10.8 , std mem :  0.0
+n16 T0.63 seed 123456 nsamples 1
+pid :  992634
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 19:01:44
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.63 Accratio:  tensor(0.5788) spec:  tensor(0.6753) dq:  0.08 rho:  0.2 Discard:  32000 time:  59.93700551986694
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.63seed123456nsamples1/n16T0.63seed123456nsamples1.pt
+end date/time : 20210826, 19:02:44
+run time  0:00:59.940799
+mean mem :  10.8 , std mem :  0.0
+n16 T0.67 seed 123456 nsamples 1
+pid :  992964
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 19:02:44
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.67 Accratio:  tensor(0.5415) spec:  tensor(0.6144) dq:  0.1 rho:  0.2 Discard:  32000 time:  59.886407136917114
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.67seed123456nsamples1/n16T0.67seed123456nsamples1.pt
+end date/time : 20210826, 19:03:44
+run time  0:00:59.889802
+mean mem :  10.8 , std mem :  0.0
+n16 T0.71 seed 123456 nsamples 1
+pid :  993575
+uname :  posix.uname_result(sysname='Linux', nodename='titan', release='5.8.0-53-generic', version='#60~20.04.1-Ubuntu SMP Thu May 6 09:52:46 UTC 2021', machine='x86_64')
+code run start time  20210826, 19:03:45
+my device here
+pb initialized
+phase_space initialized
+hamiltonian initialized
+LJ_term initialized : sigma  1  epsilon  1
+lennard_jones.py call potential
+pb initialized
+phase_space initialized
+lennard_jones initialized: sigma  1  epsilon  1
+kinetic_energy initialized : mass  1
+noML_hamiltonian initialized
+metropolis_mc initialized : boxsize  8.94427190999916
+memory usage : 10.8  at every sample= 1
+finished taking 0 configuration,  temp:  0.71 Accratio:  tensor(0.5725) spec:  tensor(0.5948) dq:  0.1 rho:  0.2 Discard:  32000 time:  60.7251296043396
+momentum_sampler initialized: nsamples  100
+file write dir: ../data/gen_by_MC/n16rho0.2/analysis/n16T0.71seed123456nsamples1/n16T0.71seed123456nsamples1.pt
+end date/time : 20210826, 19:04:45
+run time  0:01:00.728608
+mean mem :  10.8 , std mem :  0.0

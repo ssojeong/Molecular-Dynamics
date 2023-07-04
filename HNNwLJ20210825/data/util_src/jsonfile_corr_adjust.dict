@@ -1,0 +1,7 @@
+{
+    "file_st": ["../gen_by_MD/pw-n4T0.03-hard1-e501-metric-100-st10-4/pw-n4T0.03-hard1-e501-metric-100-st10-4.pt","../gen_by_MD/pw-n4T0.35-hard1-e501-metric-100-st10-4/pw-n4T0.35-hard1-e501-metric-100-st10-4.pt","../gen_by_MD/pw-n4T0.67-hard1-e501-metric-100-st10-4/pw-n4T0.67-hard1-e501-metric-100-st10-4.pt","../gen_by_MD/f-n4T0.03-hard1-e501-tmax100st10-4/f-n4T0.03-hard1-e501-tmax100st10-4.pt","../gen_by_MD/f-n4T0.35-hard1-e501-tmax100st10-4/f-n4T0.35-hard1-e501-tmax100st10-4.pt","../gen_by_MD/f-n4T0.67-hard1-e501-tmax100st10-4/f-n4T0.67-hard1-e501-tmax100st10-4.pt"],
+    "file_lt": ["../gen_by_MD/pw-n4T0.03-hard1-e501-metric-100/pw-n4T0.03-hard1-e501-metric-100_metric.pt","../gen_by_MD/pw-n4T0.35-hard1-e501-metric-100/pw-n4T0.35-hard1-e501-metric-100_metric.pt","../gen_by_MD/pw-n4T0.67-hard1-e501-metric-100/pw-n4T0.67-hard1-e501-metric-100_metric.pt","../gen_by_MD/f-n4T0.03-hard1-e501-tmax100/f-n4T0.03-hard1-e501-tmax100_metric.pt","../gen_by_MD/f-n4T0.35-hard1-e501-tmax100/f-n4T0.35-hard1-e501-tmax100_metric.pt","../gen_by_MD/f-n4T0.67-hard1-e501-tmax100/f-n4T0.67-hard1-e501-tmax100_metric.pt"],    
+    "filenames": ["pw-hard1-T0.03","pw-hard1-T0.35","pw-hard1-T0.67","f-hard1-T0.03","f-hard1-T0.35","f-hard1-T0.67"],   
+    "MLornoML": ["yes","yes","yes","yes","yes","yes"],  
+    "color":["k", "k:", "k--","r", "r:", "r--"]
+}

@@ -1,0 +1,7 @@
+{
+    "file_st": ["../gen_by_MD/pw-n4T0.67-hard1-e501-metric-100-st10-4/pw-n4T0.67-hard1-e501-metric-100-st10-4.pt","../gen_by_MD/pw-n4T0.67-hard1-e501-metric-100-st10-4/pw-n4T0.67-hard1-e501-metric-100-st10-4.pt","../gen_by_MD/pw-n4T0.67-hard1-e501-metric-100-st10-4/pw-n4T0.67-hard1-e501-metric-100-st10-4.pt","../gen_by_MD/pw-n4T0.67-hard1-e501-metric-100-st10-4/pw-n4T0.67-hard1-e501-metric-100-st10-4.pt"],
+    "file_lt": ["../gen_by_MD/pw-n4T0.67-hard1-e501-metric-100/pw-n4T0.67-hard1-e501-metric-100_metric.pt","../gen_by_MD/pw-n4T0.67-hard1-e501-metric-100-lt0.1/pw-n4T0.67-hard1-e501-metric-100-lt0.1.pt","../gen_by_MD/pw-n4T0.67-hard1-e501-metric-100-st0.05/pw-n4T0.67-hard1-e501-metric-100-st0.05.pt","../gen_by_MD/pw-n4T0.67-hard1-e501-metric-100-st10-2/pw-n4T0.67-hard1-e501-metric-100-st10-2.pt"],    
+    "filenames": ["MLlt0.1-T0.67","noMLlt0.1-T0.67","noMLlt0.05-T0.67","noMLlt0.01-T0.67"],   
+    "MLornoML": ["yes","no","no","no"],  
+    "color":["k--", "r--", "b--", "g--"]
+}
