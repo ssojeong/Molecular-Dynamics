@@ -1,1 +1,0 @@
-python crash_hist.py ../gen_by_MD/iter1000/n4T0.67lt0.1_strong/crash_info.pt noML ../gen_by_MD/iter1000/n4T0.67test1_strong_crash/crash_info.pt MLtest1 ../gen_by_MD/iter1000/n4T0.67test2_strong_crash/crash_info.pt MLtest2 ../gen_by_MD/iter1000/n4T0.67test3_strong_crash/crash_info.pt MLtest3 ../gen_by_MD/iter1000/n4T0.67test4_strong_crash_v2/crash_info.pt MLtest4 0.67
