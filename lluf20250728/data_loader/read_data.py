@@ -9,7 +9,7 @@ def read_data(filename,nchain):
 
     qpl_list,tau_long,tau_short = data_io.read_trajectory_qpl(filename)
 
-    # shape of qp_list is [nsamples, (q, p,l), trajectory length, nparticle, DIM]
+    # shape of qp_list is [nsamples, (q, p,l), trajectory length, nparticle, DIM = 2 or 3]
     nsamples,nvariables,traj_length,nparticles,dim = qpl_list.shape
 
     print('reading data from ',filename)

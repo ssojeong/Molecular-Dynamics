@@ -74,7 +74,7 @@ class Langevin_MD:
         return qpl_list
 
 if __name__ == '__main__':
-    # python velocity_verlet_MD.py MD_config.dict 0 0.46
+    # python velocity_verlet_MD.py MD_config.dict 0 0.01
     argv = sys.argv
     MDjson_file = argv[1]
     gamma = float(argv[2])

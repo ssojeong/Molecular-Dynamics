@@ -46,7 +46,12 @@ class MC_parameters:
         MC_parameters.interval = data['interval']               # take mc step every given interval
         MC_parameters.dq = data['dq']                           # displacement to increase acceptance rate
 
-        MC_parameters.boxsize = math.sqrt(MC_parameters.nparticle/MC_parameters.rho)
+        if MC_parameters.DIM == 2:
+            MC_parameters.boxsize = math.sqrt(MC_parameters.nparticle/MC_parameters.rho)
+        elif MC_parameters.DIM == 3:
+            MC_parameters.boxsize = (MC_parameters.nparticle/MC_parameters.rho)**(1./3)
+        else:
+            assert False,'dimension of box is limit to 2 or 3  only ..... -.-'
         MC_parameters.iterations = MC_parameters.mcstep*MC_parameters.interval+MC_parameters.DISCARD
 
 

@@ -28,28 +28,28 @@ def pairwise_dq_pbc(q_list, l_list):
 
     llist0 = torch.unsqueeze(l_list, dim=1)
     llistm = torch.repeat_interleave(llist0, l_list.shape[1], dim=1)
-    # lstatem.shape is [nsamples, nparticle, nparticle, DIM]
+    # lstatem.shape is [nsamples, nparticle, nparticle, DIM=2 or 3]
 
     indices = torch.where(torch.abs(dq_list) > 0.5 * llistm)
 
     dq_list[indices] = dq_list[indices] - torch.round(dq_list[indices] / llistm[indices]) * llistm[indices]
 
-    return dq_list # shape = [nsamples,nparticles,nparticles,dim]
+    return dq_list # shape = [nsamples,nparticles,nparticles,dim=2 or 3]
 # ======================================================
 def _delta_state(state_list):
     state_len = state_list.shape[1]  # nparticle
     state0 = torch.unsqueeze(state_list, dim=1)
-    # shape is [nsamples, 1, nparticle, DIM]
+    # shape is [nsamples, 1, nparticle, DIM=2 or 3]
 
     statem = torch.repeat_interleave(state0, state_len, dim=1)
-    # shape is [nsamples, nparticle, nparticle, DIM] [[q1, q2, q3, q4],[q1, q2, q3, q4],...,[q1, q2, q3, q4]]
+    # shape is [nsamples, nparticle, nparticle, DIM=2 or 3] [[q1, q2, q3, q4],[q1, q2, q3, q4],...,[q1, q2, q3, q4]]
 
     statet = statem.permute(0,2,1,3)
-    # shape is [nsamples, nparticle, nparticle, DIM] [[q1, q1, q1, q1],[q2, q2, q2, q2],...,[q4, q4, q4, q4]]
+    # shape is [nsamples, nparticle, nparticle, DIM=2 or 3] [[q1, q1, q1, q1],[q2, q2, q2, q2],...,[q4, q4, q4, q4]]
 
     dstate = statet - statem
-    # shape is [nsamples, nparticle, nparticle, DIM] [[q1-q1, q1-q2, q1-q3, q1-q4],...,[q4-q1, q4-q2, q4-q3, q4-q4]]
-    return dstate # shape = [nsamples,nparticles,nparticles,dim]
+    # shape is [nsamples, nparticle, nparticle, DIM=2 or 3] [[q1-q1, q1-q2, q1-q3, q1-q4],...,[q4-q1, q4-q2, q4-q3, q4-q4]]
+    return dstate # shape = [nsamples,nparticles,nparticles,dim=2 or 3]
 # ======================================================
 
 def check_pairwise_dq_pbc():

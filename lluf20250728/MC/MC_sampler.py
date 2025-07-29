@@ -53,6 +53,7 @@ if __name__=='__main__':
         # take q every interval
         q_hist = q_hist[:, 0::interval, :, :]
 
+
     elif mode == 'test':
 
         q_hist, U, ACCRatio, spec = metropolis_mc.step()
@@ -91,7 +92,7 @@ if __name__=='__main__':
                 os.makedirs(json_dir_name)
 
     print('file write analysis dir:', json_dir_name)
-    torch.save((U, ACCRatio, spec), json_dir_name + 'U_ACCRatio_spec.pt')
+    torch.save((U, ACCRatio, spec), json_dir_name + f'n{nparticle}rho{MC_parameters.rho}T{MC_parameters.temperature}_U_ACCRatio_spec.pt')
     ################################
 
     system_logs.print_end_logs()
