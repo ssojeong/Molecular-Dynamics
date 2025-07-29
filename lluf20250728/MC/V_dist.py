@@ -26,7 +26,7 @@ def mcsteps(u,start_step, npar,rho,temp, ylabel, mean=None, std=None):
     plt.show()
 
 
-def dist(e, npar,rho,temp, saved_dir):
+def dist(e, npar,rho, saved_dir):
     xmin=torch.min(e)
     xmax=torch.max(e)
 
@@ -34,7 +34,8 @@ def dist(e, npar,rho,temp, saved_dir):
     fig, axes = plt.subplots(1, e.shape[0], figsize=(16, 4))
     fig.suptitle(r'Energy distribution at npar={} $\rho$={} (20 samples save 1000 mc steps)'.format(npar, rho), fontsize=15)
     for i, ax in enumerate(axes.flatten()):
-        ax.hist(e[i].reshape(-1),bins=30,density=True, edgecolor='black', label=f'T={temp_list[i]}')  # displot
+        print(e[i].reshape(-1).shape)
+        ax.hist(e[i].reshape(-1),bins=100,density=True, edgecolor='black', label=f'T={temp_list[i]}')  # displot
 
         kde = gaussian_kde(e[i].reshape(-1))
         x_vals =  np.linspace(torch.min(e[i]), torch.max(e[i]), 200)
@@ -50,7 +51,7 @@ def dist(e, npar,rho,temp, saved_dir):
     # plt.close()
 
 if __name__ == '__main__':
-    #python V_dist.py ../../data_sets/gen_by_MC 2 0.03 0.01
+    #python V_dist.py ../../data_sets/gen_by_MC 2 0.03
     #
     torch.manual_seed(9745452)
 
@@ -58,7 +59,6 @@ if __name__ == '__main__':
     filename = argv[1]
     npar = int(argv[2])
     rho = argv[3]
-    temp = float(argv[4])
 
     U_append = []
     accRatio_append = []
@@ -79,4 +79,4 @@ if __name__ == '__main__':
     # idx = perm_indx[:,4]
 
     # for s in idx:
-    dist(U_append,  npar,rho,temp, '')
+    dist(U_append,  npar,rho, '')

@@ -10,5 +10,5 @@
     "max_energy": 1000.0,
     "DISCARD": 1000,
     "interval": 10,
-    "dq": 0.4
+    "dq": 0.3
 }
