@@ -11,6 +11,9 @@ from hamiltonian.lennard_jones2d import lennard_jones2d
 from parameters.MC_parameters import MC_parameters
 import shutil
 
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
 class metropolis_mc:
 
     ''' This is a Monte Carlo Simulation only used to generate initial positions and sample equilibrium states'''
@@ -28,6 +31,50 @@ class metropolis_mc:
         print('metropolis_mc initialized : boxsize ',self.boxsize, flush=True)
 
     def position_sampler(self):
+        if MC_parameters.DIM==2:
+            return self.position_sampler2d()
+        elif MC_parameters.DIM==3:
+            return self.position_sampler3d()
+        else:
+            assert False, 'dimension of box is limit to 2 or 3  only ..... -.-'
+
+
+    def position_sampler3d(self):
+
+        ''' function to create random particle positions that are always between -0.5 * boxsize and 0.5 * boxsize
+
+        return : torch.tensor
+        shape is [1, nparticle, DIM]
+        '''
+
+        # pos = np.random.uniform(-0.5, 0.5, (MC_parameters.nparticle, MC_parameters.DIM))
+        # pos = pos * self.boxsize
+        # pos = np.expand_dims(pos, axis=0)
+
+        NA = math.ceil((MC_parameters.nparticle)**(1./3)) ** 3
+        nasite = int((NA)**(1./3))
+        dsite = self.boxsize / nasite
+        #print('Nx', nasite, 'Ny', nasite, 'boxsize', self.boxsize, 'dsite', dsite)
+
+        xyz = []
+        for nk in range(nasite):
+            tmpz = (0.5 + nk) * dsite - self.boxsize / 2
+            for ni in range(nasite):
+                tmpy = (0.5 + ni) * dsite - self.boxsize / 2
+                for nj in range(nasite):
+                    tmpx = (0.5 + nj) * dsite - self.boxsize / 2
+                    i = nj + ni * nasite + nk * nasite * nasite # pos
+                    if i < MC_parameters.nparticle:
+                        xyz.append([tmpx, tmpy, tmpz])
+
+        # visualize
+        # xyz = torch.tensor(xyz)
+        # print(xyz.shape)
+        #
+        return torch.unsqueeze(torch.tensor(xyz), dim=0)
+
+
+    def position_sampler2d(self):
 
         ''' function to create random particle positions that are always between -0.5 * boxsize and 0.5 * boxsize
 
@@ -86,7 +133,7 @@ class metropolis_mc:
 
         boxsize = torch.zeros( self.set_q.shape)
         boxsize.fill_(self.set_l)
-        # boxsize.shape is [1, npaticle, DIM]
+        # boxsize.shape is [1, npaticle, DIM=2 or 3]
 
         self.eno_q = self.lennard_jones2d.total_energy(self.set_q, boxsize)
 
@@ -192,6 +239,8 @@ class metropolis_mc:
             end = time.time()
 
             print('finished taking {} configuration, '.format(z), 'temp: ', MC_parameters.temperature, 'Accratio: ', ACCRatio[z], 'spec: ', spec[z], 'dq: ', MC_parameters.dq, 'rho: ', MC_parameters.rho,  'Discard: ', MC_parameters.DISCARD, 'time: ', end-start, flush=True)
+
+        assert q_list.shape[-1]==MC_parameters.DIM,'wrong q_list shape in metropolis_mc...'
 
         #print out the rejection rate, recommended rejection 40 - 60 % based on Lit
         return q_list, U, ACCRatio, spec
