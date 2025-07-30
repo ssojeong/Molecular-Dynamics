@@ -27,12 +27,14 @@ class PhiFeatures:
 
     # ===================================================
     def __call__(self, q_list, l_list):  # make dqdp for n particles
+        # q_list shape [nsamples, nparticles, DIM = 2 or 3]
+        # l_list shape [nsamples, nparticles, DIM = 2 or 3]
         # make all grid points
         self.nsamples, self.nparticles, self.DIM = q_list.shape
         uli_list = self.grid_object(q_list, l_list)  # position at grid points
-        # uli_list.shape is [nsamples, nparticles * ngrids, DIM=(x,y)]
+        # uli_list.shape is [nsamples, nparticles * ngrids, DIM=(x,y) or (x,y,z)]
         q_var = self.gen_qvar(q_list, l_list, uli_list, self.net, self.grid_object.ngrids)  # force fields
-        # q_var.shape  [nsamples, npartice, ngrids * DIM], ngrids=6*nlayers, DIM=2
+        # q_var.shape  [nsamples, npartice, ngrids * DIM =2 or 3], ngrids=6 or 12, DIM=2 or 3
 
         return q_var
 
@@ -41,30 +43,30 @@ class PhiFeatures:
         # mask to mask out only centered at i-th particle
         # and then use to make zero of pair-wise which interact with itself
         self.mask = torch.ones([nsamples,nparticles,nparticles,dim],device=mydevice.get())
-        dia = torch.diagonal(self.mask,dim1=1,dim2=2) # [nsamples, dim, nparticles]
+        dia = torch.diagonal(self.mask,dim1=1,dim2=2) # [nsamples, dim =2 or 3, nparticles]
         dia.fill_(0.0)
         return self.mask
     # ===================================================
     def gen_qvar(self, q_list, l_list, uli_list, pwnet, ngrids): 
-        # uli_list.shape is [nsamples, nparticles * ngrids, DIM=2]
+        # uli_list.shape is [nsamples, nparticles * ngrids, DIM=2 or 3]
         nsamples, nparticles, DIM = q_list.shape
         _qvar = self.qvar(q_list, l_list, uli_list, pwnet, ngrids)
-        # shape is [ nsamples, nparticles * ngrids, DIM ]
+        # shape is [ nsamples, nparticles * ngrids, DIM =2 or 3]
         _gen_qvar = _qvar.view(nsamples, nparticles, -1)
         # shape is [ nsamples, nparticles, ngrids * DIM ]
 
         return _gen_qvar
     # ===================================================
     def qvar(self, q_list, l_list, uli_list, pwnet, ngrids):  # uli_list = grid center position
-        # uli_list.shape is [nsamples, nparticles * ngrids, DIM=2]
+        # uli_list.shape is [nsamples, nparticles * ngrids, DIM=2 or 3]
 
         nsamples, nparticles, dim = q_list.shape
 
         l_list = torch.unsqueeze(l_list, dim=2)
-        # l_list.shape is [nsamples, nparticles, 1, DIM]
+        # l_list.shape is [nsamples, nparticles, 1, DIM = 2 or 3]
 
         l_list = l_list.repeat_interleave(uli_list.shape[1], dim=2)
-        # l_list.shape is [nsamples, nparticles, nparticles * ngrids, DIM]
+        # l_list.shape is [nsamples, nparticles, nparticles * ngrids, DIM= 2 or 3]
 
         _, dq_sq = self.dpair_pbc_sq(q_list, uli_list, l_list)
         # d_sq.shape is [nsamples, nparticles, nparticles * ngrids]
