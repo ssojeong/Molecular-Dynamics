@@ -13,13 +13,13 @@ class torch_dataset(Dataset):
             filename (string): Numpy file for data and label
         """
         qpl_list,tau_short,_ = data_io.read_trajectory_qpl(filename) # returns qpl,tau_short,tau_long
-        # qpl_list.shape = [nsamples, (q,p,boxsize)=3, trajectory, nparticles, DIM]
+        # qpl_list.shape = [nsamples, (q,p,boxsize)=3, trajectory, nparticles, DIM = 2 or 3]
         self.qpl_list_input   = qpl_list[:,:,0:traj_len_idx,:,:]
-        # qp_list_input.shape = [nsamples, (q,p,boxsize)=3, trajectory, nparticles, DIM]
+        # qp_list_input.shape = [nsamples, (q,p,boxsize)=3, trajectory, nparticles, DIM = 2 or 3]
         self.qpl_list_label   = qpl_list[:,:,traj_len_idx:label_idx+1,:,:]
-        # qp_list_label.shape is [nsamples,nparticles,DIM]
+        # qp_list_label.shape is [nsamples,nparticles,DIM = 2 or 3]
         self.data_boxsize   =  qpl_list[:,2,0,:,:]
-        #data_boxsize.shape is [nsamples,nparticles,DIM]
+        #data_boxsize.shape is [nsamples,nparticles,DIM = 2 or 3]
         #self.data_tau_short = tau_short
         #self.data_tau_long  = float(tau_long)
 
