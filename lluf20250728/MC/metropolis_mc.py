@@ -52,7 +52,7 @@ class metropolis_mc:
         # pos = np.expand_dims(pos, axis=0)
 
         NA = math.ceil((MC_parameters.nparticle)**(1./3)) ** 3
-        nasite = int((NA)**(1./3))
+        nasite = math.ceil((NA)**(1./3)) # i < npar condition ensures
         dsite = self.boxsize / nasite
         #print('Nx', nasite, 'Ny', nasite, 'boxsize', self.boxsize, 'dsite', dsite)
 
@@ -67,7 +67,7 @@ class metropolis_mc:
                     if i < MC_parameters.nparticle:
                         xyz.append([tmpx, tmpy, tmpz])
 
-        # visualize
+        # # visualize
         # xyz = torch.tensor(xyz)
         # print(xyz.shape)
         #
@@ -232,6 +232,9 @@ class metropolis_mc:
                     TE1sum += self.enn_q
                     TE2sum += (self.enn_q * self.enn_q)
                     Nsum += 1.0
+
+                    if i % 100 == 0:
+                        print(f's{z} mc_step {i} E {self.enn_q.item()}', flush=True)
 
             ACCRatio[z] = self.ACCsum / self.ACCNsum
             spec[z] = (TE2sum / Nsum - TE1sum * TE1sum / Nsum / Nsum) / MC_parameters.temperature / MC_parameters.temperature / MC_parameters.nparticle
