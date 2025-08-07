@@ -1,0 +1,14 @@
+{
+    "nparticle": 32,
+    "temperature": 0.9,
+    "MC_output_filename": "../../data_sets/gen_by_MC/s1n32rho0.85T0.9.pt",
+    "seed": 24146,
+    "DIM": 3,
+    "rho": 0.85,
+    "nsamples": 1,
+    "mcstep": 100,
+    "max_energy": 1000.0,
+    "DISCARD": 0,
+    "interval": 100,
+    "dq": 0.05
+}
