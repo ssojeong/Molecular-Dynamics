@@ -1,0 +1,13 @@
+{
+    "MC_init_config_filename": "../../data_sets/gen_by_MC/s200n2rho0.03T0.46.pt",
+    "MD_data_dir": "../../data_sets/gen_by_MD/",
+    "MD_output_basenames": "../../data_sets/gen_by_MD/",
+    "tau_short": 0.001,
+    "append_strike": 1,
+    "save2file_strike": 1000,
+    "tau_long": 0.001,
+    "niter_tau_long": 1000,
+    "niter_tau_short": 1000,
+    "temp" : 0.46,
+    "gamma" : 0
+}
