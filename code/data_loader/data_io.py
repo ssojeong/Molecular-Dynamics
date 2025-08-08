@@ -14,7 +14,7 @@ class data_io:
         shape of qp_list is [nsamples, (q, p,l), trajectory length, nparticle, DIM]
         '''
 
-        data = torch.load(filename)#,weights_only=False) # 20250807
+        data = torch.load(filename,weights_only=False) # 20250808
 
         qpl_list = data['qpl_trajectory']
         tau_short = float(data['tau_short'])
