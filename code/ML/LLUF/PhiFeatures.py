@@ -20,7 +20,7 @@ import sys
 
 class PhiFeatures:
 
-    def __init__(self,grid_object,net): #b_list,a_list,net):
+    def __init__(self, grid_object, net): #b_list,a_list,net):
         self.grid_object = grid_object
         self.net = net
         self.mask = None
@@ -42,7 +42,7 @@ class PhiFeatures:
         return q_var
 
     # ===================================================
-    def make_mask(self,nsamples,nparticles,dim):
+    def make_mask(self, nsamples, nparticles, dim):
         # mask to mask out only centered at i-th particle
         # and then use to make zero of pair-wise which interact with itself
         self.mask = torch.ones([nsamples,nparticles,nparticles,dim],device=mydevice.get())
@@ -50,6 +50,7 @@ class PhiFeatures:
         dia.fill_(0.0)
         return self.mask
     # ===================================================
+
     def gen_qvar(self, q_list, l_list, uli_list, pwnet, ngrids): 
         # uli_list.shape is [nsamples, nparticles * ngrids, DIM=2 or 3] # 20250807 now we only implement 3d system.
         nsamples, nparticles, DIM = q_list.shape
@@ -60,6 +61,7 @@ class PhiFeatures:
 
         return _gen_qvar
     # ===================================================
+
     def qvar(self, q_list, l_list, uli_list, pwnet, ngrids):  # uli_list = grid center position
         # uli_list.shape is [nsamples, nparticles * ngrids, DIM=2 or 3] # 20250807 now we only implement 3d system.
 

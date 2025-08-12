@@ -2,6 +2,7 @@ import torch
 import os
 import numpy as np
 import sys
+import yaml
 
 # from torchviz import make_dot
 
@@ -11,6 +12,7 @@ from utils.system_logs import system_logs
 from utils.mydevice import mydevice
 from data_loader.data_loader import data_loader
 from data_loader.data_loader import my_data
+
 
 def main():
 
@@ -24,40 +26,41 @@ def main():
     torch.manual_seed(34952)
     np.random.seed(34952)
 
-    argv = sys.argv
-    if len(argv) != 25:
-        print('usage <programe> <net type> <single net type> \
-              <multi net type> <readout net type> <trans layer> <gnn layer> \
-              <nnode> <tau_long> <window sliding> <batchsize> <ngrid> <b> <a> \
-              <nitr> <loss weight> <ew> <repw> <poly_deg> <lr> <region> <dpt_train> <dpt_valid> \
-              <start epoch> <filename>' )
-        quit()
+    # ===== changed to use yaml for arguments loading =====
+    # argv = sys.argv
+    # if len(argv) != 25:
+    #     print('usage <programe> <net type> <single net type> \
+    #           <multi net type> <readout net type> <trans layer> <gnn layer> \
+    #           <nnode> <tau_long> <window sliding> <batchsize> <ngrid> <b> <a> \
+    #           <nitr> <loss weight> <ew> <repw> <poly_deg> <lr> <region> <dpt_train> <dpt_valid> \
+    #           <start epoch> <filename>' )
+    #     quit()
 
-    net_type = argv[1]
-    single_parnet_type = argv[2]
-    multi_parnet_type = argv[3]
-    readout_net_type = argv[4]
-    trans_layer = int(argv[5])
-    gnn_layer = int(argv[6])
-    nnode = int(argv[7])
-    tau_long = float(argv[8])
-    window_sliding = int(argv[9])
-    batch_size = int(argv[10])
-    ngrid = int(argv[11])
-    b = argv[12].split(',')
-    a = argv[13].split(',')
-    nitr = int(argv[14])
-    loss_weights = argv[15].split(',')
-    ew = int(argv[16])
-    repw = int(argv[17])
-    poly_deg = int(argv[18])
-    maxlr = float(argv[19])
-    region = argv[20]
-    dpt_train = int(argv[21])
-    dpt_valid = int(argv[22])
-    start_epoch = int(argv[23])
-    loadfile = argv[24]
-
+    net_type = args.net_type
+    single_parnet_type = args.single_parnet_type
+    multi_parnet_type = args.multi_parnet_type
+    readout_net_type = args.readout_net_type
+    trans_layer = args.trans_layer
+    gnn_layer = args.gnn_layer
+    nnode = args.nnode
+    tau_long = args.tau_long
+    window_sliding = args.window_sliding
+    batch_size = args.batch_size
+    ngrid = args.ngrid
+    b = args.b
+    a = args.a
+    nitr = args.nitr
+    loss_weights = args.loss_weights
+    ew = args.ew
+    repw = args.repw
+    poly_deg = args.poly_deg
+    maxlr = args.maxlr
+    region = args.region
+    dpt_train = args.dpt_train
+    dpt_valid = args.dpt_valid
+    start_epoch = args.start_epoch
+    loadfile = args.loadfile
+    # ==========================
 
     for i in range(len(loss_weights)):
         if isinstance(loss_weights[i], float):
@@ -69,26 +72,25 @@ def main():
         if isinstance(b[i], float):
             b[i] = float(b[i])
         else:
-            b[i] = eval(b[i],{'np':np})
+            b[i] = eval(b[i], {'np': np})
 
     for i in range(len(a)):
 
         if isinstance(a[i], float):
             a[i] = float(a[i])
         else:
-            a[i] = eval(a[i],{'np':np})
-
+            a[i] = eval(a[i], {'np': np})
 
     if loadfile.strip() == "None":
        loadfile = None
     else:
        loadfile = loadfile.strip()
 
-    traindict = {"loadfile"     : loadfile,  # to load previously trained model
-                 "net_nnodes"   : nnode,   # number of nodes in neural nets
-                 "pw4mb_nnodes" : 128,   # number of nodes in neural nets
-                 "pw_output_dim" : 3, # 20250803: change from 2D to 3D, psi
-                 "init_weights"   : 'tanh', #relu
+    traindict = {"loadfile"     : loadfile, # to load previously trained model
+                 "net_nnodes"   : nnode,    # number of nodes in neural nets
+                 "pw4mb_nnodes" : 128,      # number of nodes in neural nets
+                 "pw_output_dim": 3,        # 20250803: change from 2D to 3D, psi
+                 "init_weights" : 'tanh',   # relu
                  "optimizer" : 'Adam',
                  "single_particle_net_type" : single_parnet_type,         
                  "multi_particle_net_type"  : multi_parnet_type,        
@@ -103,7 +105,7 @@ def main():
                  "tau_traj_len" : 8 * tau_long,  # n evaluations in integrator
                  "tau_long"     : tau_long,
                  "loss_weights"  : loss_weights,
-                 "window_sliding" : window_sliding,  # number of times to do integration before cal the loss
+                 "window_sliding": window_sliding,  # number of times to do integration before cal the loss
                  "ngrids"       : ngrid,   # 6*len(b_list)
                  "b_list"       : b,       # grid lattice constant for multibody interactions
                  "a_list"       : a,       #[np.pi/8], #
@@ -111,20 +113,20 @@ def main():
                  "tau_init"     : 1,       # starting learning rate
                  }
 
-    window_sliding_list = [1,2,3,4,5,7,8,9,10,12,14,16]
+    window_sliding_list = [1, 2, 3, 4, 5, 7, 8, 9, 10, 12, 14, 16]
 
     if traindict["window_sliding"] not in window_sliding_list:
         print('window_sliding is not valid, need ',window_sliding_list)
         quit()
 
-    lossdict = { "polynomial_degree" : poly_deg, # 4
-                 "rthrsh"            : 0.7,
-                 "e_weight"          : ew,
-                 "reg_weight"        : repw}
+    lossdict = {"polynomial_degree" : poly_deg,     # 4
+                "rthrsh"            : 0.7,
+                "e_weight"          : ew,
+                "reg_weight"        : repw}
 
     data = {"train_file": '../data_sets/gen_by_MD/3d/n32lt{}stpstraj18_l_dpt100.pt'.format(tau_long),
             "valid_file": '../data_sets/gen_by_MD/3d/n32lt{}stpstraj18_l_dpt10.pt'.format(tau_long),
-            "test_file": '../data_sets/gen_by_MD/3d/n32lt{}stpstraj18_l_dpt10.pt'.format(tau_long),
+            "test_file" : '../data_sets/gen_by_MD/3d/n32lt{}stpstraj18_l_dpt10.pt'.format(tau_long),
             "train_pts" : 10,
             "vald_pts"  : 10,
             "test_pts"  : 10,
@@ -142,7 +144,6 @@ def main():
                  "val_interval"    : 1, # no use of valid for now
                  "verb"            : 1  } # peroid for printing out losses
 
-
     utils.print_dict('trainer', traindict)
     utils.print_dict('loss', lossdict)
     utils.print_dict('data', data)
@@ -159,22 +160,22 @@ def main():
                        data["train_pts"],data["vald_pts"],data["test_pts"])
     loader = data_loader(data_set, data["batch_size"])
 
-    #utils.check_data(loader,data_set,traindict["tau_traj_len"],
+    # utils.check_data(loader,data_set,traindict["tau_traj_len"],
     #           traindict["tau_long"],maindict["tau_short"],
     #           maindict["nitr"],maindict["append_strike"])
 
-    train = trainer(traindict,lossdict)
+    train = trainer(traindict, lossdict)
 
     train.load_models()
 
     print('begin ------- initial learning configurations -------- ')
-    train.verbose(0,'init_config')
+    train.verbose(0, 'init_config')
     print('end  ------- initial learning configurations -------- ')
 
     for e in range(maindict["start_epoch"], maindict["end_epoch"]):
 
         cntr = 0
-        for qpl_input,qpl_label in loader.train_loader:
+        for qpl_input, qpl_label in loader.train_loader:
 
             mydevice.load(qpl_input)
             q_traj,p_traj,q_label,p_label,l_init = utils.pack_data(qpl_input, qpl_label)
@@ -207,9 +208,12 @@ def main():
 
     system_logs.print_end_logs()
 
-# python maintrain09.py api0lw8421ew1repw10poly1lowrho transformer_type gnn_identity mlp_type
+# python maintrain.py api0lw8421ew1repw10poly1lowrho transformer_type gnn_identity mlp_type
 # 2 2 128 0.1 8 10 6 0.2 0 1000 0,1/8,0,1/4,0,1/2,0,1 1 10 1 1e-5 g 540000 60000 0 None
-if __name__=='__main__':
+
+
+if __name__ == '__main__':
+    yaml_config_path = 'config.yaml'
+    with open(yaml_config_path, 'r') as f:
+        args = yaml.load(f, Loader=yaml.Loader)
     main()
-
-
