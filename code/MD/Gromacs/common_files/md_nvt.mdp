@@ -1,0 +1,33 @@
+constraints = all-angles 
+integrator = md
+dt = 0.002 ; ps !
+nsteps = 20000 ;
+
+nstxout = 0
+nstxtcout = 0 
+nstvout = 0
+nstfout = 0
+nstlog = 500
+nstenergy = 500
+nstlist = 1 
+ns_type = grid
+rlist = 1.0
+coulombtype = PME 
+rcoulomb = 1.0
+rvdw = 1.0
+; Berendsen temperature coupling is on in two groups
+
+Tcoupl = Nose-Hoover ; heat-bath
+tc-grps = system ; heat-both
+tau_t = 1  ; heat-bath 
+ref_t = 300
+
+; Generate velocites is on at 300 K.
+gen_vel = yes 
+gen_temp = 300.0
+gen_seed = 173529
+; These options remove motion of the protein/bilayer relative to the solvent/ions
+nstcomm         = 5
+comm-mode       = Linear
+;comm-grps       = Protein SOL_Ion
+cutoff-scheme = verlet 

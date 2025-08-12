@@ -1,0 +1,15 @@
+; Include forcefield parameters
+#include "amber14sb.ff/forcefield.itp"
+; Include water topology
+#include "amber14sb.ff/tip3p.itp"
+
+; Include topology for ions
+#include "amber14sb.ff/ions.itp"
+
+[ system ]
+; Name
+8 water 
+
+[ molecules ]
+; Compound        #mols
+SOL   8

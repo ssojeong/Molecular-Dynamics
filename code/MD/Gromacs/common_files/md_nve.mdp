@@ -1,0 +1,32 @@
+constraints = all-angles
+constraint-algorithm = lincs
+lincs-order = 6
+lincs-iter = 2
+integrator = md
+dt = 0.0001 ; ps !
+nsteps = 100000 ; 50 x 10 x 200
+
+nstxout = 200
+nstxtcout = 0 
+nstvout = 1
+nstfout = 0
+nstlog = 200
+nstenergy = 200
+nstlist =1 
+ns_type = grid
+rlist = 1.0
+coulombtype = PME 
+rcoulomb = 1.0
+rvdw = 1.0
+DispCorr = Ener
+
+; Berendsen temperature coupling is on in two groups
+
+;Tcoupl = Nose-Hoover ; heat-bath
+;tc-grps = system ; heat-both
+;tau_t = 0.5  ; heat-bath 
+;ref_t = 300  ; heat-bath
+
+; Generate velocites is on at 300 K.
+gen_vel = no 
+cutoff-scheme = verlet 
