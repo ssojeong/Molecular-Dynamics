@@ -21,77 +21,43 @@ def main():
     system_logs.print_start_logs()
 
     torch.set_default_dtype(torch.float64)
-    #torch.autograd.set_detect_anomaly(True)
+    # torch.autograd.set_detect_anomaly(True)
 
     torch.manual_seed(34952)
     np.random.seed(34952)
 
-    # ===== changed to use yaml for arguments loading =====
-    # argv = sys.argv
-    # if len(argv) != 25:
-    #     print('usage <programe> <net type> <single net type> \
-    #           <multi net type> <readout net type> <trans layer> <gnn layer> \
-    #           <nnode> <tau_long> <window sliding> <batchsize> <ngrid> <b> <a> \
-    #           <nitr> <loss weight> <ew> <repw> <poly_deg> <lr> <region> <dpt_train> <dpt_valid> \
-    #           <start epoch> <filename>' )
-    #     quit()
-
-    net_type = args.net_type
-    single_parnet_type = args.single_parnet_type
-    multi_parnet_type = args.multi_parnet_type
-    readout_net_type = args.readout_net_type
-    trans_layer = args.trans_layer
-    gnn_layer = args.gnn_layer
-    nnode = args.nnode
-    tau_long = args.tau_long
-    window_sliding = args.window_sliding
-    batch_size = args.batch_size
-    ngrid = args.ngrid
-    b = args.b
-    a = args.a
-    nitr = args.nitr
-    loss_weights = args.loss_weights
-    ew = args.ew
-    repw = args.repw
-    poly_deg = args.poly_deg
-    maxlr = args.maxlr
-    region = args.region
-    dpt_train = args.dpt_train
-    dpt_valid = args.dpt_valid
-    start_epoch = args.start_epoch
-    loadfile = args.loadfile
+    net_type = args['net_type']
+    single_parnet_type = args['single_parnet_type']
+    multi_parnet_type = args['multi_parnet_type']
+    readout_net_type = args['readout_net_type']
+    trans_layer = args['trans_layer']
+    gnn_layer = args['gnn_layer']
+    nnodes = args['nnodes']
+    tau_long = args['tau_long']
+    window_sliding = args['window_sliding']
+    batch_size = args['batch_size']
+    ngrid = args['ngrid']
+    b = args['b']
+    a = args['a']
+    nitr = args['nitr']
+    loss_weights = args['loss_weights']
+    ew = args['ew']
+    repw = args['repw']
+    poly_deg = args['poly_deg']
+    maxlr = args['maxlr']
+    region = args['region']
+    dpt_train = args['dpt_train']
+    dpt_valid = args['dpt_valid']
+    start_epoch = args['start_epoch']
+    loadfile = args['loadfile']
+    print('loadfile', loadfile)
     # ==========================
 
-    for i in range(len(loss_weights)):
-        if isinstance(loss_weights[i], float):
-            loss_weights[i] = float(loss_weights[i])
-        else:
-            loss_weights[i] = eval(loss_weights[i])
-
-    for i in range(len(b)):
-        if isinstance(b[i], float):
-            b[i] = float(b[i])
-        else:
-            b[i] = eval(b[i], {'np': np})
-
-    for i in range(len(a)):
-
-        if isinstance(a[i], float):
-            a[i] = float(a[i])
-        else:
-            a[i] = eval(a[i], {'np': np})
-
-    if loadfile.strip() == "None":
-       loadfile = None
-    else:
-       loadfile = loadfile.strip()
-
     traindict = {"loadfile"     : loadfile, # to load previously trained model
-                 "net_nnodes"   : nnode,    # number of nodes in neural nets
+                 "net_nnodes"   : nnodes,    # number of nodes in neural nets
                  "pw4mb_nnodes" : 128,      # number of nodes in neural nets
                  "pw_output_dim": 3,        # 20250803: change from 2D to 3D, psi
-                 "init_weights" : 'tanh',   # relu
-                 "optimizer" : 'Adam',
+                 "optimizer"    : 'Adam',
                  "single_particle_net_type" : single_parnet_type,         
                  "multi_particle_net_type"  : multi_parnet_type,        
                  "readout_step_net_type"    : readout_net_type,       
@@ -116,27 +82,27 @@ def main():
     window_sliding_list = [1, 2, 3, 4, 5, 7, 8, 9, 10, 12, 14, 16]
 
     if traindict["window_sliding"] not in window_sliding_list:
-        print('window_sliding is not valid, need ',window_sliding_list)
+        print('window_sliding is not valid, need ', window_sliding_list)
         quit()
 
-    lossdict = {"polynomial_degree" : poly_deg,     # 4
-                "rthrsh"            : 0.7,
-                "e_weight"          : ew,
-                "reg_weight"        : repw}
+    lossdict = {"polynomial_degree": poly_deg,
+                "rthrsh"           : 0.7,
+                "e_weight"         : ew,
+                "reg_weight"       : repw}
 
-    data = {"train_file": '../data_sets/gen_by_MD/3d/n32lt{}stpstraj18_l_dpt100.pt'.format(tau_long),
-            "valid_file": '../data_sets/gen_by_MD/3d/n32lt{}stpstraj18_l_dpt10.pt'.format(tau_long),
-            "test_file" : '../data_sets/gen_by_MD/3d/n32lt{}stpstraj18_l_dpt10.pt'.format(tau_long),
-            "train_pts" : 10,
-            "vald_pts"  : 10,
-            "test_pts"  : 10,
+    data = {"train_file": '../../Data/LLUF/520k_gap10.pt',
+            "valid_file": '../../Data/LLUF/520k_gap10.pt',
+            "test_file" : '../../Data/LLUF/520k_gap10.pt',
+            "train_pts" : 20,
+            "vald_pts"  : 20,
+            "test_pts"  : 20,
              "batch_size": batch_size,
-             "window_sliding"   : traindict["window_sliding"] }
+             "window_sliding"   : traindict["window_sliding"]}
 
     maindict = { "start_epoch"     : start_epoch,
                  "end_epoch"       : 10,
                  # "save_dir"        : './results/traj_len08ws0{}tau{}ngrid{}{}_dpt{}'.format(window_sliding,traindict["tau_long"],ngrid,net_type,dpt_train),
-                 "save_dir"        : './results',
+                 "save_dir"        : '../../SavedModel/LLUF/',
                  "tau_short"       : 1e-4,
                  "nitr"            : nitr, # for check md trajectories
                  "append_strike"   : nitr, # for check md trajectories
@@ -149,7 +115,7 @@ def main():
     utils.print_dict('data', data)
     utils.print_dict('main', maindict)
 
-    print('begin ------- check param dict -------- ',flush=True)
+    print('begin ------- check param dict -------- ', flush=True)
     check_param_dict.check_maindict(traindict)
     check_param_dict.check_datadict(data)
     check_param_dict.check_traindict(maindict, traindict["tau_long"])
@@ -178,38 +144,35 @@ def main():
         for qpl_input, qpl_label in loader.train_loader:
 
             mydevice.load(qpl_input)
-            q_traj,p_traj,q_label,p_label,l_init = utils.pack_data(qpl_input, qpl_label)
+            q_traj, p_traj, q_label, p_label, l_init = utils.pack_data(qpl_input, qpl_label)
             # q_traj,p_ttaj [traj,nsamples,nparticles,dim]
             # q_label,p_label,l_init [nsamples,nparticles,dim]
 
-            train.one_step(q_traj,p_traj,q_label,p_label,l_init)
+            train.one_step(q_traj, p_traj, q_label, p_label, l_init)
             cntr += 1
-            if cntr%10==0: print('.',end='',flush=True)
+            if cntr%10==0: print('.', end='', flush=True)
 
         print(cntr,'batches \n')
 
-        if e%maindict["verb"]==0: 
-            train.verbose(e+1,'train')
+        if e%maindict["verb"] == 0:
+            train.verbose(e+1, 'train')
             system_logs.record_memory_usage(e+1)
-            print('time use for ',maindict["verb"],'epoches is: ',end='')
+            print('time use for ', maindict["verb"], 'epoches is: ', end='')
             system_logs.record_time_usage(e+1)
 
-        if e%maindict["ckpt_interval"]==0: 
-            filename = './{}/mbpw{:06d}.pth'.format(maindict["save_dir"],e+1)
-            print('saving file to ',filename)
+        if e % maindict["ckpt_interval"] == 0:
+            filename = f'./{maindict["save_dir"]}/mbpw{e+1:06d}.pth'
+            print('saving file to ', filename)
             train.checkpoint(filename)
 
-        if e%maindict["val_interval"]==0: 
+        if e % maindict["val_interval"] == 0:
             train.loss_obj.clear()
-            for qpl_input,qpl_label in loader.val_loader:
-                q_traj,p_traj,q_label,p_label,l_init = utils.pack_data(qpl_input, qpl_label)
-                train.eval(q_traj,p_traj,q_label,p_label,l_init)
-            train.verbose(e+1,'eval')
+            for qpl_input, qpl_label in loader.val_loader:
+                q_traj, p_traj, q_label, p_label, l_init = utils.pack_data(qpl_input, qpl_label)
+                train.eval(q_traj, p_traj, q_label, p_label, l_init)
+            train.verbose(e+1, 'eval')
 
     system_logs.print_end_logs()
-
-# python maintrain.py api0lw8421ew1repw10poly1lowrho transformer_type gnn_identity mlp_type
-# 2 2 128 0.1 8 10 6 0.2 0 1000 0,1/8,0,1/4,0,1/2,0,1 1 10 1 1e-5 g 540000 60000 0 None
 
 
 if __name__ == '__main__':

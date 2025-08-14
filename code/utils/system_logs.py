@@ -63,8 +63,8 @@ class system_logs(object):
         run_duration = now - system_logs.__instance.start_time
         print('run time ',run_duration)
 
-        mean_memory = np.mean(system_logs.__instance.memory_usage)
-        std_memory = np.std(system_logs.__instance.memory_usage)
-        print('mean mem : ', mean_memory, ', std mem : ', std_memory )
+        # mean_memory = np.mean(system_logs.__instance.memory_usage)
+        # std_memory = np.std(system_logs.__instance.memory_usage)
+        # print('mean mem : ', mean_memory, ', std mem : ', std_memory )
 
 

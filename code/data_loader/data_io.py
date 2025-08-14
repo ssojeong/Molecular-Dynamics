@@ -24,7 +24,7 @@ class data_io:
 
     # ================================================
     @staticmethod
-    def write_trajectory_qpl(filename, qpl_trajectory, tau_short = -1, tau_long = -1):
+    def write_trajectory_qpl(filename, qpl_trajectory, tau_short=-1, tau_long=-1):
         ''' write filename for qp_trajectory
 
         Parameters
@@ -45,7 +45,7 @@ class data_io:
         save multiple components, organize them in a dictionary
         '''
 
-        data = { 'qpl_trajectory':qpl_trajectory, 'tau_short':tau_short, 'tau_long': tau_long }
+        data = {'qpl_trajectory': qpl_trajectory, 'tau_short': tau_short, 'tau_long': tau_long }
 
         torch.save(data, filename)
 
@@ -99,6 +99,7 @@ class data_io:
         w_b_dis = {'weights': weight, 'bias': bias}
         torch.save(w_b_dis, filename)
     # ================================================
+
     @staticmethod
     def random_shuffle(qpl_list,tau_long,tau_short):
 
@@ -112,22 +113,46 @@ class data_io:
     # ================================================
 
 
+if __name__ == '__main__':
+    from einops import rearrange
 
-if __name__=='__main__':
+    # filename = '../../data_sets/n16anyrholt0.1stps_100pts.pt'
+    # qpl_list,tau_long,tau_short = data_io.read_trajectory_qpl(filename)
+    #
+    # print('shape of qpl_list [nsamples, (q,p,l)-index, ', end='')
+    # print('nsteps label (initial,1, 4, 8, 16 steps), nparticles, dimension')
+    #
+    # print('qpl_list shape ',qpl_list.shape)
 
-    filename = '../../data_sets/n16anyrholt0.1stps_100pts.pt'
-    qpl_list,tau_long,tau_short = data_io.read_trajectory_qpl(filename)
+    # qpl_list, tau_long, tau_short = data_io.read_trajectory_qpl(filename)
+    #
+    # print('shape of qpl_list [nsamples, (q,p,l)-index, ', end='')
+    # print('nsteps label (initial,1, 4, 8, 16 steps), nparticles, dimension')
+    #
+    # print('qpl_list shape ', qpl_list.shape)
+    #
+    # print('qpl_list ', qpl_list[:2])
+    #
+    # qpl_sh = data_io.random_shuffle(qpl_list, tau_long, tau_short)
+    #
+    # print('qpl_sh ', qpl_sh[:2])
 
-    print('shape of qpl_list [nsamples, (q,p,l)-index, ', end='')
-    print('nsteps label (initial,1, 4, 8, 16 steps), nparticles, dimension')
+    tau_short = 0.002
+    tau_long = 0.02
+    ratio = tau_long / tau_short
+    gap = int(round(ratio))
+    assert abs(ratio - gap) < 1e-9, f"target_dt/origin_dt must be integer; got {ratio}"
 
-    print('qpl_list shape ',qpl_list.shape)
-
-    print('qpl_list ',qpl_list[:2])
-
-    qpl_sh = data_io.random_shuffle(qpl_list,tau_long,tau_short)
-
-    print('qpl_sh ',qpl_sh[:2])
-
-
-
+    filename = '../../../Data/LLUF/520k.pt'
+    file = torch.load(filename)
+    qp = rearrange(file['qp'][:, ::gap, :, :, :], 'traj tpts atom dim qp -> traj qp tpts atom dim')
+    l = 2.2 * torch.ones(qp.size(0), 1, qp.size(2), qp.size(3), qp.size(4), dtype=qp.dtype, device=qp.device)   # box size 2.2
+    qpl_trajectory = torch.cat((qp, l), dim=1)
+    times = file['times'][::gap]
+    data = {'qpl_trajectory': qpl_trajectory,
+            'times': times,
+            'traj_id': file['traj_id'],
+            'atom_id': file['atom_id'],
+            'tau_short': tau_short,
+            'tau_long': tau_long}
+    torch.save(data, f'../../../Data/LLUF/520k_gap{gap}.pt')

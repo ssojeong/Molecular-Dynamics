@@ -65,8 +65,7 @@ class PWNet(nn.Module):
 
     def forward(self,x):
         dq=x
-        # pwnet input: x shape [nsamples*nparticles*nparticles, 2*traj_len]
-        # pwnet input for mbnet input : x shape [nsamples * nparticles * nparticles * ngrids, 2]
+        # pwnet input: [nsamples * nparticles * nparticles * ngrids, 1]
         for m in self.layers:
             x = m(x)
             if m != self.layers[-1]:

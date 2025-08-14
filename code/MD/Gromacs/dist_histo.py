@@ -9,7 +9,7 @@ max_d = (3**0.5) * (box_length / 2)  # maximum possible distance
 num_bins = int(max_d / bin_width)
 
 # ---------- Load Data ----------
-data = torch.load('/home/liuwei/Projects/LLUF/test.pt')
+data = torch.load('/home/liuwei/Projects/LLUF/300k.pt')
 traj = data["qp"]  # shape: [traj_id, frame, atom, coord, type]
 print("Trajectory shape:", traj.shape)
 

@@ -3,10 +3,10 @@ from utils.mydevice import mydevice
 from utils.pbc import pbc
 class PsiFeatures:
 
-    def __init__(self,grid_object): #b_list,a_list):
+    def __init__(self, grid_object):    # b_list,a_list):
         self.grid_object = grid_object
 
-        self.dim = grid_object.dim # 20250807
+        self.dim = grid_object.dim  # 20250807
 
     # ===================================================
     def __call__(self, q_list, p_list, l_list):  # make dqdp for n particles
@@ -22,7 +22,6 @@ class PsiFeatures:
 
         return p_var
 
-
     # ===================================================
     def gen_pvar(self, q, p, uli_list, l_list, ngrids):  # velocity fields
 
@@ -34,11 +33,11 @@ class PsiFeatures:
         l_list = l_list.repeat_interleave(uli_list.shape[1], dim=2)
         # l_list.shape is [nsamples, nparticles, nparticles * ngrids, DIM]
 
-        _, d_sq = self.dpair_pbc_sq(q, uli_list, l_list)
+        _, dist_square = self.dpair_pbc_sq(q, uli_list, l_list)
         # d_sq.shape is [nsamples, nparticles, nparticles * ngrids]
 
         # r^2 nearest distance weight
-        weights = 1 / (d_sq + 1e-10)
+        weights = 1 / (dist_square + 1e-10)
         # weights.shape is [nsamples, nparticles, nparticles * ngrids]
 
         weights = torch.unsqueeze(weights, dim=-1)
@@ -71,7 +70,6 @@ class PsiFeatures:
         # relative_p.shape [nsamples, npartice, grids*DIM]
         return gen_pvar
 
-
     # ===================================================
     def dpair_pbc_sq(self, q, uli_list, l_list):  #
 
@@ -91,4 +89,3 @@ class PsiFeatures:
         # dd.shape is [nsamples, nparticles, nparticles * ngrids]
 
         return paired_grid_q, dd
-

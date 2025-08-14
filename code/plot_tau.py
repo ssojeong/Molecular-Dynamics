@@ -18,10 +18,10 @@ if __name__ == '__main__':
 
     print('file name', file_name)
 
-    tau = np.genfromtxt(data['{}traintau'.format(file_name)]);
+    tau = np.genfromtxt(data['{}traintau'.format(file_name)])
 
-    tau1 = tau[:, 5];
-    tau2 = tau[:, 9];
+    tau1 = tau[:, 5]
+    tau2 = tau[:, 9]
     tau3 = tau[:, 13]
 
     epoch = tau[:, 0]

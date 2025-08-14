@@ -1,6 +1,10 @@
 import torch
+from einops import rearrange, repeat
+
 from utils.pbc import pbc
 from utils.mydevice import mydevice
+from ML.LLUF.AtomPairIndexer import AtomPairIndexer
+
 
 # check grid=1
 import sys
@@ -26,14 +30,13 @@ class PhiFeatures:
         self.net = net
         self.mask = None
 
-        self.dim = self.grid_object.dim # 20250807
+        self.dim = self.grid_object.dim     # 20250807
+        self.atom_pair_indexer = AtomPairIndexer(n_mol=8)
 
         # 20250803 phi feature output dim here. ngrid * pwnet output dim
 
     # ===================================================
     def __call__(self, q_list, l_list):  # make dqdp for n particles
-        # q_list shape [nsamples, nparticles, DIM = 2 or 3] # 20250807 now we only implement 3d system.
-        # l_list shape [nsamples, nparticles, DIM = 2 or 3]
         # make all grid points        self.nsamples, self.nparticles, self.DIM = q_list.shape
         uli_list = self.grid_object(q_list, l_list)  # position at grid points
         # uli_list.shape is [nsamples, nparticles * ngrids, DIM=(x,y) or (x,y,z)]
@@ -42,14 +45,6 @@ class PhiFeatures:
 
         return q_var
 
-    # ===================================================
-    def make_mask(self, nsamples, nparticles, dim):
-        # mask to mask out only centered at i-th particle
-        # and then use to make zero of pair-wise which interact with itself
-        self.mask = torch.ones([nsamples,nparticles, nparticles, dim], device=mydevice.get())
-        dia = torch.diagonal(self.mask, dim1=1, dim2=2)     # [nsamples, dim =2 or 3, nparticles]
-        dia.fill_(0.0)
-        return self.mask
     # ===================================================
 
     def gen_qvar(self, q_list, l_list, uli_list, pwnet, ngrids): 
@@ -63,46 +58,58 @@ class PhiFeatures:
         return _gen_qvar
     # ===================================================
 
-    def qvar(self, q_list, l_list, uli_list, pwnet, ngrids):  # uli_list = grid center position
-        # uli_list.shape is [nsamples, nparticles * ngrids, DIM=2 or 3] # 20250807 now we only implement 3d system.
+    def qvar(self, q_list, l_list, uli_list, pwnet, ngrids):        # revised by LW
+        """
+        Compute q_var using einops.
 
-        nsamples, nparticles, dim = q_list.shape
+        Shapes (3D system):
+          q_list   : (ns, np, 3)                      # particle positions
+          l_list   : (ns, np, 3)                      # particle lengths (per particle vector, e.g., box or scale)
+          uli_list : (ns, np*ngrids, 3)               # grid center positions per "j" particle
+          ngrids   : int
+          pwnet    : module mapping (B', C, G) -> (B', 3, G), where C=8 channels and G=ngrids
 
-        l_list = torch.unsqueeze(l_list, dim=2)
-        # l_list.shape is [nsamples, nparticles, 1, DIM = 2 or 3]
+        Internals:
+          dq_sq            : (ns, np, np*ngrids)      # squared distances per (i, j*grid)
+          after one-hot    : (ns, np, np, 8, ngrids)
+          flattened to     : ((ns*np*np), 8, ngrids)
+          pwnet output     : ((ns*np*np), 3, ngrids)
+          reshaped to      : (ns, np, np, ngrids, 3)
+          merged (j,grid)  : (ns, np, np*ngrids, 3)
+          sum over i       : (ns, np*ngrids, 3)       # q_var
+        """
+        ns, np, dim = q_list.shape
+        assert dim == 3, "Currently only 3D is implemented."
 
-        l_list = l_list.repeat_interleave(uli_list.shape[1], dim=2)
-        # l_list.shape is [nsamples, nparticles, nparticles * ngrids, DIM= 2 or 3]
+        # Expand l_list along the (j, grid) axis to match uli_list
+        # l_list: (ns, np, 3) -> (ns, np, np*ngrids, 3)
+        l_list_expanded = repeat(l_list, 'ns i d -> ns i (j g) d', j=np, g=ngrids, d=3)
 
-        _, dq_sq = self.dpair_pbc_sq(q_list, uli_list, l_list)
-        # d_sq.shape is [nsamples, nparticles, nparticles * ngrids]
-        # print(dq_sq)
-        dq_sq = dq_sq.view(nsamples * nparticles * nparticles * ngrids, 1)  # dq^2
-        # dq_sq.shape is [nsamples * nparticles * nparticles * ngrids, 1]
+        # Compute distances (PBC-aware) → returns (_, dq_sq)
+        # Expect: dq_sq: (ns, np, np*ngrids)
+        _, dq_sq = self.dpair_pbc_sq(q_list, uli_list, l_list_expanded)
+        assert dq_sq.shape == (ns, np, np * ngrids)
 
-        pair_pwnet = pwnet(dq_sq)
-        # pair_pwnet.shape = [batch, 2]
+        # Reshape dq_sq to (ns, i, j, g)
+        dq_sq_4d = rearrange(dq_sq, 'ns i (j g) -> ns i j g', j=np, g=ngrids)
 
-        pair_pwnet = pair_pwnet.view(nsamples, nparticles, nparticles * ngrids, -1)
-        # shape is [nsamples, nparticles, nparticles * ngrids, DIM]
-        # print(pair_pwnet[:,:,:,0])
-        # print(pair_pwnet[:, :, :, 1])
+        # One-hot by atom-pair channel: (ns, i, j, C=8, g)
+        dq_sq_one_hot = self.atom_pair_indexer.fill_tensor(dq_sq_4d)  # expects (B,N,N,G) -> (B,N,N,8,G)
 
-        if self.grid_object.ngrids == 1:
-            pair_pwnet = pair_pwnet * self.make_mask(nsamples,nparticles,dim)
+        # Flatten (ns, i, j) -> (ns*i*j) for pwnet; (ns*i*j, 8, g)
+        x = rearrange(dq_sq_one_hot, 'ns i j c g -> (ns i j) c g', c=self.atom_pair_indexer.num_channels)
+        # Apply pairwise network: (ns*i*j, 3, g)
+        y = pwnet(x)
+        assert y.shape == (ns * np * np, 3, ngrids), f"pwnet output shape mismatch: {y.shape}"
 
-        # print(pair_pwnet[:, :, :, 0])
-        # print(pair_pwnet[:, :, :, 1])
+        # Back to (ns, i, j, g, 3)
+        y_5d = rearrange(y, '(ns i j) c g -> ns i j g c', ns=ns, i=np, j=np)
 
-        # pair_pwnet = self.zero_qvar(pair_pwnet, nsamples, nparticles, ngrids)
-        # pair_pwnet.shape is [nsamples, nparticles, nparticles*ngrids, DIM]
+        # Merge (j, g) → (j*g) and sum over i (axis=1)
+        pair_pwnet = rearrange(y_5d, 'ns i j g c -> ns i (j g) c')
+        q_var = pair_pwnet.sum(dim=1)  # (ns, j*g, 3)
 
-        q_var = torch.sum(pair_pwnet, dim=1)  # np.sum axis=2 j != k (nsamples-1)
-        # q_var.shape is [nsamples, nparticles * ngrids, DIM=2]
-        # print('sum of them...')
-        # print(q_var)
-
-        return q_var
+        return q_var  # shape: (ns, np*ngrids, 3)
 
     # ===================================================
     def dpair_pbc_sq(self, q, uli_list, l_list):  #
@@ -127,23 +134,8 @@ class PhiFeatures:
 
         return paired_grid_q, r_square
 
-    # ===================================================
-    #  def zero_qvar(self, pair_pwnet, nsamples, nparticles, ngrids):
-    #    # pair_pwnet shape is, [nsamples * nparticles * nparticles * ngrids, 2]
-    #
-    #    _, DIM = pair_pwnet.shape
-    #    pair_pwnet1 = pair_pwnet.view(nsamples, nparticles, nparticles, ngrids, DIM)
-    #    # make_zero_phi.shape is [nsamples, nparticles, nparticles, ngrids, DIM]
-    #
-    #    pair_pwnet2 = pair_pwnet1 * self.mask
-    #
-    #    pair_pwnet3 = pair_pwnet2.view(nsamples, nparticles, nparticles * ngrids, DIM)
-    #    # shape is [nsamples, nparticles, nparticles*ngrids, DIM]
-    #
-    #    return pair_pwnet3
 
-
-if __name__=='__main__':
+if __name__ == '__main__':
 
     _ = mydevice()
     _ = system_logs(mydevice)
@@ -209,4 +201,3 @@ if __name__=='__main__':
     for q, p in zip(q_traj_list, p_traj_list):
         q_input_list.append(prepare_data_obj.prepare_q_feature_input(q,l_list))
         p_input_list.append(prepare_data_obj.prepare_p_feature_input(q, p, l_list))
-

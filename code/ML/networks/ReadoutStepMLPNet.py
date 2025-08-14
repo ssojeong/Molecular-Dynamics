@@ -1,9 +1,10 @@
 import torch
 import torch.nn as nn
 
+
 class ReadoutStepMLPNet(nn.Module):
 
-    def __init__(self,input_dim,output_dim,nnodes,p,readout=True):
+    def __init__(self, input_dim, output_dim, nnodes, p, readout=True):
         print('!!!!! update step mlp_net', input_dim, output_dim, nnodes, p)
         super().__init__()
 
@@ -15,8 +16,7 @@ class ReadoutStepMLPNet(nn.Module):
                                  nn.Linear(hidden_nodes, output_dim),
                                  nn.Tanh()) if readout else nn.Identity()
 
-
-    def forward(self,x):
+    def forward(self, x):
         # x shape [nsamples * nparticles, embed_dim]
         x = self.mlp(x)
         # x shape [nsamples * nparticles, 2]
