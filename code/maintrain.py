@@ -95,7 +95,7 @@ def main():
             "test_file" : '../../Data/LLUF/520k_gap10.pt',
             "train_pts" : dpt_train,
             "vald_pts"  : dpt_valid,
-            "test_pts"  : dpt_test,
+            "test_pts"  : 200,
              "batch_size": batch_size,
              "window_sliding"   : traindict["window_sliding"]}
 
