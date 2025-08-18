@@ -90,9 +90,9 @@ def main():
                 "e_weight"         : ew,
                 "reg_weight"       : repw}
 
-    data = {"train_file": '../../Data/LLUF/520k_gap10.pt',
-            "valid_file": '../../Data/LLUF/520k_gap10.pt',
-            "test_file" : '../../Data/LLUF/520k_gap10.pt',
+    data = {"train_file": '../../Data/LLUF/520k_gap10_train.pt',
+            "valid_file": '../../Data/LLUF/520k_gap10_valid.pt',
+            "test_file" : '../../Data/LLUF/520k_gap10_valid.pt',
             "train_pts" : dpt_train,
             "vald_pts"  : dpt_valid,
             "test_pts"  : 200,
@@ -121,8 +121,8 @@ def main():
     check_param_dict.check_traindict(maindict, traindict["tau_long"])
     print('end   ------- check param dict -------- ')
 
-    data_set = my_data(data["train_file"],data["valid_file"],data["test_file"],
-                       traindict["tau_long"],traindict["window_sliding"],traindict["tau_traj_len"],
+    data_set = my_data(data["train_file"], data["valid_file"], data["test_file"],
+                       traindict["tau_long"], traindict["window_sliding"], traindict["tau_traj_len"],
                        data["train_pts"],data["vald_pts"],data["test_pts"])
     loader = data_loader(data_set, data["batch_size"])
 

@@ -13,10 +13,10 @@ nnodes:       # number of nodes in neural nets (use pwnet, readout net)
 
 tau_long: 0.1 # LUFnet time step size -- current code only works LUFnet at tau=0.1
 window_sliding: 8 # number of time points to do integration to calculate the loss
-batch_size: 2
+batch_size: 1
 ngrid: 12  # 2D -> 6 ; 3D -> 12 -- current code only for grid 12
 b: # list of grid distance; grid lattice constant for multibody interactions
-  - 0.2
+  - 0.02
 a: # list of grid off set angle
   - 0
 nitr: 1000 #  iterations to save paired time points with tau =0.0001 (e.g. ai at 0.1 -> 1000, ai at 0.01 -> 100; ai at 0.02 -> 200)
@@ -30,12 +30,12 @@ loss_weights: # loss = w1L1 +  w2L2 + w3L3 + w4L4 + w5L5 + w6L6 + w7L7 + w8L8
   - 0
   - 1
 
-ew: 1 # energey loss weight
-repw: 10 # repulsive loss weight
-poly_deg: 1 # polynomial based qloss, ploss term
+ew: 0 # energey loss weight
+repw: 0 # repulsive loss weight
+poly_deg: 4 # polynomial based qloss, ploss term
 maxlr: 0.00001 # lr = 1e-5
 region: 'lg' # phase region we are interested
-dpt_train: 90000 # train dataset
-dpt_valid: 10000 # valid dataset
+dpt_train: 4000 # train dataset
+dpt_valid: 400 # valid dataset
 start_epoch: 0 # if checkpoint exist, set start epoch from saved epoch number. otherwise start epoch=0
 loadfile: null  # null means None, if checkpoint exist, load it filename

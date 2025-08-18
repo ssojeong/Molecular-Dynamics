@@ -143,16 +143,17 @@ if __name__ == '__main__':
     gap = int(round(ratio))
     assert abs(ratio - gap) < 1e-9, f"target_dt/origin_dt must be integer; got {ratio}"
 
-    filename = '../../../Data/LLUF/520k.pt'
+    filename = '../../../Data/LLUF/520k_valid.pt'
     file = torch.load(filename)
     qp = rearrange(file['qp'][:, ::gap, :, :, :], 'traj tpts atom dim qp -> traj qp tpts atom dim')
     l = 2.2 * torch.ones(qp.size(0), 1, qp.size(2), qp.size(3), qp.size(4), dtype=qp.dtype, device=qp.device)   # box size 2.2
     qpl_trajectory = torch.cat((qp, l), dim=1)
     times = file['times'][::gap]
+    print('qpl_trajectory shape', qpl_trajectory.shape)
     data = {'qpl_trajectory': qpl_trajectory,
             'times': times,
             'traj_id': file['traj_id'],
             'atom_id': file['atom_id'],
             'tau_short': tau_short,
             'tau_long': tau_long}
-    torch.save(data, f'../../../Data/LLUF/520k_gap{gap}.pt')
+    torch.save(data, f'../../../Data/LLUF/520k_gap{gap}_valid.pt')
