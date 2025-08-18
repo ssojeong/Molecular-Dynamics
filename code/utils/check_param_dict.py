@@ -1,21 +1,23 @@
 import numpy as np
 
 def check_maindict(dict):
-
+    # 20250809
     tau_long = dict['tau_long']
-    tau_traj_len_max = int(64*tau_long) # 64 steps times tau_long
+    tau_traj_len_max = 64*tau_long # 64 steps times tau_long
     tau_traj_len=dict['tau_traj_len']
-    label_idx_max = 64
-    label_idx = int(tau_traj_len // tau_long)
+    saved_pair_steps = dict['saved_pair_steps']
+    label_idx_max = 180
+    traj_len_index = round(tau_traj_len / tau_long) * saved_pair_steps  # 20250809
+    label_idx = int((traj_len_index - saved_pair_steps) + dict['window_sliding'] * saved_pair_steps)
 
     assert (tau_traj_len <= tau_traj_len_max), 'trajectory len must be <=64'
     assert (tau_traj_len >= tau_long), 'trajectory len must be <= tau_long'
     #print([i*tau_long for i in range(label_idx_max+1) if i*tau_long % tau_long == 0])
-    assert (tau_traj_len in [i*tau_long for i in range(label_idx_max+1) if i*tau_long % tau_long == 0]), 'trajectory len must be multiplied by tau_long'
-    assert (tau_traj_len == label_idx * tau_long), 'label index multiplied by tau long must be trajectory len'
+    assert (tau_traj_len in [i*tau_long for i in range(label_idx_max) if i*tau_long % tau_long == 0]), 'trajectory len must be multiplied by tau_long'
+    assert (tau_traj_len == (traj_len_index // saved_pair_steps) * tau_long ), 'label index multiplied by tau long must be trajectory len'
     assert (isinstance(label_idx, int)), 'label idx needs to be integer'
     #assert (isinstance(tau_long, int)), 'tau_long needs to be integer'
-    assert (tau_long in [0.2, 0.4, 0.1, 0.125, 0.25, 0.5, 1, 2, 4, 8]), 'incorrect tau long'
+    assert (tau_long in [0.05, 0.02, 0.01, 0.1, 0.2, 0.4, 0.5, 1, 2, 4, 8]), 'incorrect tau long' # 20250813 add 0.05
     assert (tau_traj_len % tau_long == 0), 'incompatible traj_len and tau_long'
 
 def check_datadict(dict):
@@ -35,10 +37,12 @@ def check_traindict(dict,tau_long):
 
 def check_testdict(maindict):
 
-    traj_len_list = maindict["traj_len_list"]
-    tau_long_list = maindict["tau_long_list"]
+    tau_traj_len = maindict["tau_traj_len"]
 
-    end_traj_len_list = maindict["end_traj_len_list"]
+    # traj_len_list = maindict["traj_len"]
+    # tau_long_list = maindict["tau_long"]
+
+    # end_traj_len_list = maindict["end_traj_len_list"]
     #tau_traj_len_list = [i*j for i,j in zip(traj_len_list,tau_long_list)]
     tau_max = maindict["tau_max"]
 

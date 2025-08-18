@@ -27,10 +27,10 @@ class predicter:
 
         return q_input_list,p_input_list,q_cur,p_cur
     # ==========================================================
-    def eval(self,q_input_list,p_input_list,q_cur,p_cur,l_init,window_sliding, gamma, temp, tau_long):
+    def eval(self,q_input_list,p_input_list,q_cur,p_cur,l_init,window_sliding, gamma, temp):
 
         start_time = time.time()
-        q_input_list,p_input_list,q_predict,p_predict,l_init = self.mlvv.one_step(q_input_list,p_input_list,q_cur,p_cur,l_init, gamma, temp, tau_long)
+        q_input_list,p_input_list,q_predict,p_predict,l_init = self.mlvv.one_step(q_input_list,p_input_list,q_cur,p_cur,l_init, gamma, temp)
         # q_predict [nsamples,nparticles,dim]
         end_time = time.time()
 

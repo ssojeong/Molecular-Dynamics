@@ -86,7 +86,7 @@ if __name__ == '__main__' :
     for i in range(4):
         ax[3, i].set_xlabel('epochs', fontsize=15)
 
-    fig.suptitle("# {}".format(title), fontsize=15)
+    fig.suptitle("# {}".format(title), fontsize=12)
     plt.tight_layout()
     plt.show()
     plt.close()

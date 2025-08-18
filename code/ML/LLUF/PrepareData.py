@@ -7,7 +7,7 @@ from ML.LLUF.PsiFeatures import PsiFeatures
 
 from utils.pbc import pbc
 from utils.pbc import _delta_state
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt # 20250809 nscc no module ...
 
 class PrepareData(nn.Module):
 
@@ -49,10 +49,10 @@ class PrepareData(nn.Module):
     def prepare_q_feature_input(self, q_list, l_list):  # make dqdp for n particles
         ret = self.phi_features(q_list,l_list)
         # print('phi feature shape',ret.shape) # 20250803: print shape
-        return self.phi_features(q_list,l_list)
+        return ret
     # ===================================================
     def prepare_p_feature_input(self, q_list, p_list, l_list):  # make dqdp for n particles
         ret = self.psi_features(q_list,p_list,l_list)
         # print('psi feature shape',ret.shape) # 20250803: print shape
-        return self.psi_features(q_list,p_list,l_list)
+        return ret
 

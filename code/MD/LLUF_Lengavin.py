@@ -9,12 +9,13 @@ from utils.utils import assert_nan
 
 class LLUF_Lengavin(nn.Module):
 
-    def __init__(self,prepare_data, LLUF_update_p, LLUF_update_q, t_init=1, nnet=1):
+    def __init__(self,prepare_data, LLUF_update_p, LLUF_update_q, tau_long, t_init=1, nnet=1):
         super().__init__()
 
         self.prepare_data = prepare_data
         self.LLUF_update_p = LLUF_update_p
         self.LLUF_update_q = LLUF_update_q
+        self.tau_long = tau_long # 20250810 add tau_long
         self.tau_init = np.random.rand(nnet) * t_init  # change form 0.01 to 0.001
 
         self.tau = nn.Parameter(torch.tensor(self.tau_init, device=mydevice.get()))
@@ -24,7 +25,9 @@ class LLUF_Lengavin(nn.Module):
 
     # q_input_list [phi0,phi1,phi2,...] -- over time points
     # p_input_list [pi0,pi1,pi2,...]
-    def one_step(self,q_input_list,p_input_list,q_pre,p_pre,l_list, gamma=0, temp=0, tau_long=0.1):
+
+    # 20250810 tau_long -- remove tau_long
+    def one_step(self,q_input_list,p_input_list,q_pre,p_pre,l_list, gamma=0, temp=0):
 
         # q_input_list [phi0,phi1,phi2,...]  -- over time point
         # phi0.shape = [nsamples*nparticles, ngrids*DIM]
@@ -39,7 +42,7 @@ class LLUF_Lengavin(nn.Module):
 
         p_cur = p_pre + self.LLUF_update_p(q_input_list,p_input_list, q_cur) # SJ coord
 
-        p_cur = thermostat_ML(p_cur, gamma, temp, tau_long)
+        p_cur = thermostat_ML(p_cur, gamma, temp, self.tau_long)
 
         p_input_cur = self.prepare_data.prepare_p_feature_input(q_cur,p_cur,l_list)
         p_input_list.append(p_input_cur)

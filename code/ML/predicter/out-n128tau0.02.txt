@@ -1,0 +1,31 @@
+/home/project/13003073/SJ/lluf20250812/ML/predicter/rdf.py:133: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  data1 = torch.load(data["filename"], map_location=map_location)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			Resource Usage on 2025-08-16 22:47:47.529632:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	JobId: 74387.pbs111
+	Project: 13003073
+	Exit Status: 0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	NCPUs: Requested(14), Used(14)
+	CPU Time Used: 01:16:54
+	Memory: Requested(235gb), Used(10310720kb)
+	Vmem Used: 39457080kb
+	Walltime: Requested(24:00:00), Used(00:11:38)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Execution Nodes Used: (a2ap-dgx036:ngpus=1:ncpus=14:mem=246415360kb)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	GPU Duration: 11.68mins
+	GPU Power Consumed: 130.97W
+	GPU Max GPU Memory Used: 17.78GB
+	Memory Throughput Rate (Average): a2ap-dgx036:(gpu7:0%)
+	Memory Throughput Rate (Max): a2ap-dgx036:(gpu7:2%)
+	Memory Throughput Rate (Min): a2ap-dgx036:(gpu7:0%)
+	GPU SM Utilization (Average): a2ap-dgx036:(gpu7:6%)
+	GPU SM Utilization (Max): a2ap-dgx036:(gpu7:19%)
+	GPU SM Utilization (Min): a2ap-dgx036:(gpu7:0%)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Warning: None
+GPU application profile: Low
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

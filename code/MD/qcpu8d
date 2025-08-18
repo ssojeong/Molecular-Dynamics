@@ -1,0 +1,27 @@
+#!/bin/sh
+#PBS -q parallel
+#PBS -l nodes=1:slave:ppn=8
+####PBS -l nodes=1:jae20:ppn=8
+#PBS -N mdseed97
+#PBS -V 
+#PBS -r y
+
+cd $PBS_O_WORKDIR
+echo Time is `date`
+echo Directory is $PWD
+echo This job runs on following nodes:
+echo $PBS_NODEFILE
+
+
+#sleep 2
+######################################
+conda activate py37
+######################################
+
+./md_run.sh ../../data_sets/gen_by_MD/3d/n32rho0.85lt0.1stps 32 0.9 97 0  > log/n32rho0.85seed97
+#CUDA_VISIBLE_DEVICES='' python velocity_verlet_MD.py ../../data_sets/gen_by_MD/3d/noML-metric-lt0.02every1t1000/n32rho0.85T0.9/MD_config.dict 0 0.9 > log/n32rho0.85T0.9_tau0.02.log
+
+######################################
+conda deactivate
+######################################
+sleep 2

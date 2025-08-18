@@ -7,16 +7,17 @@ from data_loader.check_load_data import check_load_data
 # ===========================================================
 class torch_dataset(Dataset):
     'Characterizes a dataset for PyTorch'
-    def __init__(self, filename, traj_len_idx, label_idx):
+    def __init__(self, filename, traj_len_idx, saved_pair_steps, label_idx): # 20250809
         """
         Args:
             filename (string): Numpy file for data and label
         """
+
         qpl_list,tau_short,_ = data_io.read_trajectory_qpl(filename) # returns qpl,tau_short,tau_long
         # qpl_list.shape = [nsamples, (q,p,boxsize)=3, trajectory, nparticles, DIM = 2 or 3]
-        self.qpl_list_input   = qpl_list[:,:,0:traj_len_idx,:,:]
+        self.qpl_list_input   = qpl_list[:,:,0:traj_len_idx:saved_pair_steps,:,:] # 20250809 to adjust tau_long
         # qp_list_input.shape = [nsamples, (q,p,boxsize)=3, trajectory, nparticles, DIM = 2 or 3]
-        self.qpl_list_label   = qpl_list[:,:,traj_len_idx:label_idx+1,:,:]
+        self.qpl_list_label   = qpl_list[:,:,traj_len_idx:label_idx+saved_pair_steps:saved_pair_steps,:,:] # 20250809 to adjust tau_long
         # qp_list_label.shape is [nsamples,nparticles,DIM = 2 or 3]
         self.data_boxsize   =  qpl_list[:,2,0,:,:]
         #data_boxsize.shape is [nsamples,nparticles,DIM = 2 or 3]
@@ -39,19 +40,21 @@ class torch_dataset(Dataset):
 
 # ===========================================================
 class my_data:
-    def __init__(self,train_filename,val_filename,test_filename,tau_long, window_sliding,
-                      tau_traj_len,train_pts=0,val_pts=0,test_pts=0):
+    def __init__(self,train_filename,val_filename,test_filename,tau_long, window_sliding, saved_pair_steps,
+                      tau_traj_len,train_pts=0,val_pts=0,test_pts=0): # 20250809
 
-        traj_len_index = round(tau_traj_len/tau_long)
-        label_index = int((traj_len_index - 1) + window_sliding)
+        # 20250809 to adjust tau_long
+        traj_len_index = round(tau_traj_len/tau_long) * saved_pair_steps
+        label_index = int((traj_len_index - saved_pair_steps) + window_sliding * saved_pair_steps)
+        print('tau_traj_len',tau_traj_len, 'tau_long', tau_long, 'saved_pair_steps', saved_pair_steps)
         print('load my data ... traj len index', traj_len_index, 'window sliding', window_sliding, 'label index', label_index)
 
         print("load train set .........")
-        self.train_set = torch_dataset(train_filename, traj_len_index, label_index)
+        self.train_set = torch_dataset(train_filename, traj_len_index, saved_pair_steps, label_index)
         print("load valid set .........")
-        self.val_set   = torch_dataset(val_filename, traj_len_index, label_index)
+        self.val_set   = torch_dataset(val_filename, traj_len_index, saved_pair_steps, label_index)
         print("load test set .........")
-        self.test_set  = torch_dataset(test_filename, traj_len_index, label_index)
+        self.test_set  = torch_dataset(test_filename, traj_len_index, saved_pair_steps, label_index)
 
         # perform subsampling of data when specified
         # this is important when we need to perform quick debugging with

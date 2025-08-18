@@ -1,0 +1,35 @@
+net_type: api0lw8421ew1repw10poly1l  # part of save filename
+single_parnet_type: transformer_type # single particle neural network type
+multi_parnet_type: gnn_identity # multi particle neural network type
+readout_net_type: mlp_type # readout neural network type
+trans_layer: 2  # transformer layer
+gnn_layer: 2  # graph neural network layer
+nnode: 128 # number of nodes in neural nets (use pwnet, readout net)
+tau_long: 0.05 # LUFnet time step size -- 0.05, 0.02, 0.01
+saved_pair_steps: 5  # saved time point to adjust tau_long e.g. tau_long=0.01 -> 1; tau_long=0.02 -> 2; tau_long=0.05 -> 5
+nitr: 500 #  iterations to save paired time points with tau =0.0001 (e.g. ai at 0.01 -> 100; ai at 0.02 -> 200; ai at 0.05 -> 500)
+window_sliding: 8 # number of time points to do integration to calculate the loss
+batch_size: 16
+ngrid: 12  # 2D -> 6 ; 3D -> 12 -- current code only for grid 12
+b: # list of grid distance; grid lattice constant for multibody interactions
+  - 0.2
+a: # list of grid off set angle
+  - 0
+loss_weights: # loss = w1L1 +  w2L2 + w3L3 + w4L4 + w5L5 + w6L6 + w7L7 + w8L8
+  - 0
+  - 0.125
+  - 0
+  - 0.25
+  - 0
+  - 0.5
+  - 0
+  - 1
+ew: 1 # energey loss weight
+repw: 10 # repulsive loss weight
+poly_deg: 1 # polynomial based qloss, ploss term
+maxlr: 0.00001 # lr = 1e-5
+region: l # phase region we are interested
+dpt_train: 45000 # train dataset
+dpt_valid: 5000 # valid dataset
+start_epoch: 0 # if checkpoint exist, set start epoch from saved epoch number. otherwise start epoch=0
+loadfile: results/traj_len08ws08tau0.05ngrid12api0lw8421ew1repw10poly1l_dpt180000/mbpw000071.pth  # null means None, if checkpoint exist, load it filename

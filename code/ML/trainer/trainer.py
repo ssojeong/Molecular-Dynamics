@@ -47,7 +47,7 @@ class trainer:
         self.LLUF_update_q_obj = HalfStepUpdate(self.prepare_data_obj, single_particle_net_list[1],
                                 multi_particle_gnn_net_list[1], readout_step_mlp_net_list[1],train_dict["tau_init"])
 
-        self.mlvv = LLUF_Lengavin(self.prepare_data_obj, self.LLUF_update_p_obj,self.LLUF_update_q_obj)
+        self.mlvv = LLUF_Lengavin(self.prepare_data_obj, self.LLUF_update_p_obj,self.LLUF_update_q_obj,train_dict['tau_long']) # 20250810 tau_long
         # # 3 tau here. tau[0] for update p, tau[1],tau[2] for update q
 
         self.tau_params = [self.LLUF_update_p_obj.tau, self.LLUF_update_q_obj.tau,self.mlvv.tau] # for printing
@@ -92,10 +92,10 @@ class trainer:
         p_input_list = []
         # append over trajectory length
         for q,p in zip(q_traj_list,p_traj_list):
+
             # q,p shape [nsamples,nparticles,dim]
             q_input_list.append(self.prepare_data_obj.prepare_q_feature_input(q,l_init))
             p_input_list.append(self.prepare_data_obj.prepare_p_feature_input(q,p,l_init))
-
 
         loss_val = 0
 
@@ -105,9 +105,10 @@ class trainer:
             # phi is function of q at grid point as input for mb-net, dq is input for pw-net
             # p_input_list  [(pi0,dp0),(pi1,dp1),(pi2,dp2),...]
             # pi is momentum at grid point as input for mb-net, dp is input for pw-net
+
             q_input_list,p_input_list,q_predict,p_predict,l_init = self.mlvv.nsteps(q_input_list,p_input_list,q_cur,p_cur,
                                                      l_init)
-    
+
             loss_val += self.loss_obj.eval(q_predict,p_predict,q_label[:,ws],p_label[:,ws],q_traj_list[-1],p_traj_list[-1],l_init,self.weights[ws])
 
             q_cur = q_predict
@@ -209,7 +210,7 @@ class trainer:
 
 
         # this network is use for prepare_q_input for mb
-        prepare_data_net = mydevice.load(PWNet(1,pw4mb_dim,train_dict["pw4mb_nnodes"],train_dict['net_nnodes']))
+        prepare_data_net = mydevice.load(PWNet(1,pw4mb_dim,train_dict["pw4mb_nnodes"],train_dict['init_weights']))
 
         if train_dict["multi_particle_net_type"] == 'gnn_identity':
 

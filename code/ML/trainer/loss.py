@@ -115,7 +115,7 @@ class loss:
         self.loss_dict["*relurep"].append(relurep.item())
         self.loss_dict["rep"].append(rep.item())
         self.loss_dict["poly"].append(self.poly_deg)
-  
+
         return weight*total
 
     # =============================================================

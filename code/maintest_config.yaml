@@ -1,0 +1,31 @@
+net_type: api0lw8421ew1repw10poly1l  # part of save filename
+single_parnet_type: transformer_type # single particle neural network type
+multi_parnet_type: gnn_identity # multi particle neural network type
+readout_net_type: mlp_type # readout neural network type
+npar: 128
+rho: 0.85
+temp: 0.9
+region: l # phase region we are interested
+gamma: 20
+tau_long: 0.02 # LUFnet time step size
+saved_pair_steps: 2  # saved time point to adjust tau_long e.g. paired every 1 step for ai model at 0.01
+ml_steps: 5000 # num of predicted steps
+append_strike: 5 # saved time point steps (every t=1) for ai 0.05 > 2; 0.02 -> 5; ai 0.01 -> 10
+nitr: 200 #  # use to check nitr % maindict['append_strike'] == 0 ; tau_long == maindict['append_strike'] * tau_short
+window_sliding: 8 # number of time points to do integration to calculate the loss
+dpt: 180000 # train dataset for filename
+num_saved: '101'
+ngrid: 12  # 2D -> 6 ; 3D -> 12 -- current code only for grid 12
+b: # list of grid distance; grid lattice constant for multibody interactions
+  - 0.2
+a: # list of grid off set angle
+  - 0
+loss_weights: # loss = w1L1 +  w2L2 + w3L3 + w4L4 + w5L5 + w6L6 + w7L7 + w8L8
+  - 0
+  - 0.125
+  - 0
+  - 0.25
+  - 0
+  - 0.5
+  - 0
+  - 1

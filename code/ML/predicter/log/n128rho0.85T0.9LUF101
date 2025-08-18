@@ -1,0 +1,17 @@
+device singleton constructed for  cuda
+pid :  4015073
+uname :  uname_result(system='Linux', node='a2ap-dgx036', release='5.15.0-1076-nvidia', version='#77-Ubuntu SMP Tue Mar 25 23:43:36 UTC 2025', machine='x86_64')
+code run start time  20250816, 22:36:10
+device singleton constructed for  cuda
+run ml data  .......
+load file {'filename': '../../../data_sets/gen_by_ML/3d/lt0.02dpt180000_l/n128rho0.85T0.9/pred_n128len08ws08gamma20LUF101_tau0.02.pt', 'saved_dir': '../../../data_sets/gen_by_ML/3d/lt0.02dpt180000_l/n128rho0.85T0.9/'}
+shape torch.Size([1000, 3, 1001, 128, 3])
+saved dir.... ../../../data_sets/gen_by_ML/3d/lt0.02dpt180000_l/n128rho0.85T0.9/
+samples 0 .... 1000
+qpl traj shape torch.Size([1000, 3, 1001, 128, 3]) saved_tp  1000
+shape torch.Size([1000, 1001, 128, 3]) torch.Size([1000, 1001, 128, 3]) tensor(5.3202, device='cuda:0', dtype=torch.float64)
+boxsize 5.320229267425985 maximum distance dq = 4.61, dq^2 = 21.23
+boxsize 5.320229267425985 grdelta 0.06 grbinmax 44 saved_tp 1000
+samples 0 .... 1000
+min r 0.81 max r 2.61
+save dir.... ../../../data_sets/gen_by_ML/3d/lt0.02dpt180000_l/n128rho0.85T0.9/rij_gr_gamma20LUF101.pt

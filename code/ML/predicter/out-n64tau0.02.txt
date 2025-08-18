@@ -1,0 +1,31 @@
+/home/project/13003073/SJ/lluf20250812/ML/predicter/rdf.py:133: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  data1 = torch.load(data["filename"], map_location=map_location)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			Resource Usage on 2025-08-16 22:35:37.000193:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	JobId: 74386.pbs111
+	Project: 13003073
+	Exit Status: 0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	NCPUs: Requested(14), Used(14)
+	CPU Time Used: 00:34:57
+	Memory: Requested(235gb), Used(9256152kb)
+	Vmem Used: 29152412kb
+	Walltime: Requested(24:00:00), Used(00:02:40)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Execution Nodes Used: (a2ap-dgx040:ngpus=1:ncpus=14:mem=246415360kb)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	GPU Duration: 2.73mins
+	GPU Power Consumed: 111.5W
+	GPU Max GPU Memory Used: 9.19GB
+	Memory Throughput Rate (Average): a2ap-dgx040:(gpu0:0%)
+	Memory Throughput Rate (Max): a2ap-dgx040:(gpu0:1%)
+	Memory Throughput Rate (Min): a2ap-dgx040:(gpu0:0%)
+	GPU SM Utilization (Average): a2ap-dgx040:(gpu0:6%)
+	GPU SM Utilization (Max): a2ap-dgx040:(gpu0:10%)
+	GPU SM Utilization (Min): a2ap-dgx040:(gpu0:0%)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Warning: None
+GPU application profile: Low
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

@@ -2,7 +2,7 @@ import torch
 import os
 import numpy as np
 import sys
-
+import yaml
 # from torchviz import make_dot
 
 from ML.trainer.trainer import trainer
@@ -24,71 +24,37 @@ def main():
     torch.manual_seed(34952)
     np.random.seed(34952)
 
-    argv = sys.argv
-    if len(argv) != 25:
-        print('usage <programe> <net type> <single net type> \
-              <multi net type> <readout net type> <trans layer> <gnn layer> \
-              <nnode> <tau_long> <window sliding> <batchsize> <ngrid> <b> <a> \
-              <nitr> <loss weight> <ew> <repw> <poly_deg> <lr> <region> <dpt_train> <dpt_valid> \
-              <start epoch> <filename>' )
-        quit()
-
-    net_type = argv[1]
-    single_parnet_type = argv[2]
-    multi_parnet_type = argv[3]
-    readout_net_type = argv[4]
-    trans_layer = int(argv[5])
-    gnn_layer = int(argv[6])
-    nnode = int(argv[7])
-    tau_long = float(argv[8])
-    window_sliding = int(argv[9])
-    batch_size = int(argv[10])
-    ngrid = int(argv[11])
-    b = argv[12].split(',')
-    a = argv[13].split(',')
-    nitr = int(argv[14])
-    loss_weights = argv[15].split(',')
-    ew = int(argv[16])
-    repw = int(argv[17])
-    poly_deg = int(argv[18])
-    maxlr = float(argv[19])
-    region = argv[20]
-    dpt_train = int(argv[21])
-    dpt_valid = int(argv[22])
-    start_epoch = int(argv[23])
-    loadfile = argv[24]
-
-
-    for i in range(len(loss_weights)):
-        if isinstance(loss_weights[i], float):
-            loss_weights[i] = float(loss_weights[i])
-        else:
-            loss_weights[i] = eval(loss_weights[i])
-
-    for i in range(len(b)):
-        if isinstance(b[i], float):
-            b[i] = float(b[i])
-        else:
-            b[i] = eval(b[i],{'np':np})
-
-    for i in range(len(a)):
-
-        if isinstance(a[i], float):
-            a[i] = float(a[i])
-        else:
-            a[i] = eval(a[i],{'np':np})
-
-
-    if loadfile.strip() == "None":
-       loadfile = None
-    else:
-       loadfile = loadfile.strip()
+    net_type = args['net_type']
+    single_parnet_type = args['single_parnet_type']
+    multi_parnet_type = args['multi_parnet_type']
+    readout_net_type = args['readout_net_type']
+    trans_layer = args['trans_layer']
+    gnn_layer = args['gnn_layer']
+    nnode = args['nnode']
+    tau_long = args['tau_long']
+    saved_pair_steps = args['saved_pair_steps']
+    window_sliding = args['window_sliding']
+    batch_size = args['batch_size']
+    ngrid = args['ngrid']
+    b = args['b']
+    a = args['a']
+    nitr = args['nitr']
+    loss_weights = args['loss_weights']
+    ew = args['ew']
+    repw = args['repw']
+    poly_deg = args['poly_deg']
+    maxlr = args['maxlr']
+    region = args['region']
+    dpt_train = args['dpt_train']
+    dpt_valid = args['dpt_valid']
+    start_epoch = args['start_epoch']
+    loadfile = args['loadfile']
 
     traindict = {"loadfile"     : loadfile,  # to load previously trained model
                  "net_nnodes"   : nnode,   # number of nodes in neural nets
                  "pw4mb_nnodes" : 128,   # number of nodes in neural nets
                  "pw_output_dim" : 3, # 20250803: change from 2D to 3D, psi
-                 "init_weights"   : 'tanh', #relu
+                 "init_weights"   : 'relu', #relu
                  "optimizer" : 'Adam',
                  "single_particle_net_type" : single_parnet_type,         
                  "multi_particle_net_type"  : multi_parnet_type,        
@@ -102,6 +68,7 @@ def main():
                  "grad_clip"    : 0.5,    # clamp the gradient for neural net parameters
                  "tau_traj_len" : 8 * tau_long,  # n evaluations in integrator
                  "tau_long"     : tau_long,
+                 "saved_pair_steps" : saved_pair_steps, # 20250809 in the saved time points, pair every steps with ai model time step size
                  "loss_weights"  : loss_weights,
                  "window_sliding" : window_sliding,  # number of times to do integration before cal the loss
                  "ngrids"       : ngrid,   # 6*len(b_list)
@@ -122,23 +89,22 @@ def main():
                  "e_weight"          : ew,
                  "reg_weight"        : repw}
 
-    data = {"train_file": '../data_sets/gen_by_MD/3d/n32lt{}stpstraj18_l_dpt100.pt'.format(tau_long),
-            "valid_file": '../data_sets/gen_by_MD/3d/n32lt{}stpstraj18_l_dpt10.pt'.format(tau_long),
-            "test_file": '../data_sets/gen_by_MD/3d/n32lt{}stpstraj18_l_dpt10.pt'.format(tau_long),
-            "train_pts" : 10,
-            "vald_pts"  : 10,
-            "test_pts"  : 10,
+    data = {"train_file": '../data_sets/gen_by_MD/3d/n64lt0.1stpstraj180_l_dpt45000.pt', # 20250809
+            "valid_file": '../data_sets/gen_by_MD/3d/n64lt0.1stpstraj180_l_dpt5000.pt',
+           "test_file": '../data_sets/gen_by_MD/3d/n64lt0.1stpstraj180_l_dpt5000.pt',
+            "train_pts" : dpt_train,
+            "vald_pts"  : dpt_valid,
+            "test_pts"  : dpt_valid,
              "batch_size": batch_size,
              "window_sliding"   : traindict["window_sliding"] }
 
     maindict = { "start_epoch"     : start_epoch,
-                 "end_epoch"       : 10,
-                 # "save_dir"        : './results/traj_len08ws0{}tau{}ngrid{}{}_dpt{}'.format(window_sliding,traindict["tau_long"],ngrid,net_type,dpt_train),
-                 "save_dir"        : './results',
+                 "end_epoch"       : 10000,
+                  "save_dir"        : './results/traj_len08ws0{}tau{}ngrid{}{}_dpt{}'.format(window_sliding,traindict["tau_long"],ngrid,net_type,dpt_train),
                  "tau_short"       : 1e-4,
-                 "nitr"            : nitr, # for check md trajectories
-                 "append_strike"   : nitr, # for check md trajectories
-                 "ckpt_interval"   : 1, # for check pointing
+                 "nitr"            : nitr, # for check md trajectories # 1000 for ai tau 0.1; 100 for ai tau 0.01
+                 "append_strike"   : nitr, # for check md trajectories e.g. based on ground truth tau 0.0001, 100 for tau=0.01, 1000 for tau=0.1
+                 "ckpt_interval"   : 10, # for check pointing
                  "val_interval"    : 1, # no use of valid for now
                  "verb"            : 1  } # peroid for printing out losses
 
@@ -155,9 +121,9 @@ def main():
     print('end   ------- check param dict -------- ')
 
     data_set = my_data(data["train_file"],data["valid_file"],data["test_file"],
-                       traindict["tau_long"],traindict["window_sliding"],traindict["tau_traj_len"],
-                       data["train_pts"],data["vald_pts"],data["test_pts"])
-    loader = data_loader(data_set, data["batch_size"])
+                       traindict["tau_long"],traindict["window_sliding"],traindict["saved_pair_steps"],
+                       traindict["tau_traj_len"],data["train_pts"],data["vald_pts"],data["test_pts"])
+    loader = data_loader(data_set, data["batch_size"])  # 20250908
 
     #utils.check_data(loader,data_set,traindict["tau_traj_len"],
     #           traindict["tau_long"],maindict["tau_short"],
@@ -207,9 +173,8 @@ def main():
 
     system_logs.print_end_logs()
 
-# python maintrain09.py api0lw8421ew1repw10poly1lowrho transformer_type gnn_identity mlp_type
-# 2 2 128 0.1 8 10 6 0.2 0 1000 0,1/8,0,1/4,0,1/2,0,1 1 10 1 1e-5 g 540000 60000 0 None
 if __name__=='__main__':
+    yaml_config_path = 'main_config.yaml'
+    with open(yaml_config_path, 'r') as f:
+        args = yaml.load(f, Loader=yaml.Loader)
     main()
-
-
