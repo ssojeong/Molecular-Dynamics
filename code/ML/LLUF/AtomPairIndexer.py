@@ -180,9 +180,9 @@ class AtomPairIndexer:
         batch_idx = torch.arange(B, device=dist_mat.device).view(-1, 1).expand(-1, rows.numel())
 
         # Write all groups/features at once with ":" on the last dim
-        print('!!!! grad before indexed r', out.requires_grad, dist_mat.requires_grad)
+        # print('!!!! grad before indexed r', out.requires_grad, dist_mat.requires_grad)
         out[batch_idx, rows, cols, ch, :] = dist_mat[:, rows, cols, :]
-        print('!!!! grad after indexed r', out.requires_grad, dist_mat.requires_grad)
+        # print('!!!! grad after indexed r', out.requires_grad, dist_mat.requires_grad)
 
         # ---- Sanity checks (numerical) ----
         # 1) Sum over channels (dim=3) should reconstruct dist_mat within tolerance for every group

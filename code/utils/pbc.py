@@ -4,24 +4,25 @@ import numpy as np
  
 # ======================================================
 def pbc(q_list,l_list):
-    #print('pbc: q list shape ',q_list.shape)
-    idx = torch.where(torch.abs(q_list)>0.5*l_list)
-    #print('idx ',idx)
+    # print('pbc: q list shape ',q_list.shape)
+    idx = torch.where(torch.abs(q_list) > 0.5*l_list)
+    # print('idx ',idx)
     q_list[idx] = q_list[idx] - torch.round(q_list[idx]/l_list[idx])*l_list[idx]
     return q_list
 # ======================================================
 # calculate the differences in position of two samples with pbc applied
 # this code is use to calcualte the qloss
 
+
 def single_particle_dq_pbc(q_list0,q_list1,l_list):
 
     dq = q_list0-q_list1
-    #print('q list shape ',q_list0.shape,q_list1.shape)
-    return pbc(dq,l_list)
+    # print('q list shape ',q_list0.shape,q_list1.shape)
+    return pbc(dq, l_list)
+
 
 # ======================================================
 # calculate all pairwise vector of many particles in a box
-#
 def pairwise_dq_pbc(q_list, l_list):
 
     dq_list = _delta_state(q_list)
@@ -35,6 +36,8 @@ def pairwise_dq_pbc(q_list, l_list):
     dq_list[indices] = dq_list[indices] - torch.round(dq_list[indices] / llistm[indices]) * llistm[indices]
 
     return dq_list # shape = [nsamples,nparticles,nparticles,dim]
+
+
 # ======================================================
 def _delta_state(state_list):
     state_len = state_list.shape[1]  # nparticle
@@ -50,10 +53,11 @@ def _delta_state(state_list):
     dstate = statet - statem
     # shape is [nsamples, nparticle, nparticle, DIM] [[q1-q1, q1-q2, q1-q3, q1-q4],...,[q4-q1, q4-q2, q4-q3, q4-q4]]
     return dstate # shape = [nsamples,nparticles,nparticles,dim]
-# ======================================================
 
+
+# ======================================================
 def check_pairwise_dq_pbc():
-    nsamples = 10  #100
+    nsamples = 10  # 100
     nparticles = 3
     dim = 2
     eps = 5e-7

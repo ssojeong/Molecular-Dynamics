@@ -46,9 +46,9 @@ class isocahedron:
 
         q_list = torch.unsqueeze(q, dim=2)
         # q_list.shape is [nsamples, nparticles, 1, DIM=(x coord, y coord, z coord)]
-        print('all grids shape', self.all_grids.shape,
-              'sum of 12 grids', torch.sum(self.all_grids, dim=0).cpu().numpy(),
-              'norm distance of each grid to center', torch.norm(self.all_grids, dim=-1).cpu().numpy())
+        # print('all grids shape', self.all_grids.shape,
+        #       'sum of 12 grids', torch.sum(self.all_grids, dim=0).cpu().numpy(),
+        #       'norm distance of each grid to center', torch.norm(self.all_grids, dim=-1).cpu().numpy())
         # print('q list shape', q_list.shape)
         grids_ncenter = self.all_grids + q_list  # broadcast
         # all_grids.shape = [12,3] = [ngrids, 3]

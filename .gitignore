@@ -2,7 +2,7 @@
 __pycache__/
 *.pyc
  
-#Ignore Zone.Identifier files from WSL
+# Ignore Zone.Identifier files from WSL
 *:Zone.Identifier
 
 # Ignore macOS files
@@ -11,3 +11,4 @@ __pycache__/
 # Ignore NSCC related files
 out.txt
 jobsub.sh
+*.log
