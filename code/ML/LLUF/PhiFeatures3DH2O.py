@@ -116,44 +116,44 @@ class PhiFeatures:
 
         # all list dimensionless
         q_state = torch.unsqueeze(q, dim=2)
-        atom_pair_dis = torch.norm(q[:, None] - q[:, :, None], dim=-1)
-        print(q.shape, atom_pair_dis.shape)
-        for i in range(atom_pair_dis.size(1)):
-            atom_pair_dis[:, i, i] = 1
-        print('atom pair distance min:', atom_pair_dis.min(), 'max:', atom_pair_dis.max())
+        # atom_pair_dis = torch.norm(q[:, None] - q[:, :, None], dim=-1)
+        # print(q.shape, atom_pair_dis.shape)
+        # for i in range(atom_pair_dis.size(1)):
+        #     atom_pair_dis[:, i, i] = 1
+        # print('atom pair distance min:', atom_pair_dis.min(), 'max:', atom_pair_dis.max())
         # shape is [nsamples, nparticles, 1, DIM=(x,y)]
 
         uli_list = torch.unsqueeze(uli_list, dim=1)
         # shape is [nsamples, 1, nparticles * ngrids, DIM=(x,y)]
 
-        print(q_state.shape, uli_list.shape)
+        # print(q_state.shape, uli_list.shape)
         paired_grid_q = uli_list - q_state
         # paired_grid_q.shape is [nsamples, nparticles, nparticles * ngrids, DIM]
         # print('diff',paired_grid_q)
 
-        print('before pbc', paired_grid_q.min().item(), paired_grid_q.abs().max().item())
+        # print('before pbc', paired_grid_q.min().item(), paired_grid_q.abs().max().item())
         pbc(paired_grid_q, l_list)
-        print('after pbc', paired_grid_q.min().item(), paired_grid_q.abs().max().item())
+        # print('after pbc', paired_grid_q.min().item(), paired_grid_q.abs().max().item())
 
         r_square = torch.sum(paired_grid_q * paired_grid_q, dim=-1)
 
-        r_norm = torch.norm(paired_grid_q, dim=-1)
-        min_val, min_idx = torch.min(r_norm.reshape(-1), dim=0)  # along last axis (288)
-        min_row = min_idx // 288
-        min_col = min_idx % 288
-        print("min val", min_val, "min idx", min_row, min_col)
-        print(r_norm[0, min_row, min_col])
-        print('q_state', q_state[0, min_row, 0, :])
-        print('u_list', uli_list[0, 0, min_col, :])
-        print('u_center', q_state[0, min_col//12, 0, :])
-        a = q_state[0, min_row, 0, :] - uli_list[0, 0, min_col, :]
-        b = q_state[0, min_row, 0, :] - q_state[0, min_col//12, 0, :]
-        c = uli_list[0, 0, min_col, :] -q_state[0, min_col//12, 0, :]
-        print(torch.norm(a).item(), torch.norm(b).item(), torch.norm(c).item())
-
-        print('atom grid dist', r_norm.min().item(), r_norm.max().item())
-        print('r_square', r_square.min().item(), r_square.max().item())
-        assert torch.min(r_square) > 0.0004 * 0.9, f'Min value of dq_sq {torch.min(r_square).item()},'
+        # r_norm = torch.norm(paired_grid_q, dim=-1)
+        # min_val, min_idx = torch.min(r_norm.reshape(-1), dim=0)  # along last axis (288)
+        # min_row = min_idx // 288
+        # min_col = min_idx % 288
+        # print("min val", min_val, "min idx", min_row, min_col)
+        # print(r_norm[0, min_row, min_col])
+        # print('q_state', q_state[0, min_row, 0, :])
+        # print('u_list', uli_list[0, 0, min_col, :])
+        # print('u_center', q_state[0, min_col//12, 0, :])
+        # a = q_state[0, min_row, 0, :] - uli_list[0, 0, min_col, :]
+        # b = q_state[0, min_row, 0, :] - q_state[0, min_col//12, 0, :]
+        # c = uli_list[0, 0, min_col, :] -q_state[0, min_col//12, 0, :]
+        # print(torch.norm(a).item(), torch.norm(b).item(), torch.norm(c).item())
+        #
+        # print('atom grid dist', r_norm.min().item(), r_norm.max().item())
+        # print('r_square', r_square.min().item(), r_square.max().item())
+        # assert torch.min(r_square) > 0.0004 * 0.9, f'Min value of dq_sq {torch.min(r_square).item()},'
         # dd.shape is [nsamples, nparticles, nparticles * ngrids]
         # print('sq sum',dd)
 

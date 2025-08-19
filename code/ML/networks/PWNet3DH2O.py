@@ -44,11 +44,11 @@ class PWNet3DH2O(nn.Module):
          mask: (nsamples * nparticles * nparticles, input_dim * hidden_dims[-1], ngrids)
          return: (nsamples * nparticles * nparticles, output_dim, ngrids)
          """
-        mask = (x > 0.000001).float()
+        mask = (x > 0).float()
         assert torch.sum(mask) == x.size(0) * x.size(2),\
             f'ones in mask should be {x.size(0) * x.size(2)}, got {torch.sum(mask)}'
         mask = mask.repeat_interleave(self.channel_per_group, dim=1)
-        r_square = x
+        w = self.factor(torch.sum(torch.relu(x), dim=1)).unsqueeze(1)
         for m in self.group_convs:
             x = m(x)
             x = torch.relu(x)
@@ -56,7 +56,7 @@ class PWNet3DH2O(nn.Module):
         x = self.last_layer(x)
         x = torch.tanh(x)   # shape: (nsamples * nparticles * nparticles, output_dim, ngrids)
         # r_square must be [ 0, 0, r, 0, ...
-        w = self.factor(torch.sum(r_square, dim=1)).unsqueeze(1)
+
         # w shape: (nsamples * nparticles * nparticles, 1, ngrids)
         # print(x.shape, w.shape)
         return x * w

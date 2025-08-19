@@ -30,7 +30,7 @@ loss_weights: # loss = w1L1 +  w2L2 + w3L3 + w4L4 + w5L5 + w6L6 + w7L7 + w8L8
   - 0
   - 1
 
-ew: 0 # energey loss weight
+ew: 0 # energy loss weight
 repw: 0 # repulsive loss weight
 poly_deg: 4 # polynomial based qloss, ploss term
 maxlr: 0.00001 # lr = 1e-5

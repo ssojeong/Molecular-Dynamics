@@ -62,8 +62,8 @@ def main():
                  "multi_particle_net_type"  : multi_parnet_type,        
                  "readout_step_net_type"    : readout_net_type,       
                  "n_encoder_layers" : trans_layer,
-                 "n_gnn_layers" : gnn_layer,
-                 "edge_attention" : True,
+                 "n_gnn_layers"     : gnn_layer,
+                 "edge_attention"   : True,
                  "d_model"      : 256,
                  "nhead"        : 8,
                  "net_dropout"  : 0.0,    # 1: all zero ; 0 : not dropout ; 0.9 : 90% zero
@@ -74,16 +74,10 @@ def main():
                  "window_sliding": window_sliding,  # number of times to do integration before cal the loss
                  "ngrids"       : ngrid,   # 6*len(b_list)
                  "b_list"       : b,       # grid lattice constant for multibody interactions
-                 "a_list"       : a,       #[np.pi/8], #
+                 "a_list"       : a,       # [np.pi/8]
                  "maxlr"        : maxlr,   # starting learning rate # HK
                  "tau_init"     : 1,       # starting learning rate
                  }
-
-    window_sliding_list = [1, 2, 3, 4, 5, 7, 8, 9, 10, 12, 14, 16]
-
-    if traindict["window_sliding"] not in window_sliding_list:
-        print('window_sliding is not valid, need ', window_sliding_list)
-        quit()
 
     lossdict = {"polynomial_degree": poly_deg,
                 "rthrsh"           : 0.7,
@@ -108,7 +102,7 @@ def main():
                  "append_strike"   : nitr, # for check md trajectories
                  "ckpt_interval"   : 1, # for check pointing
                  "val_interval"    : 1, # no use of valid for now
-                 "verb"            : 1  } # peroid for printing out losses
+                 "verb"            : 1  } # period for printing out losses
 
     utils.print_dict('trainer', traindict)
     utils.print_dict('loss', lossdict)
@@ -123,7 +117,7 @@ def main():
 
     data_set = my_data(data["train_file"], data["valid_file"], data["test_file"],
                        traindict["tau_long"], traindict["window_sliding"], traindict["tau_traj_len"],
-                       data["train_pts"],data["vald_pts"],data["test_pts"])
+                       data["train_pts"], data["vald_pts"], data["test_pts"])
     loader = data_loader(data_set, data["batch_size"])
 
     # utils.check_data(loader,data_set,traindict["tau_traj_len"],
@@ -150,11 +144,12 @@ def main():
 
             train.one_step(q_traj, p_traj, q_label, p_label, l_init)
             cntr += 1
-            if cntr%10==0: print('.', end='', flush=True)
+            if cntr % 10 == 0:
+                print('.', end='', flush=True)
 
-        print(cntr,'batches \n')
+        print(cntr, 'batches \n')
 
-        if e%maindict["verb"] == 0:
+        if e % maindict["verb"] == 0:
             train.verbose(e+1, 'train')
             system_logs.record_memory_usage(e+1)
             print('time use for ', maindict["verb"], 'epoches is: ', end='')

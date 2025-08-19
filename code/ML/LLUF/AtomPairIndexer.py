@@ -172,18 +172,21 @@ class AtomPairIndexer:
         ch = self.ch_flat.to(device=dist_mat.device)  # (M,)
 
         # Allocate output
-        out = torch.zeros((B, N, N, 8, G), dtype=dist_mat.dtype, device=dist_mat.device)
+        # out = torch.zeros((B, N, N, 8, G), dtype=dist_mat.dtype, device=dist_mat.device)
+        out = -1 * torch.ones((B, N, N, 8, G), dtype=dist_mat.dtype, device=dist_mat.device)
 
         # Batch-wise advanced indexing
         # batch_idx: (B, M) pairs each batch with all (row,col,channel) indices
         batch_idx = torch.arange(B, device=dist_mat.device).view(-1, 1).expand(-1, rows.numel())
 
         # Write all groups/features at once with ":" on the last dim
+        print('!!!! grad before indexed r', out.requires_grad, dist_mat.requires_grad)
         out[batch_idx, rows, cols, ch, :] = dist_mat[:, rows, cols, :]
+        print('!!!! grad after indexed r', out.requires_grad, dist_mat.requires_grad)
 
         # ---- Sanity checks (numerical) ----
         # 1) Sum over channels (dim=3) should reconstruct dist_mat within tolerance for every group
-        sum_ch = out.sum(dim=3)  # (B,N,N,G)
+        sum_ch = torch.relu(out).sum(dim=3)  # (B,N,N,G)
         torch.testing.assert_close(
             sum_ch, dist_mat, msg="Channel-sum (over 8) should equal dist_mat within tolerance"
         )
@@ -191,6 +194,9 @@ class AtomPairIndexer:
 
 
 if __name__ == "__main__":
+    import os
+
+    os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
     # build indexer (assumes your class has batch-aware fill_tensor: (B,N,N) -> (B,N,N,8))
     n_mol = 8  # → N = 24 atoms
     indexer = AtomPairIndexer(n_mol=n_mol)

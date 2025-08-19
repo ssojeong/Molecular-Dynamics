@@ -33,7 +33,6 @@ class PWNet(nn.Module):
         self.inv_max_force = 1./10.0
         #self.inv_max_force = 1./2.0
         self.inv_max_expon = 3
-        
 
     def init_weights_tanh(self,m): # m is layer that is nn.Linear
         if type(m) == nn.Linear:
@@ -61,7 +60,7 @@ class PWNet(nn.Module):
         return torch.tanh(x)
 
     def factor(self,dq):
-        return 1.0/( dq**self.inv_max_expon + self.inv_max_force )
+        return 1.0/(dq**self.inv_max_expon + self.inv_max_force)
 
     def forward(self,x):
         dq=x
@@ -71,7 +70,7 @@ class PWNet(nn.Module):
             if m != self.layers[-1]:
                 x = self.relu(x)
             else:
-                x = self.tanh(x) #;print('pw layer', m, x)
+                x = self.tanh(x)    # print('pw layer', m, x)
         w = self.factor(dq)
         # pwnet output: x shape [nsamples*nparticles*nparticles, 2]
         # pwnet output for mbnet input : x shape [nsamples * nparticles * nparticles * ngrids, 2]

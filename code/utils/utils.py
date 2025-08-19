@@ -18,6 +18,7 @@ def print_compute_tree(name,node):
     #print(dot)
     dot.render(name)
 
+
 # ===================================================
 def check_data(loader,data_set,tau_traj_len,tau_long,tau_short,nitr,append_strike):
 

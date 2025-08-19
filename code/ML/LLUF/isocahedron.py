@@ -21,8 +21,8 @@ class isocahedron:
                             [-1, phi, 0],
                             [phi, 0, 1],
                             [-phi, 0, 1]
-                           ])
-        self.dim = 3 # 20250807
+                            ])
+        self.dim = 3    # 20250807
 
         # Add the negative counterparts to complete the 12 vertices
         vertices = np.r_[vertices, -vertices]

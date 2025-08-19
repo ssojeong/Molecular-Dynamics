@@ -24,7 +24,7 @@ class system_logs(object):
         system_logs.__instance.pid = os.getpid()
         system_logs.__instance.uname = platform.uname()
         system_logs.__instance.mydevice = mydevice
-        system_logs.__instance.start_time = datetime.now() #.strftime("%Y%m%d, %H:%M:%S")
+        system_logs.__instance.start_time = datetime.now()  # .strftime("%Y%m%d, %H:%M:%S")
         system_logs.__instance.memory_usage = []
         system_logs.__instance.time_usage = []
         system_logs.__instance.time_usage.append(system_logs.__instance.start_time)
@@ -46,9 +46,9 @@ class system_logs(object):
 
     @staticmethod
     def record_memory_usage(t):
-        #mem_use = psutil.virtual_memory()[2]
-        #system_logs.__instance.memory_usage.append(mem_use)
-        #print('memory usage :',mem_use,' at t=',t)
+        # mem_use = psutil.virtual_memory()[2]
+        # system_logs.__instance.memory_usage.append(mem_use)
+        # print('memory usage :',mem_use,' at t=',t)
         print(' at t=',t)
 
     @staticmethod
