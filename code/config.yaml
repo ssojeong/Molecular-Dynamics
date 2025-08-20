@@ -33,7 +33,7 @@ repw: 0 # repulsive loss weight
 poly_deg: 4 # polynomial based qloss, ploss term
 maxlr: 0.00001 # lr = 1e-5
 region: 'lg' # phase region we are interested
-dpt_train: 44792 # train dataset, 44792
-dpt_valid: 4993 # valid dataset, 4993
+dpt_train: 44046 # train dataset, 520_44792 / 300_44046
+dpt_valid: 4961 # valid dataset, 520_4993 /300_4961
 start_epoch: 0 # if checkpoint exist, set start epoch from saved epoch number. otherwise start epoch=0
 loadfile: null  # null means None, if checkpoint exist, load it filename

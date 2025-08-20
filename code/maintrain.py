@@ -84,9 +84,9 @@ def main():
                 "e_weight"         : ew,
                 "reg_weight"       : repw}
 
-    data = {"train_file": '../../Data/LLUF/520k_gap10_train.pt',
-            "valid_file": '../../Data/LLUF/520k_gap10_valid.pt',
-            "test_file" : '../../Data/LLUF/520k_gap10_valid.pt',
+    data = {"train_file": '../../Data/LLUF/300k_gap10_train.pt',
+            "valid_file": '../../Data/LLUF/300k_gap10_valid.pt',
+            "test_file" : '../../Data/LLUF/300k_gap10_valid.pt',
             "train_pts" : dpt_train,
             "vald_pts"  : dpt_valid,
             "test_pts"  : 200,
@@ -94,7 +94,7 @@ def main():
              "window_sliding"   : traindict["window_sliding"]}
 
     maindict = { "start_epoch"     : start_epoch,
-                 "end_epoch"       : 10,
+                 "end_epoch"       : 1000,
                  # "save_dir"        : './results/traj_len08ws0{}tau{}ngrid{}{}_dpt{}'.format(window_sliding,traindict["tau_long"],ngrid,net_type,dpt_train),
                  "save_dir"        : '../../SavedModel/LLUF/',
                  "tau_short"       : 1e-4,
