@@ -41,14 +41,14 @@ def main():
     region = args['region']
     # ==========================
 
-    traindict = {"loadfile"     : args['loadfile'], # to load previously trained model
-                 "net_nnodes"   : args['nnodes'],    # number of nodes in neural nets
+    traindict = {"loadfile"     : args['loadfile'],     # to load previously trained model
+                 "net_nnodes"   : args['nnodes'],       # number of nodes in neural nets
                  "pw4mb_nnodes" : 128,      # number of nodes in neural nets
                  "pw_output_dim": 3,        # 20250803: change from 2D to 3D, psi
                  "optimizer"    : 'Adam',
-                 "single_particle_net_type" : args['single_parnet_type'],
-                 "multi_particle_net_type"  : args['multi_parnet_type'],
-                 "readout_step_net_type"    : args['readout_net_type'],
+                 "single_particle_net_type": args['single_parnet_type'],
+                 "multi_particle_net_type" : args['multi_parnet_type'],
+                 "readout_step_net_type"   : args['readout_net_type'],
                  "n_encoder_layers" : args['trans_layer'],
                  "n_gnn_layers"     : args['gnn_layer'],
                  "edge_attention"   : True,
@@ -86,11 +86,11 @@ def main():
                  # "save_dir": './results/traj_len08ws0{}tau{}ngrid{}{}_dpt{}'.format(window_sliding,traindict["tau_long"],ngrid,net_type,dpt_train),
                  "save_dir"        : '../../SavedModel/LLUF/',
                  "tau_short"       : 1e-4,
-                 "nitr"            : nitr, # for check md trajectories
-                 "append_strike"   : nitr, # for check md trajectories
-                 "ckpt_interval"   : 1, # for check pointing
-                 "val_interval"    : 1, # no use of valid for now
-                 "verb"            : 1  } # period for printing out losses
+                 "nitr"            : nitr,  # for check md trajectories
+                 "append_strike"   : nitr,  # for check md trajectories
+                 "ckpt_interval"   : 1,     # for check pointing
+                 "val_interval"    : 1,     # no use of valid for now
+                 "verb"            : 1  }   # period for printing out losses
 
     if maindict['start_epoch'] > 0:
         assert traindict['loadfile'] is not None, f'Loadfile is None...'
