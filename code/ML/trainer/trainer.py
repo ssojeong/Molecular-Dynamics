@@ -44,7 +44,7 @@ class trainer:
                                                 train_dict["tau_init"])
 
         self.mlvv = LLUF_Lengavin(self.prepare_data_obj, self.LLUF_update_p_obj,self.LLUF_update_q_obj)
-        # # 3 tau here. tau[0] for update p, tau[1],tau[2] for update q
+        # 3 tau here. tau[0] for update p, tau[1],tau[2] for update q
 
         self.tau_params = [self.LLUF_update_p_obj.tau, self.LLUF_update_q_obj.tau,self.mlvv.tau] # for printing
 
@@ -152,8 +152,8 @@ class trainer:
 
         for ws in range(self.train_dict["window_sliding"]):
 
-            # q_input_list [phi0,phi1,phi2,...] ; phi is function of q at grid point
-            # p_input_list [pi0,pi1,pi2,...] ; pi is momentum at grid point
+            # q_input_list [phi0,phi1,phi2,...]; phi is function of q at grid point
+            # p_input_list [pi0,pi1,pi2,...]; pi is momentum at grid point
             q_input_list, p_input_list, q_predict, p_predict, l_init = self.mlvv.nsteps(q_input_list,
                                                                                         p_input_list,
                                                                                         q_cur,

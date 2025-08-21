@@ -27,12 +27,6 @@ def main():
     np.random.seed(34952)
 
     net_type = args['net_type']
-    single_parnet_type = args['single_parnet_type']
-    multi_parnet_type = args['multi_parnet_type']
-    readout_net_type = args['readout_net_type']
-    trans_layer = args['trans_layer']
-    gnn_layer = args['gnn_layer']
-    nnodes = args['nnodes']
     tau_long = args['tau_long']
     window_sliding = args['window_sliding']
     batch_size = args['batch_size']
@@ -40,29 +34,23 @@ def main():
     b = args['b']
     a = args['a']
     nitr = args['nitr']
-    loss_weights = args['loss_weights']
     ew = args['ew']
     repw = args['repw']
     poly_deg = args['poly_deg']
     maxlr = args['maxlr']
     region = args['region']
-    dpt_train = args['dpt_train']
-    dpt_valid = args['dpt_valid']
-    start_epoch = args['start_epoch']
-    loadfile = args['loadfile']
-    print('loadfile', loadfile)
     # ==========================
 
-    traindict = {"loadfile"     : loadfile, # to load previously trained model
-                 "net_nnodes"   : nnodes,    # number of nodes in neural nets
+    traindict = {"loadfile"     : args['loadfile'], # to load previously trained model
+                 "net_nnodes"   : args['nnodes'],    # number of nodes in neural nets
                  "pw4mb_nnodes" : 128,      # number of nodes in neural nets
                  "pw_output_dim": 3,        # 20250803: change from 2D to 3D, psi
                  "optimizer"    : 'Adam',
-                 "single_particle_net_type" : single_parnet_type,         
-                 "multi_particle_net_type"  : multi_parnet_type,        
-                 "readout_step_net_type"    : readout_net_type,       
-                 "n_encoder_layers" : trans_layer,
-                 "n_gnn_layers"     : gnn_layer,
+                 "single_particle_net_type" : args['single_parnet_type'],
+                 "multi_particle_net_type"  : args['multi_parnet_type'],
+                 "readout_step_net_type"    : args['readout_net_type'],
+                 "n_encoder_layers" : args['trans_layer'],
+                 "n_gnn_layers"     : args['gnn_layer'],
                  "edge_attention"   : True,
                  "d_model"      : 256,
                  "nhead"        : 8,
@@ -70,7 +58,7 @@ def main():
                  "grad_clip"    : 0.5,    # clamp the gradient for neural net parameters
                  "tau_traj_len" : 8 * tau_long,  # n evaluations in integrator
                  "tau_long"     : tau_long,
-                 "loss_weights"  : loss_weights,
+                 "loss_weights"  : args['loss_weights'],
                  "window_sliding": window_sliding,  # number of times to do integration before cal the loss
                  "ngrids"       : ngrid,   # 6*len(b_list)
                  "b_list"       : b,       # grid lattice constant for multibody interactions
@@ -87,15 +75,15 @@ def main():
     data = {"train_file": '../../Data/LLUF/300k_gap10_train.pt',
             "valid_file": '../../Data/LLUF/300k_gap10_valid.pt',
             "test_file" : '../../Data/LLUF/300k_gap10_valid.pt',
-            "train_pts" : dpt_train,
-            "valid_pts" : dpt_valid,
+            "train_pts" : args['dpt_train'],
+            "valid_pts" : args['dpt_valid'],
             "test_pts"  : 200,
              "batch_size": batch_size,
              "window_sliding"   : traindict["window_sliding"]}
 
-    maindict = { "start_epoch"     : start_epoch,
-                 "end_epoch"       : 1000,
-                 # "save_dir"        : './results/traj_len08ws0{}tau{}ngrid{}{}_dpt{}'.format(window_sliding,traindict["tau_long"],ngrid,net_type,dpt_train),
+    maindict = { "start_epoch"     : args['start_epoch'],
+                 "end_epoch"       : args['end_epoch'],
+                 # "save_dir": './results/traj_len08ws0{}tau{}ngrid{}{}_dpt{}'.format(window_sliding,traindict["tau_long"],ngrid,net_type,dpt_train),
                  "save_dir"        : '../../SavedModel/LLUF/',
                  "tau_short"       : 1e-4,
                  "nitr"            : nitr, # for check md trajectories
@@ -103,6 +91,9 @@ def main():
                  "ckpt_interval"   : 1, # for check pointing
                  "val_interval"    : 1, # no use of valid for now
                  "verb"            : 1  } # period for printing out losses
+
+    if maindict['start_epoch'] > 0:
+        assert traindict['loadfile'] is not None, f'Loadfile is None...'
 
     utils.print_dict('trainer', traindict)
     utils.print_dict('loss', lossdict)
@@ -121,8 +112,8 @@ def main():
     loader = data_loader(data_set, data["batch_size"])
 
     # utils.check_data(loader,data_set,traindict["tau_traj_len"],
-    #           traindict["tau_long"],maindict["tau_short"],
-    #           maindict["nitr"],maindict["append_strike"])
+    #                  traindict["tau_long"],maindict["tau_short"],
+    #                  maindict["nitr"],maindict["append_strike"])
 
     train = trainer(traindict, lossdict)
 
@@ -139,8 +130,8 @@ def main():
 
             mydevice.load(qpl_input)
             q_traj, p_traj, q_label, p_label, l_init = utils.pack_data(qpl_input, qpl_label)
-            # q_traj,p_ttaj [traj,nsamples,nparticles,dim]
-            # q_label,p_label,l_init [nsamples,nparticles,dim]
+            # q_traj, p_ttaj [traj, nsamples, nparticles, dim]
+            # q_label, p_label, l_init [nsamples, nparticles, dim]
 
             train.one_step(q_traj, p_traj, q_label, p_label, l_init)
             cntr += 1
