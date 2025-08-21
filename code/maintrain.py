@@ -88,7 +88,7 @@ def main():
             "valid_file": '../../Data/LLUF/300k_gap10_valid.pt',
             "test_file" : '../../Data/LLUF/300k_gap10_valid.pt',
             "train_pts" : dpt_train,
-            "vald_pts"  : dpt_valid,
+            "valid_pts" : dpt_valid,
             "test_pts"  : 200,
              "batch_size": batch_size,
              "window_sliding"   : traindict["window_sliding"]}
@@ -117,7 +117,7 @@ def main():
 
     data_set = my_data(data["train_file"], data["valid_file"], data["test_file"],
                        traindict["tau_long"], traindict["window_sliding"], traindict["tau_traj_len"],
-                       data["train_pts"], data["vald_pts"], data["test_pts"])
+                       data["train_pts"], data["valid_pts"], data["test_pts"])
     loader = data_loader(data_set, data["batch_size"])
 
     # utils.check_data(loader,data_set,traindict["tau_traj_len"],

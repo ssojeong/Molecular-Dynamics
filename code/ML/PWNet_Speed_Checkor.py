@@ -94,7 +94,7 @@ if __name__ == "__main__":
     one_batch_old = OneBatch(pwnet_old)
     one_batch_new = OneBatch(pwnet_new)
 
-    x = torch.rand(64, 24, 24, 6)**2
+    x = torch.rand(1, 24, 24, 6)**2
     print(x.requires_grad)
     # warm up
     for i in range(5):
