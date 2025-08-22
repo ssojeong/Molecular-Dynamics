@@ -26,7 +26,7 @@ def main():
     torch.manual_seed(34952)
     np.random.seed(34952)
 
-    net_type = args['net_type']
+    # net_type = args['net_type']
     tau_long = args['tau_long']
     window_sliding = args['window_sliding']
     batch_size = args['batch_size']
@@ -72,9 +72,9 @@ def main():
                 "e_weight"         : ew,
                 "reg_weight"       : repw}
 
-    data = {"train_file": '../../Data/LLUF/300k_gap10_train.pt',
-            "valid_file": '../../Data/LLUF/300k_gap10_valid.pt',
-            "test_file" : '../../Data/LLUF/300k_gap10_valid.pt',
+    data = {"train_file": '../../Data/LLUF/300k_gap1_train.pt',
+            "valid_file": '../../Data/LLUF/300k_gap1_valid.pt',
+            "test_file" : '../../Data/LLUF/300k_gap1_valid.pt',
             "train_pts" : args['dpt_train'],
             "valid_pts" : args['dpt_valid'],
             "test_pts"  : 200,
@@ -147,7 +147,7 @@ def main():
             system_logs.record_time_usage(e+1)
 
         if e % maindict["ckpt_interval"] == 0:
-            filename = f'./{maindict["save_dir"]}/mbpw{e+1:06d}.pth'
+            filename = f"./{maindict['save_dir']}/{args['model_name']}_{e+1:06d}.pth"
             print('saving file to ', filename)
             train.checkpoint(filename)
 

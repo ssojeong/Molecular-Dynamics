@@ -22,7 +22,7 @@ def check_datadict(dict):
 
     batch_size=dict['batch_size']
     assert (dict['train_pts'] >= batch_size), 'ERROR: batch_size request more than data points'
-    assert (dict['vald_pts'] >= batch_size), 'ERROR: batch_size request more than data points'
+    assert (dict['valid_pts'] >= batch_size), 'ERROR: batch_size request more than data points'
 
 def check_traindict(dict,tau_long):
 
