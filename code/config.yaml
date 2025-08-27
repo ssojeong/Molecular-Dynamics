@@ -35,6 +35,6 @@ maxlr: 0.00001 # lr = 1e-5
 region: 'lg' # phase region we are interested
 dpt_train: 44046 # train dataset, 520_44792 / 300_44046
 dpt_valid: 4961 # valid dataset, 520_4993 /300_4961
-start_epoch: 0 # if checkpoint exist, set start epoch from saved epoch number. otherwise start epoch=0
+start_epoch: 179 # if checkpoint exist, set start epoch from saved epoch number. otherwise start epoch=0
 end_epoch: 1000
-loadfile: null # null means None, if checkpoint exist, load it filename
+loadfile: ../../SavedModel/LLUF/gap1_000179.pth  # null means None, if checkpoint exist, load it filename
