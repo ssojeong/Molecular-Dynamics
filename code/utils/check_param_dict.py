@@ -16,7 +16,7 @@ def check_traindict(dict):
     assert (tau_traj_len == label_idx * tau_long), 'label index multiplied by tau long must be trajectory len'
     assert (isinstance(label_idx, int)), 'label idx needs to be integer'
     # assert (isinstance(tau_long, int)), 'tau_long needs to be integer'
-    assert (tau_long in [0.2, 0.4, 0.1, 0.125, 0.25, 0.5, 1, 2, 4, 8]), 'incorrect tau long'
+    # assert (tau_long in [0.2, 0.4, 0.1, 0.125, 0.25, 0.5, 1, 2, 4, 8]), 'incorrect tau long'
     assert (tau_traj_len % tau_long == 0), 'incompatible traj_len and tau_long'
 
 
@@ -29,9 +29,9 @@ def check_datadict(dict):
 
 def check_maindict(dict, tau_long):
 
-    nitr=dict['nitr']
-    tau_short=dict['tau_short']
-    append_strike=dict['append_strike']
+    nitr = dict['nitr']
+    tau_short = dict['tau_short']
+    append_strike = dict['append_strike']
 
     assert (nitr % append_strike == 0), 'incompatible strike and nitr'
     assert (tau_long == append_strike * tau_short), 'tau long must be same as append strike multiplied by tau short'

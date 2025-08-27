@@ -138,12 +138,12 @@ if __name__ == '__main__':
     # print('qpl_sh ', qpl_sh[:2])
 
     tau_short = 0.002
-    tau_long = 0.002
+    tau_long = 0.02
     ratio = tau_long / tau_short
     gap = int(round(ratio))
     assert abs(ratio - gap) < 1e-9, f"target_dt/origin_dt must be integer; got {ratio}"
 
-    filename = '../../../Data/LLUF/300k_train.pt'
+    filename = '../../../Data/LLUF/300k_valid.pt'
     file = torch.load(filename)
     qp = rearrange(file['qp'][:, ::gap, :, :, :], 'traj tpts atom dim qp -> traj qp tpts atom dim')
     l = 2.2 * torch.ones(qp.size(0), 1, qp.size(2), qp.size(3), qp.size(4), dtype=qp.dtype, device=qp.device)   # box size 2.2
@@ -156,4 +156,4 @@ if __name__ == '__main__':
             'atom_id': file['atom_id'],
             'tau_short': tau_short,
             'tau_long': tau_long}
-    torch.save(data, f'../../../Data/LLUF/300k_gap{gap}_train.pt')
+    torch.save(data, f'../../../Data/LLUF/300k_gap{gap}_valid.pt')

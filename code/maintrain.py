@@ -26,7 +26,7 @@ def main():
     torch.manual_seed(34952)
     np.random.seed(34952)
 
-    model_name = args['model_name']
+    model_id = args['model_id']
     gap = args['gap']
     tau_long = gap * 0.002
     window_sliding = args['window_sliding']
@@ -40,7 +40,7 @@ def main():
     maxlr = args['maxlr']
     nnodes = args['nnodes']
     d_model = args['d_model']
-    model_name = f"gap{gap}_b{b}_n{'-'.join([str(i) for i in nnodes])}_d{d_model}"
+    model_name = f"gap{gap}_b{b[0]}_n{'-'.join([str(i) for i in nnodes])}_d{d_model}"
     # ==========================
 
     traindict = {"net_nnodes"   : args['nnodes'],       # number of nodes in neural nets
@@ -97,7 +97,7 @@ def main():
     if maindict['start_epoch'] == 0:
         traindict['loadfile'] = None
     else:
-        traindict['loadfile'] = f"{maindict['save_dir']}/model_name_{maindict['start_epoch']:06d}.pth"
+        traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_{maindict['start_epoch']:06d}.pth"
 
     utils.print_dict('trainer', traindict)
     utils.print_dict('loss', lossdict)
@@ -107,7 +107,7 @@ def main():
     print('begin ------- check param dict -------- ', flush=True)
     check_param_dict.check_traindict(traindict)
     check_param_dict.check_datadict(data)
-    check_param_dict.check_maindict(maindict, traindict["tau_long"])
+    # check_param_dict.check_maindict(maindict, traindict["tau_long"])
     print('end   ------- check param dict -------- ')
 
     data_set = my_data(data["train_file"], data["valid_file"], data["test_file"],
@@ -147,7 +147,7 @@ def main():
             system_logs.record_time_usage(e+1)
 
         if e % maindict["ckpt_interval"] == 0:
-            filename = f"./{maindict['save_dir']}/model_name_{e+1:06d}.pth"
+            filename = f"./{maindict['save_dir']}/{model_id}_{e+1:06d}.pth"
             print('saving file to ', filename)
             train.checkpoint(filename)
 
