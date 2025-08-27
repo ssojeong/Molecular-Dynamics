@@ -33,6 +33,7 @@ class checkpoint:
         """
 
         full_name = load_filename
+        print('abs path of model', os.path.abspath(full_name))
 
         if os.path.isfile(full_name):
 
