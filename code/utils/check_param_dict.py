@@ -1,10 +1,11 @@
 import numpy as np
 
-def check_maindict(dict):
+
+def check_traindict(dict):
 
     tau_long = dict['tau_long']
     tau_traj_len_max = int(64*tau_long) # 64 steps times tau_long
-    tau_traj_len=dict['tau_traj_len']
+    tau_traj_len = dict['tau_traj_len']
     label_idx_max = 64
     label_idx = int(tau_traj_len // tau_long)
 
@@ -18,13 +19,15 @@ def check_maindict(dict):
     assert (tau_long in [0.2, 0.4, 0.1, 0.125, 0.25, 0.5, 1, 2, 4, 8]), 'incorrect tau long'
     assert (tau_traj_len % tau_long == 0), 'incompatible traj_len and tau_long'
 
+
 def check_datadict(dict):
 
-    batch_size=dict['batch_size']
+    batch_size = dict['batch_size']
     assert (dict['train_pts'] >= batch_size), 'ERROR: batch_size request more than data points'
     assert (dict['valid_pts'] >= batch_size), 'ERROR: batch_size request more than data points'
 
-def check_traindict(dict,tau_long):
+
+def check_maindict(dict, tau_long):
 
     nitr=dict['nitr']
     tau_short=dict['tau_short']
@@ -32,6 +35,7 @@ def check_traindict(dict,tau_long):
 
     assert (nitr % append_strike == 0), 'incompatible strike and nitr'
     assert (tau_long == append_strike * tau_short), 'tau long must be same as append strike multiplied by tau short'
+
 
 def check_testdict(maindict):
 

@@ -1,4 +1,5 @@
-model_name: gap1  # part of save filename
+model_name: 0   # in case want to train many model of the same setting, to separate them
+gap: 10  # part of save filename
 single_parnet_type: transformer_type # single particle neural network type
 multi_parnet_type: gnn_identity # multi particle neural network type
 readout_net_type: mlp_type # readout neural network type
@@ -9,7 +10,7 @@ nnodes:       # number of nodes in neural nets (use pwnet, readout net)
   - 128
   - 128
 
-tau_long: 0.1 # LUFnet time step size -- current code only works LUFnet at tau=0.1
+d_model: 256
 window_sliding: 1 # number of time points to do integration to calculate the loss
 batch_size: 64
 ngrid: 12  # 2D -> 6 ; 3D -> 12 -- current code only for grid 12
@@ -19,7 +20,7 @@ a: # list of grid off set angle
   - 0
 nitr: 1000 #  iterations to save paired time points with tau =0.0001 (e.g. ai at 0.1 -> 1000, ai at 0.01 -> 100; ai at 0.02 -> 200)
 loss_weights: # loss = w1L1 +  w2L2 + w3L3 + w4L4 + w5L5 + w6L6 + w7L7 + w8L8
-  - 1
+  - 0
   - 0.125
   - 0
   - 0.25
