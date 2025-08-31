@@ -27,6 +27,7 @@ class predicter:
 
         return q_input_list,p_input_list,q_cur,p_cur
     # ==========================================================
+
     def eval(self,q_input_list,p_input_list,q_cur,p_cur,l_init,window_sliding, gamma, temp, tau_long):
 
         start_time = time.time()
