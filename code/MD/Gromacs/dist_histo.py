@@ -9,27 +9,33 @@ max_d = (3**0.5) * (box_length / 2)  # maximum possible distance
 num_bins = int(max_d / bin_width)
 
 # ---------- Load Data ----------
-data = torch.load('/home/liuwei/Projects/LLUF/300k.pt')
-traj = data["qp"]  # shape: [traj_id, frame, atom, coord, type]
+data = torch.load('../../../../Data/LLUF/300k_nvt_8.pt')
+traj = data["qp"]  # shape: [traj_id, frame, atom, coord, qp]
 print("Trajectory shape:", traj.shape)
+print("q range", torch.min(traj[..., 0]), torch.max(traj[..., 0]))
+
 
 # ---------- Apply PBC ----------
 def minimum_image(vec, box):
     """Apply minimum image convention to displacement vectors."""
     return vec - box * torch.round(vec / box)
 
+
 # ---------- Distance Calculation ----------
 dis_list = []
 for i in range(8):          # loop over O atoms in molecule i
     for j in range(i + 1, 8):   # other molecules
         for k in range(1, 3):   # H atoms in molecule j
+        # for k in range(1):      # O atom in molecule j
             disp = traj[:, :, 3*i, :, 0] - traj[:, :, 3*j + k, :, 0]  # displacement
+            print(torch.min(disp), torch.max(disp), torch.max(torch.abs(disp)))
             disp = minimum_image(disp, box_length)
+            print(torch.min(disp), torch.max(disp), torch.max(torch.abs(disp)))
             dis = torch.norm(disp, dim=-1)  # Euclidean distance
             dis_list.append(dis.reshape(-1))
 
 all_d = torch.cat(dis_list, dim=0)
-print("Min distance:", torch.min(all_d).item(), "nm")
+print("Min distance:", torch.min(all_d).item(), "nm", "Max distance:", torch.max(all_d).item(), "nm")
 
 # ---------- Histogram (occurrence) ----------
 counts, edges = torch.histogram(all_d, bins=num_bins, range=(0.0, max_d))

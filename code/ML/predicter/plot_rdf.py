@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 if __name__ == '__main__':
-    # python plot_rdf.py 128 0.3 0.46 0.1 10000 10 119 800000 lg
+    # python plot_rdf.py 32 0.85 0.9 3 0.05 20 271 45000 l
 
     if torch.cuda.is_available():
         map_location = lambda storage, loc: storage.cuda()
@@ -15,29 +15,48 @@ if __name__ == '__main__':
         map_location = 'cpu'
 
     argv = sys.argv
-    if len(argv) != 9:
-        print('usage <programe> <npar> <rho> <temp> <nstep> <gamma> <saved model> <dpt> <region>' )
+    if len(argv) != 10:
+        print('usage <programe> <npar> <rho> <temp> <dim> <tau_long> <gamma> <saved model> <dpt> <region>' )
         quit()
 
     npar = int(argv[1])
     rho = argv[2]
-    dim = int(argv[3])
-    T = float(argv[4])
-    gamma = argv[5]
-    saved_model = argv[6]
-    dpt = int(argv[7])
-    region = argv[8]
+    T = float(argv[3])
+    dim = int(argv[4])
+    tau_long = float(argv[5])
+    gamma = argv[6]
+    saved_model = argv[7]
+    dpt = int(argv[8])
+    region = argv[9]
 
-    data = { 
-            "filename1" : '../../../data_sets/gen_by_MD/{}d/noML-metric-lt0.01every1t0.7t1000/n{}rho{}T{}/'.format(dim,npar,rho,T)
-             + 'rij_gr_gamma{}.pt'.format(gamma),
-            "filename2": '../../../data_sets/gen_by_ML/lt0.1dpt{}_{}/n{}rho{}T{}/'.format(dpt,region,npar,rho,T)
-                         + 'rij_gr_gamma{}mb{}.pt'.format(gamma, saved_model),
-            "filename3": '../../../data_sets/gen_by_ML/lt0.1dpt100000_{}/n{}rho{}T{}/'.format(region, npar, rho, T)
-                     + 'rij_gr_gamma{}mb009.pt'.format(gamma),
-            "nofile": 2,
-            "linestyle" : ['dashed','dotted'],
-            }
+    if dim == 2:
+        print('load md data on 2d .......')
+
+        data = {
+                "filename1" : '../../../data_sets/gen_by_MD/2d/noML-metric-lt0.01every1t0.7t1000/n{}rho{}T{}/'.format(npar,rho,T)
+                 + 'rij_gr_gamma{}.pt'.format(gamma),
+            "filename2": '../../../data_sets/gen_by_ML/2d/lt{}dpt{}_{}/n{}rho{}T{}/'.format(tau_long,dpt,region,npar,rho,T)
+                             + 'rij_gr_gamma{}mb{}.pt'.format(gamma, saved_model),
+                "filename3": '../../../data_sets/gen_by_ML/2d/lt0.1dpt100000_{}/n{}rho{}T{}/'.format(region, npar, rho, T)
+                         + 'rij_gr_gamma{}mb009.pt'.format(gamma),
+                "nofile": 2,
+                "linestyle" : ['dashed','dotted'],
+                }
+
+    elif dim == 3:
+        print('load md data on 3d .......')
+
+        data = {
+            "filename1": '../../../data_sets/gen_by_MD/3d/noML-metric-lt0.001every0.1t0.35t100/n{}rho{}T{}/'.format(npar, rho, T)
+                         + 'rij_gr_gamma{}.pt'.format(gamma),
+            "filename2": '../../../data_sets/gen_by_ML/3d/lt{}dpt{}_{}/n{}rho{}T{}/'.format( tau_long,dpt,region,npar,rho,T)
+                             + 'rij_gr_gamma{}LUF{}.pt'.format(gamma, saved_model),
+                "nofile": 2,
+                "linestyle" : ['dashed','dotted'],
+                }
+
+    else:
+        assert False , 'invalid load data given .... '
 
     d = {}
     for i in range(data["nofile"]):
@@ -62,9 +81,11 @@ if __name__ == '__main__':
     nrmid_lluf = dd["rmid1"][-1] # take rmid at last time
     ngr_lluf = dd["gr1"][-1] # take gr at last time
 
-    ngr_mc = [tensor.cpu() for tensor in ngr_mc]
-    ngr_vv = [tensor.cpu() for tensor in ngr_vv]
-    ngr_lluf = [tensor.cpu() for tensor in ngr_lluf]
+    # if the item is a torch.Tensor, it gets moved to CPU.
+    # If it’s already a float (or any other type), it stays unchanged.
+    ngr_mc = [tensor.cpu() if isinstance(tensor, torch.Tensor) else tensor for tensor in ngr_mc]
+    ngr_vv = [tensor.cpu() if isinstance(tensor, torch.Tensor) else tensor for tensor in ngr_vv]
+    ngr_lluf = [tensor.cpu() if isinstance(tensor, torch.Tensor) else tensor for tensor in ngr_lluf]
 
     print('mc gr', len(ngr_mc), ngr_mc[0])
     print('vv gr', len(ngr_vv), ngr_vv[0])
@@ -74,9 +95,13 @@ if __name__ == '__main__':
     print(np.array(nrmid_vv).shape, np.array(ngr_vv).shape)
     print(np.array(nrmid_lluf).shape, np.array(ngr_lluf).shape)
 
-    plt.plot(np.array(nrmid_mc), np.array(ngr_mc), color='k', mfc='none')#, label='MC')
-    plt.plot(np.array(nrmid_vv), np.array(ngr_vv), color='k', mfc='none', linestyle='dashed')#, label='VV')
-    plt.plot(np.array(nrmid_lluf), np.array(ngr_lluf), color='k', mfc='none', linestyle='dotted')#, label=f'LLUF(n={npar})')
+    # plt.scatter(np.array(nrmid_mc), np.array(ngr_mc), s=10, color='r', label='MC') # , mfc='none'
+    # plt.scatter(np.array(nrmid_vv), np.array(ngr_vv), s=10, color='k', label='VV') # , mfc='none'
+    # plt.scatter(np.array(nrmid_lluf), np.array(ngr_lluf), s=10, color='b', label=f'LLUF(n={npar})') #, mfc='none'
+
+    plt.plot(np.array(nrmid_mc), np.array(ngr_mc), color='k', mfc='none', label='MC')
+    plt.plot(np.array(nrmid_vv), np.array(ngr_vv), color='k', mfc='none', linestyle='dashed', label='VV')
+    plt.plot(np.array(nrmid_lluf), np.array(ngr_lluf), color='k', mfc='none', linestyle='dotted', label=r'LLUF at $\tau$={} (n=64)'.format(tau_long))
 
     if  (npar == 64 or npar == 128) and region == 'lg' and (T==0.46 or T==0.48):
         print('use trained model from n=64 or 128 ....')
@@ -102,13 +127,14 @@ if __name__ == '__main__':
     if region == 'lg':
         plt.ylim(0, 7)
     if region == 'l':
-        plt.ylim(0, 4)
+        plt.ylim(0, 3.5)
 
     plt.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
     plt.tick_params(axis='y', which='both', left=False, right=False, labelleft=False)
-    plt.legend(loc="upper right", fontsize=10)
+    # plt.legend(loc="upper right", fontsize=10)
     plt.tight_layout()
     plt.grid()
-    plt.savefig( f'../../analysis/{dim}d/figures/rdf/npar{npar}rho{rho}gamma{gamma}nstep10000_rdf_T{T}.pdf', bbox_inches='tight', dpi=200)
+    # plt.show()
+    plt.savefig( f'../../analysis/{dim}d/figures/rdf/npar{npar}rho{rho}gamma{gamma}t0.35_rdf_T{T}.pdf', bbox_inches='tight', dpi=200)
     plt.close()
    

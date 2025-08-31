@@ -3,7 +3,7 @@ import numpy as np
 
  
 # ======================================================
-def pbc(q_list,l_list):
+def pbc(q_list, l_list):
     # print('pbc: q list shape ',q_list.shape)
     idx = torch.where(torch.abs(q_list) > 0.5*l_list)
     # print('idx ',idx)
