@@ -38,6 +38,7 @@ def pair_distribution_function(file_list, op_name):
 
     n_bins = int((math.ceil(r_max) - math.floor(r_min)) / bin_width)
     count_array = np.zeros(n_bins)
+    rho = 4 * math.pi * num_mol / (3 * box_size**3)
 
     for idx, f in enumerate(file_list):
         print(f'===== dealing with {idx} file: {f}')
@@ -45,11 +46,10 @@ def pair_distribution_function(file_list, op_name):
         qpl = data['qpl_trajectory']
         print('qpl shape', qpl.shape)
         q = qpl[:, 0, pt, :, :]
-        # print(q.shape)
 
         dis_list = []
-        for i in range(8):  # loop over O atoms in molecule i
-            for j in range(i + 1, 8):  # other molecules
+        for i in range(num_mol):  # loop over O atoms in molecule i
+            for j in range(i + 1, num_mol):  # other molecules
                 # for k in range(1, 3):   # H atoms in molecule j
                 for k in range(1):  # O atom in molecule j
                     disp = q[:, 3 * i, :] - q[:, 3 * j + k, :]  # displacement
@@ -66,10 +66,18 @@ def pair_distribution_function(file_list, op_name):
                                          range=(math.floor(r_min), math.ceil(r_max)),
                                          density=False)
 
-        print(type(counts), len(counts), len(bin_edges))
+        grbin = []
+        bin_width = np.mean(bin_edges[1:] - bin_edges[-1:])
+        for c, r in zip(counts, bin_edges[-1:]):
+            gr = rho * c * (num_mol - 1) / (4 * math.pi * (r + bin_width)**3 - r**3)
+            grbin.append(gr)
+
+        print(type(counts), len(counts), len(bin_edges), len(grbin))
         count_array += counts
 
-    torch.save({'counts': count_array, 'edge_centers': (bin_edges[:-1] + bin_edges[1:]) / 2}, op_name)
+    torch.save({'counts': count_array,
+                'gr': torch.tensor(grbin),
+                'edge_centers': (bin_edges[:-1] + bin_edges[1:]) / 2}, op_name)
 
     # # Convert counts → occurrence (normalized)
     # occurrence = count_array / count_array.sum()
@@ -104,9 +112,11 @@ def pair_distribution_function(file_list, op_name):
 
 
 if __name__ == '__main__':
+    num_mol = 8
     box_size = 2.2
     r_min = 0
     r_max = box_size / 2 * 3 ** 0.5
+    assert box_size / 2 * 3 ** 0.5 < r_max, 'r max is smaller than diagonal of half box size'
     bin_width = 0.01
     pt = -1
     file_list = [f'../../../../Data/LLUF/300k_gap1_nvt_long.pt']
