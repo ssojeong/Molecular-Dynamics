@@ -1,3 +1,4 @@
+import os
 import torch
 from inspect        import currentframe, getframeinfo
 from utils.mydevice import mydevice
@@ -54,11 +55,17 @@ def pack_data(qpl_input, qpl_label):
 
 # ===================================================
 
-def print_dict(name,thisdict):
-    print(name,'dict ============== ')
-    for key,value in thisdict.items(): print(key,':',value)
 
-
-
+def print_dict(name, this_dict, log_file=None):
+    print(name, 'dict ============== ')
+    for key, value in this_dict.items():
+        print(key, ':', value)
+    # Write to log file if provided
+    if log_file is not None:
+        with open(log_file, 'a') as f:
+            f.write(f"{name} dict ============== \n")
+            for key, value in this_dict.items():
+                f.write(f"{key} : {value}\n")
+            f.write('\n')
 
 

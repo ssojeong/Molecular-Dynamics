@@ -1,59 +1,282 @@
- train 1 lr 1.00e-05 qshape 630.9220933187128 pshape 12924.858857526971 eshape 1.0empty list: key 
- train 2 lr 1.00e-05 qshape 619.4957754691511 pshape 11639.842752640236 eshape 1.0empty list: key 
- train 3 lr 1.00e-05 qshape 377.31007149810983 pshape 11379.857198032068 eshape 1.0empty list: key 
- train 4 lr 1.00e-05 qshape 195.83974300026372 pshape 11085.889757225184 eshape 1.0empty list: key 
- train 5 lr 1.00e-05 qshape 186.3867873450389 pshape 10851.349546362757 eshape 1.0empty list: key 
- train 6 lr 1.00e-05 qshape 177.0152330590591 pshape 10651.798352011254 eshape 1.0empty list: key 
- train 7 lr 1.00e-05 qshape 168.79134014284517 pshape 10461.815787991449 eshape 1.0empty list: key 
- train 8 lr 1.00e-05 qshape 161.3112979793445 pshape 10282.795052776892 eshape 1.0empty list: key 
- train 9 lr 1.00e-05 qshape 154.07319173642918 pshape 10110.337313986081 eshape 1.0empty list: key 
- train 10 lr 1.00e-05 qshape 148.68277313389328 pshape 9939.960678491005 eshape 1.0empty list: key 
- train 11 lr 1.00e-05 qshape 142.07820590393095 pshape 9774.913394824096 eshape 1.0empty list: key 
- train 12 lr 1.00e-05 qshape 137.60421033802177 pshape 9621.490473483911 eshape 1.0empty list: key 
- train 13 lr 1.00e-05 qshape 132.96647414156783 pshape 9467.869955063903 eshape 1.0empty list: key 
- train 14 lr 1.00e-05 qshape 129.09137590110453 pshape 9325.56231961968 eshape 1.0empty list: key 
- train 15 lr 1.00e-05 qshape 125.6203105917104 pshape 9183.593711750891 eshape 1.0empty list: key 
- train 16 lr 1.00e-05 qshape 121.76859642115859 pshape 9050.673209678953 eshape 1.0empty list: key 
- train 17 lr 1.00e-05 qshape 119.0490434207491 pshape 8912.682425479532 eshape 1.0empty list: key 
- train 18 lr 1.00e-05 qshape 115.7303030845045 pshape 8785.640945003073 eshape 1.0empty list: key 
- train 19 lr 1.00e-05 qshape 113.46761069954952 pshape 8659.826387722382 eshape 1.0empty list: key 
- train 20 lr 1.00e-05 qshape 109.99557662720426 pshape 8537.392468803257 eshape 1.0empty list: key 
- train 21 lr 1.00e-05 qshape 107.9629892668784 pshape 8419.91031321503 eshape 1.0empty list: key 
- train 22 lr 1.00e-05 qshape 105.12216562183566 pshape 8304.696128957077 eshape 1.0empty list: key 
- train 23 lr 1.00e-05 qshape 103.06612081357753 pshape 8195.991015793415 eshape 1.0empty list: key 
- train 24 lr 1.00e-05 qshape 100.95423463512041 pshape 8085.022059865784 eshape 1.0empty list: key 
- train 25 lr 1.00e-05 qshape 99.27735944743701 pshape 7981.7819631827715 eshape 1.0empty list: key 
- train 26 lr 1.00e-05 qshape 97.9195867886753 pshape 7882.539643574856 eshape 1.0empty list: key 
- train 27 lr 1.00e-05 qshape 96.63399323428001 pshape 7783.272397720285 eshape 1.0empty list: key 
- train 28 lr 1.00e-05 qshape 95.658249694594 pshape 7690.253620107867 eshape 1.0empty list: key 
- train 29 lr 1.00e-05 qshape 93.37514188047011 pshape 7593.357134276377 eshape 1.0empty list: key 
- train 30 lr 1.00e-05 qshape 92.40692306394868 pshape 7506.0724025112495 eshape 1.0empty list: key 
- train 31 lr 1.00e-05 qshape 90.92542530771262 pshape 7414.84505684241 eshape 1.0empty list: key 
- train 32 lr 1.00e-05 qshape 90.83031879574334 pshape 7332.037857330689 eshape 1.0empty list: key 
- train 33 lr 1.00e-05 qshape 88.88516194677563 pshape 7249.971120631376 eshape 1.0empty list: key 
- train 34 lr 1.00e-05 qshape 88.12103208858063 pshape 7166.673625657593 eshape 1.0empty list: key 
- train 35 lr 1.00e-05 qshape 87.39428155710941 pshape 7086.123066983411 eshape 1.0empty list: key 
- train 36 lr 1.00e-05 qshape 86.52536378027722 pshape 7011.121178209169 eshape 1.0empty list: key 
- train 37 lr 1.00e-05 qshape 85.80713033206679 pshape 6934.866857401175 eshape 1.0empty list: key 
- train 38 lr 1.00e-05 qshape 84.78268588205232 pshape 6860.46762684713 eshape 1.0empty list: key 
- train 39 lr 1.00e-05 qshape 84.06716230157186 pshape 6790.904084085163 eshape 1.0empty list: key 
- train 40 lr 1.00e-05 qshape 83.53007458793877 pshape 6723.873605259131 eshape 1.0empty list: key 
- train 41 lr 1.00e-05 qshape 82.77908709896249 pshape 6655.074361716717 eshape 1.0empty list: key 
- train 42 lr 1.00e-05 qshape 82.29459889675294 pshape 6588.8611224997485 eshape 1.0empty list: key 
- train 43 lr 1.00e-05 qshape 81.49279713488859 pshape 6522.449825610172 eshape 1.0empty list: key 
- train 44 lr 1.00e-05 qshape 81.20656171974397 pshape 6461.536950958077 eshape 1.0empty list: key 
- train 45 lr 1.00e-05 qshape 80.51998440900076 pshape 6404.025713094266 eshape 1.0empty list: key 
- train 46 lr 1.00e-05 qshape 80.00813219119131 pshape 6341.900451632908 eshape 1.0empty list: key 
- train 47 lr 1.00e-05 qshape 79.25606112934446 pshape 6283.187266754447 eshape 1.0empty list: key 
- train 48 lr 1.00e-05 qshape 79.21825898826785 pshape 6225.209985008836 eshape 1.0empty list: key 
- train 49 lr 1.00e-05 qshape 78.79092350381251 pshape 6170.965528829223 eshape 1.0empty list: key 
- train 50 lr 1.00e-05 qshape 78.23423718947122 pshape 6114.72291705895 eshape 1.0empty list: key 
- train 51 lr 1.00e-05 qshape 77.51543820371703 pshape 6063.189828769531 eshape 1.0empty list: key 
- train 52 lr 1.00e-05 qshape 77.56514888579446 pshape 6012.700587185497 eshape 1.0empty list: key 
- train 53 lr 1.00e-05 qshape 76.91068627945596 pshape 5962.078165707126 eshape 1.0empty list: key 
- train 54 lr 1.00e-05 qshape 76.28907675824946 pshape 5914.680101724939 eshape 1.0empty list: key 
- train 55 lr 1.00e-05 qshape 76.07141182229405 pshape 5861.353490719734 eshape 1.0empty list: key 
- train 56 lr 1.00e-05 qshape 75.75518299146725 pshape 5816.888493350517 eshape 1.0empty list: key 
- train 57 lr 1.00e-05 qshape 75.2316421688453 pshape 5774.096810464987 eshape 1.0empty list: key 
- train 58 lr 1.00e-05 qshape 74.82107264109698 pshape 5727.028134354325 eshape 1.0empty list: key 
- train 59 lr 1.00e-05 qshape 74.55102670403645 pshape 5683.136658111341 eshape 1.0empty list: key 
+ train 1 lr 1.00e-05 qshape 530.9228640830283 pshape 11282.026481701892 eshape 1.0 mshape nan rep
+ train 2 lr 1.00e-05 qshape 514.5917985004585 pshape 11276.392963384587 eshape 1.0 mshape nan rep
+ train 3 lr 1.00e-05 qshape 500.34935782394916 pshape 11271.10920532277 eshape 1.0 mshape nan rep
+ train 4 lr 1.00e-05 qshape 488.1579382030901 pshape 11266.170448752608 eshape 1.0 mshape nan rep
+ train 5 lr 1.00e-05 qshape 477.98093603550683 pshape 11261.570043243319 eshape 1.0 mshape nan rep
+ train 6 lr 1.00e-05 qshape 469.7758158433155 pshape 11257.300547585219 eshape 1.0 mshape nan rep
+ train 7 lr 1.00e-05 qshape 463.34452442650746 pshape 11253.353621636834 eshape 1.0 mshape nan rep
+ train 8 lr 1.00e-05 qshape 458.38694236510224 pshape 11249.724021662027 eshape 1.0 mshape nan rep
+ train 9 lr 1.00e-05 qshape 453.69140068424906 pshape 11246.399683640455 eshape 1.0 mshape nan rep
+ train 10 lr 1.00e-05 qshape 450.38945873789237 pshape 11243.368231427556 eshape 1.0 mshape nan rep
+ train 11 lr 1.00e-05 qshape 448.43681164899544 pshape 11240.617243659206 eshape 1.0 mshape nan rep
+ train 12 lr 1.00e-05 qshape 447.11490577378 pshape 11238.133175799983 eshape 1.0 mshape nan rep
+ train 13 lr 1.00e-05 qshape 446.25754988981777 pshape 11235.904144654709 eshape 1.0 mshape nan rep
+ train 14 lr 1.00e-05 qshape 445.69055274357845 pshape 11233.913812883697 eshape 1.0 mshape nan rep
+ train 15 lr 1.00e-05 qshape 445.1679205374505 pshape 11232.148329909094 eshape 1.0 mshape nan rep
+ train 16 lr 1.00e-05 qshape 445.18990189380565 pshape 11230.590600937394 eshape 1.0 mshape nan rep
+ train 17 lr 1.00e-05 qshape 445.2956251733472 pshape 11229.224219500644 eshape 1.0 mshape nan rep
+ train 18 lr 1.00e-05 qshape 445.37856127371145 pshape 11228.031255171927 eshape 1.0 mshape nan rep
+ train 19 lr 1.00e-05 qshape 445.4876505903301 pshape 11226.99127944517 eshape 1.0 mshape nan rep
+ train 20 lr 1.00e-05 qshape 445.49132943678785 pshape 11226.08257505476 eshape 1.0 mshape nan rep
+ train 21 lr 1.00e-05 qshape 445.4204919146026 pshape 11225.282075055642 eshape 1.0 mshape nan rep
+ train 22 lr 1.00e-05 qshape 445.1522238038881 pshape 11224.564477759539 eshape 1.0 mshape nan rep
+ train 23 lr 1.00e-05 qshape 444.68352808286414 pshape 11223.9036671396 eshape 1.0 mshape nan rep
+ train 24 lr 1.00e-05 qshape 444.1353993990539 pshape 11223.274106790403 eshape 1.0 mshape nan rep
+ train 25 lr 1.00e-05 qshape 443.56945333519 pshape 11222.650884525212 eshape 1.0 mshape nan rep
+ train 26 lr 1.00e-05 qshape 443.0639581755039 pshape 11222.011270693025 eshape 1.0 mshape nan rep
+ train 27 lr 1.00e-05 qshape 442.47408273458126 pshape 11221.33691767963 eshape 1.0 mshape nan rep
+ train 28 lr 1.00e-05 qshape 442.0479750680487 pshape 11220.613133672223 eshape 1.0 mshape nan rep
+ train 29 lr 1.00e-05 qshape 441.8904284212323 pshape 11219.829915126935 eshape 1.0 mshape nan rep
+ train 30 lr 1.00e-05 qshape 441.8957956615775 pshape 11218.97824726118 eshape 1.0 mshape nan rep
+ train 31 lr 1.00e-05 qshape 441.8560627524522 pshape 11218.051793180723 eshape 1.0 mshape nan rep
+ train 32 lr 1.00e-05 qshape 441.73909554133945 pshape 11217.045466273972 eshape 1.0 mshape nan rep
+ train 33 lr 1.00e-05 qshape 441.6783212952854 pshape 11215.956586250704 eshape 1.0 mshape nan rep
+ train 34 lr 1.00e-05 qshape 441.5362233683123 pshape 11214.782936962012 eshape 1.0 mshape nan rep
+ train 35 lr 1.00e-05 qshape 441.3468103718804 pshape 11213.521262806014 eshape 1.0 mshape nan rep
+ train 36 lr 1.00e-05 qshape 441.086939807629 pshape 11212.169455160902 eshape 1.0 mshape nan rep
+ train 37 lr 1.00e-05 qshape 440.7772123999723 pshape 11210.724869947615 eshape 1.0 mshape nan rep
+ train 38 lr 1.00e-05 qshape 440.4663272118108 pshape 11209.183934571796 eshape 1.0 mshape nan rep
+ train 39 lr 1.00e-05 qshape 440.1987421148731 pshape 11207.543674709104 eshape 1.0 mshape nan rep
+ train 40 lr 1.00e-05 qshape 439.9766519994672 pshape 11205.800534130563 eshape 1.0 mshape nan rep
+ train 41 lr 1.00e-05 qshape 439.7582244850066 pshape 11203.950653674448 eshape 1.0 mshape nan rep
+ train 42 lr 1.00e-05 qshape 439.5027536510087 pshape 11201.989880394958 eshape 1.0 mshape nan rep
+ train 43 lr 1.00e-05 qshape 439.1995897275027 pshape 11199.91497680642 eshape 1.0 mshape nan rep
+ train 44 lr 1.00e-05 qshape 438.86916081384675 pshape 11197.722948523544 eshape 1.0 mshape nan rep
+ train 45 lr 1.00e-05 qshape 438.54623606374287 pshape 11195.408838959826 eshape 1.0 mshape nan rep
+ train 46 lr 1.00e-05 qshape 438.2535840401049 pshape 11192.968977051885 eshape 1.0 mshape nan rep
+ train 47 lr 1.00e-05 qshape 437.9730140792413 pshape 11190.400064627822 eshape 1.0 mshape nan rep
+ train 48 lr 1.00e-05 qshape 437.4924413224842 pshape 11187.698046829875 eshape 1.0 mshape nan rep
+ train 49 lr 1.00e-05 qshape 437.00925580744376 pshape 11184.857801829648 eshape 1.0 mshape nan rep
+ train 50 lr 1.00e-05 qshape 436.57566297522953 pshape 11181.875508538493 eshape 1.0 mshape nan rep
+ train 51 lr 1.00e-05 qshape 436.1928889770071 pshape 11178.746850644939 eshape 1.0 mshape nan rep
+ train 52 lr 1.00e-05 qshape 435.6234343893018 pshape 11175.468084794975 eshape 1.0 mshape nan rep
+ train 53 lr 1.00e-05 qshape 434.99269943392693 pshape 11172.034787119646 eshape 1.0 mshape nan rep
+ train 54 lr 1.00e-05 qshape 434.2030150187649 pshape 11168.441293153512 eshape 1.0 mshape nan rep
+ train 55 lr 1.00e-05 qshape 433.44786343663395 pshape 11164.681516459077 eshape 1.0 mshape nan rep
+ train 56 lr 1.00e-05 qshape 432.7896331968732 pshape 11160.749809439316 eshape 1.0 mshape nan rep
+ train 57 lr 1.00e-05 qshape 432.19537655841833 pshape 11156.640382979636 eshape 1.0 mshape nan rep
+ train 58 lr 1.00e-05 qshape 431.5811867507649 pshape 11152.352505410076 eshape 1.0 mshape nan rep
+ train 59 lr 1.00e-05 qshape 430.89517914146245 pshape 11147.88224643093 eshape 1.0 mshape nan rep
+ train 60 lr 1.00e-05 qshape 430.1510368137019 pshape 11143.222651222666 eshape 1.0 mshape nan rep
+ train 61 lr 1.00e-05 qshape 429.4025313498344 pshape 11138.36960928502 eshape 1.0 mshape nan rep
+ train 62 lr 1.00e-05 qshape 428.70908755717824 pshape 11133.320875757367 eshape 1.0 mshape nan rep
+ train 63 lr 1.00e-05 qshape 428.1047025799792 pshape 11128.074174222056 eshape 1.0 mshape nan rep
+ train 64 lr 1.00e-05 qshape 427.57316857808127 pshape 11122.630981078615 eshape 1.0 mshape nan rep
+ train 65 lr 1.00e-05 qshape 427.00568800050775 pshape 11116.991862079227 eshape 1.0 mshape nan rep
+ train 66 lr 1.00e-05 qshape 426.3275234755356 pshape 11111.161166751128 eshape 1.0 mshape nan rep
+ train 67 lr 1.00e-05 qshape 425.60497940906777 pshape 11105.144393349186 eshape 1.0 mshape nan rep
+ train 68 lr 1.00e-05 qshape 424.92549320382653 pshape 11098.947407978143 eshape 1.0 mshape nan rep
+ train 69 lr 1.00e-05 qshape 424.37047321473034 pshape 11092.580257625701 eshape 1.0 mshape nan rep
+ train 70 lr 1.00e-05 qshape 423.9570881396065 pshape 11086.054476657893 eshape 1.0 mshape nan rep
+ train 71 lr 1.00e-05 qshape 423.6297476216721 pshape 11079.384022835016 eshape 1.0 mshape nan rep
+ train 72 lr 1.00e-05 qshape 423.3333749262397 pshape 11072.584176423956 eshape 1.0 mshape nan rep
+ train 73 lr 1.00e-05 qshape 423.06128385175793 pshape 11065.675104105821 eshape 1.0 mshape nan rep
+ train 74 lr 1.00e-05 qshape 422.77714403387097 pshape 11058.68411052395 eshape 1.0 mshape nan rep
+ train 75 lr 1.00e-05 qshape 422.43278992585545 pshape 11051.636872048384 eshape 1.0 mshape nan rep
+ train 76 lr 1.00e-05 qshape 422.19578812478375 pshape 11044.562901019335 eshape 1.0 mshape nan rep
+ train 77 lr 1.00e-05 qshape 422.0868595241929 pshape 11037.495165566335 eshape 1.0 mshape nan rep
+ train 78 lr 1.00e-05 qshape 422.0613025692338 pshape 11030.470712311926 eshape 1.0 mshape nan rep
+ train 79 lr 1.00e-05 qshape 422.0560301418858 pshape 11023.526067178895 eshape 1.0 mshape nan rep
+ train 80 lr 1.00e-05 qshape 422.03389013211404 pshape 11016.69651977616 eshape 1.0 mshape nan rep
+ train 81 lr 1.00e-05 qshape 421.9921158613844 pshape 11010.018957946142 eshape 1.0 mshape nan rep
+ train 82 lr 1.00e-05 qshape 421.9498169614655 pshape 11003.526895616624 eshape 1.0 mshape nan rep
+ train 83 lr 1.00e-05 qshape 421.927347082005 pshape 10997.249998777701 eshape 1.0 mshape nan rep
+ train 84 lr 1.00e-05 qshape 421.9285029303743 pshape 10991.217920490806 eshape 1.0 mshape nan rep
+ train 85 lr 1.00e-05 qshape 421.9371313569531 pshape 10985.456638863983 eshape 1.0 mshape nan rep
+ train 86 lr 1.00e-05 qshape 421.93309749288323 pshape 10979.985419348319 eshape 1.0 mshape nan rep
+ train 87 lr 1.00e-05 qshape 421.9069674068202 pshape 10974.816956369878 eshape 1.0 mshape nan rep
+ train 88 lr 1.00e-05 qshape 421.8609687775556 pshape 10969.959937858335 eshape 1.0 mshape nan rep
+ train 89 lr 1.00e-05 qshape 421.8012859224025 pshape 10965.417123059538 eshape 1.0 mshape nan rep
+ train 90 lr 1.00e-05 qshape 421.7287410449933 pshape 10961.185901993795 eshape 1.0 mshape nan rep
+ train 91 lr 1.00e-05 qshape 421.637766196764 pshape 10957.256846866292 eshape 1.0 mshape nan rep
+ train 92 lr 1.00e-05 qshape 421.52341654393365 pshape 10953.619057411948 eshape 1.0 mshape nan rep
+ train 93 lr 1.00e-05 qshape 421.38821449183666 pshape 10950.257666747975 eshape 1.0 mshape nan rep
+ train 94 lr 1.00e-05 qshape 421.24199996476375 pshape 10947.153793517531 eshape 1.0 mshape nan rep
+ train 95 lr 1.00e-05 qshape 421.0934471562315 pshape 10944.286841915173 eshape 1.0 mshape nan rep
+ train 96 lr 1.00e-05 qshape 420.94355344126245 pshape 10941.633586992799 eshape 1.0 mshape nan rep
+ train 97 lr 1.00e-05 qshape 420.78695925387603 pshape 10939.17603777571 eshape 1.0 mshape nan rep
+ train 98 lr 1.00e-05 qshape 420.62030927279324 pshape 10936.900358779969 eshape 1.0 mshape nan rep
+ train 99 lr 1.00e-05 qshape 420.44905016948786 pshape 10934.794655402293 eshape 1.0 mshape nan rep
+ train 100 lr 1.00e-05 qshape 420.285082791401 pshape 10932.84988890734 eshape 1.0 mshape nan rep
+ train 101 lr 1.00e-05 qshape 420.13847338101164 pshape 10931.055656208582 eshape 1.0 mshape nan rep
+ train 102 lr 1.00e-05 qshape 420.0100066173021 pshape 10929.402040823574 eshape 1.0 mshape nan rep
+ train 103 lr 1.00e-05 qshape 419.89346939085755 pshape 10927.877451828317 eshape 1.0 mshape nan rep
+ train 104 lr 1.00e-05 qshape 419.7839619881479 pshape 10926.466710355844 eshape 1.0 mshape nan rep
+ train 105 lr 1.00e-05 qshape 419.6820559582169 pshape 10925.152307854387 eshape 1.0 mshape nan rep
+ train 106 lr 1.00e-05 qshape 419.5906164069409 pshape 10923.918285522966 eshape 1.0 mshape nan rep
+ train 107 lr 1.00e-05 qshape 419.5101727740615 pshape 10922.750035392633 eshape 1.0 mshape nan rep
+ train 108 lr 1.00e-05 qshape 419.43745346094437 pshape 10921.636101419757 eshape 1.0 mshape nan rep
+ train 109 lr 1.00e-05 qshape 419.3677256175922 pshape 10920.570621843146 eshape 1.0 mshape nan rep
+ train 110 lr 1.00e-05 qshape 419.29891057745857 pshape 10919.55202950971 eshape 1.0 mshape nan rep
+ train 111 lr 1.00e-05 qshape 419.23137238375836 pshape 10918.579669361703 eshape 1.0 mshape nan rep
+ train 112 lr 1.00e-05 qshape 419.16456762258196 pshape 10917.65259843972 eshape 1.0 mshape nan rep
+ train 113 lr 1.00e-05 qshape 419.09651449316044 pshape 10916.767671202575 eshape 1.0 mshape nan rep
+ train 114 lr 1.00e-05 qshape 419.0251133391911 pshape 10915.917536730569 eshape 1.0 mshape nan rep
+ train 115 lr 1.00e-05 qshape 418.9501657279072 pshape 10915.094893357775 eshape 1.0 mshape nan rep
+ train 116 lr 1.00e-05 qshape 418.87354289677154 pshape 10914.295342020505 eshape 1.0 mshape nan rep
+ train 117 lr 1.00e-05 qshape 418.79686927584595 pshape 10913.516568141127 eshape 1.0 mshape nan rep
+ train 118 lr 1.00e-05 qshape 418.7201411793394 pshape 10912.756339585081 eshape 1.0 mshape nan rep
+ train 119 lr 1.00e-05 qshape 418.6424534547618 pshape 10912.018498340156 eshape 1.0 mshape nan rep
+ train 120 lr 1.00e-05 qshape 418.5640267379907 pshape 10911.30369588453 eshape 1.0 mshape nan rep
+ train 121 lr 1.00e-05 qshape 418.4865662447337 pshape 10910.606431732773 eshape 1.0 mshape nan rep
+ train 122 lr 1.00e-05 qshape 418.4117162406342 pshape 10909.920822538481 eshape 1.0 mshape nan rep
+ train 123 lr 1.00e-05 qshape 418.3394682910679 pshape 10909.243228713749 eshape 1.0 mshape nan rep
+ train 124 lr 1.00e-05 qshape 418.26867006187 pshape 10908.570402494883 eshape 1.0 mshape nan rep
+ train 125 lr 1.00e-05 qshape 418.19867337256244 pshape 10907.90256166897 eshape 1.0 mshape nan rep
+ train 126 lr 1.00e-05 qshape 418.12982489312833 pshape 10907.240155216074 eshape 1.0 mshape nan rep
+ train 127 lr 1.00e-05 qshape 418.0625316013461 pshape 10906.581981420475 eshape 1.0 mshape nan rep
+ train 128 lr 1.00e-05 qshape 417.99660685028346 pshape 10905.924894967571 eshape 1.0 mshape nan rep
+ train 129 lr 1.00e-05 qshape 417.93108445483335 pshape 10905.264927517912 eshape 1.0 mshape nan rep
+ train 130 lr 1.00e-05 qshape 417.8648964050519 pshape 10904.601225279463 eshape 1.0 mshape nan rep
+ train 131 lr 1.00e-05 qshape 417.79756893529793 pshape 10903.932455675698 eshape 1.0 mshape nan rep
+ train 132 lr 1.00e-05 qshape 417.7292705678467 pshape 10903.259432672965 eshape 1.0 mshape nan rep
+ train 133 lr 1.00e-05 qshape 417.6599224458515 pshape 10902.582638543798 eshape 1.0 mshape nan rep
+ train 134 lr 1.00e-05 qshape 417.5888763151074 pshape 10901.901402895997 eshape 1.0 mshape nan rep
+ train 135 lr 1.00e-05 qshape 417.51544336456163 pshape 10901.214048307063 eshape 1.0 mshape nan rep
+ train 136 lr 1.00e-05 qshape 417.4397323487541 pshape 10900.518926457744 eshape 1.0 mshape nan rep
+ train 137 lr 1.00e-05 qshape 417.3617234746067 pshape 10899.817613708678 eshape 1.0 mshape nan rep
+ train 138 lr 1.00e-05 qshape 417.28110224143325 pshape 10899.109879530057 eshape 1.0 mshape nan rep
+ train 139 lr 1.00e-05 qshape 417.1976181546636 pshape 10898.394419096816 eshape 1.0 mshape nan rep
+ train 140 lr 1.00e-05 qshape 417.11125969847603 pshape 10897.670917348012 eshape 1.0 mshape nan rep
+ train 141 lr 1.00e-05 qshape 417.0223575342005 pshape 10896.938252907246 eshape 1.0 mshape nan rep
+ train 142 lr 1.00e-05 qshape 416.9313717995175 pshape 10896.193866501213 eshape 1.0 mshape nan rep
+ train 143 lr 1.00e-05 qshape 416.8389342217221 pshape 10895.436388577307 eshape 1.0 mshape nan rep
+ train 144 lr 1.00e-05 qshape 416.7453725187704 pshape 10894.664610360525 eshape 1.0 mshape nan rep
+ train 145 lr 1.00e-05 qshape 416.65095492897103 pshape 10893.875774247688 eshape 1.0 mshape nan rep
+ train 146 lr 1.00e-05 qshape 416.55602786063344 pshape 10893.06905037912 eshape 1.0 mshape nan rep
+ train 147 lr 1.00e-05 qshape 416.46095354973653 pshape 10892.24496149281 eshape 1.0 mshape nan rep
+ train 148 lr 1.00e-05 qshape 416.3663411440966 pshape 10891.403324546154 eshape 1.0 mshape nan rep
+ train 149 lr 1.00e-05 qshape 416.27225898419215 pshape 10890.540574388306 eshape 1.0 mshape nan rep
+ train 150 lr 1.00e-05 qshape 416.1784019196523 pshape 10889.652567370802 eshape 1.0 mshape nan rep
+ train 151 lr 1.00e-05 qshape 416.08530429760526 pshape 10888.74032698137 eshape 1.0 mshape nan rep
+ train 152 lr 1.00e-05 qshape 415.99313829702436 pshape 10887.803625961591 eshape 1.0 mshape nan rep
+ train 153 lr 1.00e-05 qshape 415.902278925363 pshape 10886.842186275868 eshape 1.0 mshape nan rep
+ train 154 lr 1.00e-05 qshape 415.8126247911931 pshape 10885.850741897706 eshape 1.0 mshape nan rep
+ train 155 lr 1.00e-05 qshape 415.7237848994235 pshape 10884.825392810017 eshape 1.0 mshape nan rep
+ train 156 lr 1.00e-05 qshape 415.6354693186951 pshape 10883.769485088986 eshape 1.0 mshape nan rep
+ train 157 lr 1.00e-05 qshape 415.54716866271866 pshape 10882.683442264955 eshape 1.0 mshape nan rep
+ train 158 lr 1.00e-05 qshape 415.4584458197186 pshape 10881.564302633364 eshape 1.0 mshape nan rep
+ train 159 lr 1.00e-05 qshape 415.36867949967075 pshape 10880.410140944748 eshape 1.0 mshape nan rep
+ train 160 lr 1.00e-05 qshape 415.2774211102213 pshape 10879.221322364381 eshape 1.0 mshape nan rep
+ train 161 lr 1.00e-05 qshape 415.18474329844236 pshape 10877.995554118756 eshape 1.0 mshape nan rep
+ train 162 lr 1.00e-05 qshape 415.090748042242 pshape 10876.728186527987 eshape 1.0 mshape nan rep
+ train 163 lr 1.00e-05 qshape 414.9955973015437 pshape 10875.418202975601 eshape 1.0 mshape nan rep
+ train 164 lr 1.00e-05 qshape 414.8987613757798 pshape 10874.06796071722 eshape 1.0 mshape nan rep
+ train 165 lr 1.00e-05 qshape 414.8000260113781 pshape 10872.6711391091 eshape 1.0 mshape nan rep
+ train 166 lr 1.00e-05 qshape 414.70046304089385 pshape 10871.222049060882 eshape 1.0 mshape nan rep
+ train 167 lr 1.00e-05 qshape 414.60078368896245 pshape 10869.71797169157 eshape 1.0 mshape nan rep
+ train 168 lr 1.00e-05 qshape 414.5026798868722 pshape 10868.15371823433 eshape 1.0 mshape nan rep
+ train 169 lr 1.00e-05 qshape 414.4073202158386 pshape 10866.518610388472 eshape 1.0 mshape nan rep
+ train 170 lr 1.00e-05 qshape 414.31536148485225 pshape 10864.802531135623 eshape 1.0 mshape nan rep
+ train 171 lr 1.00e-05 qshape 414.2270259332717 pshape 10863.004333257819 eshape 1.0 mshape nan rep
+ train 172 lr 1.00e-05 qshape 414.14267993824797 pshape 10861.11730037277 eshape 1.0 mshape nan rep
+ train 173 lr 1.00e-05 qshape 414.0632359023133 pshape 10859.134201295234 eshape 1.0 mshape nan rep
+ train 174 lr 1.00e-05 qshape 413.9754374231974 pshape 10857.05059267494 eshape 1.0 mshape nan rep
+ train 175 lr 1.00e-05 qshape 413.73137987650955 pshape 10854.80594355824 eshape 1.0 mshape nan rep
+ train 176 lr 1.00e-05 qshape 413.328498278919 pshape 10852.387826110888 eshape 1.0 mshape nan rep
+ train 177 lr 1.00e-05 qshape 412.75583122992975 pshape 10849.76349784866 eshape 1.0 mshape nan rep
+ train 178 lr 1.00e-05 qshape 412.1811569400722 pshape 10846.903077777002 eshape 1.0 mshape nan rep
+ train 179 lr 1.00e-05 qshape 412.0207920722129 pshape 10843.796910824072 eshape 1.0 mshape nan rep
+ train 180 lr 1.00e-05 qshape 412.1572298078555 pshape 10840.478362819913 eshape 1.0 mshape nan rep
+ train 181 lr 1.00e-05 qshape 412.35883369417996 pshape 10837.000985168037 eshape 1.0 mshape nan rep
+ train 182 lr 1.00e-05 qshape 412.50796944981323 pshape 10833.376215656617 eshape 1.0 mshape nan rep
+ train 183 lr 1.00e-05 qshape 412.61220317468945 pshape 10829.579738696313 eshape 1.0 mshape nan rep
+ train 184 lr 1.00e-05 qshape 412.70528684498976 pshape 10825.59939321159 eshape 1.0 mshape nan rep
+ train 185 lr 1.00e-05 qshape 412.7681842951993 pshape 10821.410648704521 eshape 1.0 mshape nan rep
+ train 186 lr 1.00e-05 qshape 412.75386538164037 pshape 10816.971317009746 eshape 1.0 mshape nan rep
+ train 187 lr 1.00e-05 qshape 412.6468085825954 pshape 10812.224538838385 eshape 1.0 mshape nan rep
+ train 188 lr 1.00e-05 qshape 412.4593553937691 pshape 10807.12733625334 eshape 1.0 mshape nan rep
+ train 189 lr 1.00e-05 qshape 412.2054671692979 pshape 10801.673982282035 eshape 1.0 mshape nan rep
+ train 190 lr 1.00e-05 qshape 411.9039002569045 pshape 10795.873679250954 eshape 1.0 mshape nan rep
+ train 191 lr 1.00e-05 qshape 411.6003234913402 pshape 10789.775299209277 eshape 1.0 mshape nan rep
+ train 192 lr 1.00e-05 qshape 411.371433669726 pshape 10783.359008553312 eshape 1.0 mshape nan rep
+ train 193 lr 1.00e-05 qshape 411.2598379384774 pshape 10776.621821169101 eshape 1.0 mshape nan rep
+ train 194 lr 1.00e-05 qshape 411.2135338188092 pshape 10769.569009082283 eshape 1.0 mshape nan rep
+ train 195 lr 1.00e-05 qshape 411.151537286388 pshape 10762.237152532995 eshape 1.0 mshape nan rep
+ train 196 lr 1.00e-05 qshape 411.0493056520669 pshape 10754.69456093085 eshape 1.0 mshape nan rep
+ train 197 lr 1.00e-05 qshape 410.9477870780177 pshape 10747.035433642355 eshape 1.0 mshape nan rep
+ train 198 lr 1.00e-05 qshape 410.90736584447444 pshape 10739.368856176612 eshape 1.0 mshape nan rep
+ train 199 lr 1.00e-05 qshape 410.9358222807134 pshape 10731.804013080433 eshape 1.0 mshape nan rep
+ train 200 lr 1.00e-05 qshape 410.9517547561934 pshape 10724.40851056138 eshape 1.0 mshape nan rep
+ train 201 lr 1.00e-05 qshape 410.84510636098827 pshape 10717.107839651617 eshape 1.0 mshape nan rep
+ train 202 lr 1.00e-05 qshape 410.7379085606496 pshape 10709.884436234399 eshape 1.0 mshape nan rep
+ train 203 lr 1.00e-05 qshape 410.7094014552064 pshape 10702.792045341046 eshape 1.0 mshape nan rep
+ train 204 lr 1.00e-05 qshape 410.79926101075625 pshape 10695.988517802518 eshape 1.0 mshape nan rep
+ train 205 lr 1.00e-05 qshape 410.94734434954296 pshape 10689.094958201445 eshape 1.0 mshape nan rep
+ train 206 lr 1.00e-05 qshape 411.07533494917675 pshape 10682.424432791566 eshape 1.0 mshape nan rep
+ train 207 lr 1.00e-05 qshape 411.1375043717342 pshape 10675.771683533665 eshape 1.0 mshape nan rep
+ train 208 lr 1.00e-05 qshape 411.12773806249476 pshape 10669.483211102985 eshape 1.0 mshape nan rep
+ train 209 lr 1.00e-05 qshape 411.09058241408496 pshape 10662.735207574658 eshape 1.0 mshape nan rep
+ train 210 lr 1.00e-05 qshape 410.9392254948599 pshape 10656.309112567 eshape 1.0 mshape nan rep
+ train 211 lr 1.00e-05 qshape 410.76445856426284 pshape 10649.938704689717 eshape 1.0 mshape nan rep
+ train 212 lr 1.00e-05 qshape 410.3877899383375 pshape 10643.628554898418 eshape 1.0 mshape nan rep
+ train 213 lr 1.00e-05 qshape 410.1964136011954 pshape 10636.811981469664 eshape 1.0 mshape nan rep
+ train 214 lr 1.00e-05 qshape 410.33095670110833 pshape 10630.173193123315 eshape 1.0 mshape nan rep
+ train 215 lr 1.00e-05 qshape 410.6015312501439 pshape 10623.868290471633 eshape 1.0 mshape nan rep
+ train 216 lr 1.00e-05 qshape 410.6610763267607 pshape 10617.634889302986 eshape 1.0 mshape nan rep
+ train 217 lr 1.00e-05 qshape 410.5337383016947 pshape 10611.261845503215 eshape 1.0 mshape nan rep
+ train 218 lr 1.00e-05 qshape 410.1383373933187 pshape 10605.511473049402 eshape 1.0 mshape nan rep
+ train 219 lr 1.00e-05 qshape 409.5894294922932 pshape 10600.501447525381 eshape 1.0 mshape nan rep
+ train 220 lr 1.00e-05 qshape 408.8093790526087 pshape 10593.956343832277 eshape 1.0 mshape nan rep
+ train 221 lr 1.00e-05 qshape 408.0118695298405 pshape 10588.017823551196 eshape 1.0 mshape nan rep
+ train 222 lr 1.00e-05 qshape 407.3114111203731 pshape 10584.356572301132 eshape 1.0 mshape nan rep
+ train 223 lr 1.00e-05 qshape 406.6288092121264 pshape 10576.28035285004 eshape 1.0 mshape nan rep
+ train 224 lr 1.00e-05 qshape 406.2324876805634 pshape 10576.931361996181 eshape 1.0 mshape nan rep
+ train 225 lr 1.00e-05 qshape 406.1597569986885 pshape 10571.583540865022 eshape 1.0 mshape nan rep
+ train 226 lr 1.00e-05 qshape 406.27047356058256 pshape 10558.134589532681 eshape 1.0 mshape nan rep
+ train 227 lr 1.00e-05 qshape 406.4958947407474 pshape 10569.325459135183 eshape 1.0 mshape nan rep
+ train 228 lr 1.00e-05 qshape 406.4526614654296 pshape 10571.781243138063 eshape 1.0 mshape nan rep
+ train 229 lr 1.00e-05 qshape 406.0345509211881 pshape 10547.981959497238 eshape 1.0 mshape nan rep
+ train 230 lr 1.00e-05 qshape 405.53533201895686 pshape 10541.820632961793 eshape 1.0 mshape nan rep
+ train 231 lr 1.00e-05 qshape 405.2611075155687 pshape 10545.363086981157 eshape 1.0 mshape nan rep
+ train 232 lr 1.00e-05 qshape 405.0432470087224 pshape 10532.733066322184 eshape 1.0 mshape nan rep
+ train 233 lr 1.00e-05 qshape 405.06773965550934 pshape 10524.684520107487 eshape 1.0 mshape nan rep
+ train 234 lr 1.00e-05 qshape 405.0512653038977 pshape 10524.59478770967 eshape 1.0 mshape nan rep
+ train 235 lr 1.00e-05 qshape 404.8944251109632 pshape 10512.48006509888 eshape 1.0 mshape nan rep
+ train 236 lr 1.00e-05 qshape 404.7054666274897 pshape 10520.79960009693 eshape 1.0 mshape nan rep
+ train 237 lr 1.00e-05 qshape 404.69893744147606 pshape 10523.986208163999 eshape 1.0 mshape nan rep
+ train 238 lr 1.00e-05 qshape 404.87431654321495 pshape 10506.41283259642 eshape 1.0 mshape nan rep
+ train 239 lr 1.00e-05 qshape 405.24832735787686 pshape 10496.617491716104 eshape 1.0 mshape nan rep
+ train 240 lr 1.00e-05 qshape 405.3683793952024 pshape 10500.798088637232 eshape 1.0 mshape nan rep
+ train 241 lr 1.00e-05 qshape 405.19348065291604 pshape 10486.028724955522 eshape 1.0 mshape nan rep
+ train 242 lr 1.00e-05 qshape 404.91374656708814 pshape 10491.51178907648 eshape 1.0 mshape nan rep
+ train 243 lr 1.00e-05 qshape 404.88933774948197 pshape 10496.114470073133 eshape 1.0 mshape nan rep
+ train 244 lr 1.00e-05 qshape 405.0325442481068 pshape 10478.758140677475 eshape 1.0 mshape nan rep
+ train 245 lr 1.00e-05 qshape 405.3213964229846 pshape 10473.127037531027 eshape 1.0 mshape nan rep
+ train 246 lr 1.00e-05 qshape 405.4298908826861 pshape 10478.491335173867 eshape 1.0 mshape nan rep
+ train 247 lr 1.00e-05 qshape 405.2517473104715 pshape 10461.46746537293 eshape 1.0 mshape nan rep
+ train 248 lr 1.00e-05 qshape 404.9825169942445 pshape 10467.703057452098 eshape 1.0 mshape nan rep
+ train 249 lr 1.00e-05 qshape 404.9715133317925 pshape 10473.945881579408 eshape 1.0 mshape nan rep
+ train 250 lr 1.00e-05 qshape 405.09973170781666 pshape 10456.341477319365 eshape 1.0 mshape nan rep
+ train 251 lr 1.00e-05 qshape 405.3401325846415 pshape 10449.010560287647 eshape 1.0 mshape nan rep
+ train 252 lr 1.00e-05 qshape 405.42816363901886 pshape 10454.448556449948 eshape 1.0 mshape nan rep
+ train 253 lr 1.00e-05 qshape 405.3623703639963 pshape 10438.717819101366 eshape 1.0 mshape nan rep
+ train 254 lr 1.00e-05 qshape 405.2777475689968 pshape 10447.128086874352 eshape 1.0 mshape nan rep
+ train 255 lr 1.00e-05 qshape 405.30502011310193 pshape 10453.883000979476 eshape 1.0 mshape nan rep
+ train 256 lr 1.00e-05 qshape 405.3831944820766 pshape 10435.302153590932 eshape 1.0 mshape nan rep
+ train 257 lr 1.00e-05 qshape 405.54433116225493 pshape 10428.633970615854 eshape 1.0 mshape nan rep
+ train 258 lr 1.00e-05 qshape 405.6431760193154 pshape 10435.69716805106 eshape 1.0 mshape nan rep
+ train 259 lr 1.00e-05 qshape 405.6432112241741 pshape 10418.795689604227 eshape 1.0 mshape nan rep
+ train 260 lr 1.00e-05 qshape 405.64040719728024 pshape 10426.506779881935 eshape 1.0 mshape nan rep
+ train 261 lr 1.00e-05 qshape 405.7057464150779 pshape 10434.009048013024 eshape 1.0 mshape nan rep
+ train 262 lr 1.00e-05 qshape 405.7911504443124 pshape 10415.21719800399 eshape 1.0 mshape nan rep
+ train 263 lr 1.00e-05 qshape 405.936351675052 pshape 10410.759471459962 eshape 1.0 mshape nan rep
+ train 264 lr 1.00e-05 qshape 406.03454444865747 pshape 10419.276329543434 eshape 1.0 mshape nan rep
+ train 265 lr 1.00e-05 qshape 406.0497277022066 pshape 10400.904353678481 eshape 1.0 mshape nan rep
+ train 266 lr 1.00e-05 qshape 406.06834523473907 pshape 10408.258254518652 eshape 1.0 mshape nan rep
+ train 267 lr 1.00e-05 qshape 406.13298968882 pshape 10416.556527310047 eshape 1.0 mshape nan rep
+ train 268 lr 1.00e-05 qshape 406.19405399938967 pshape 10397.755365147408 eshape 1.0 mshape nan rep
+ train 269 lr 1.00e-05 qshape 406.2832749327665 pshape 10393.809725970987 eshape 1.0 mshape nan rep
+ train 270 lr 1.00e-05 qshape 406.3474617017464 pshape 10402.751579139538 eshape 1.0 mshape nan rep
+ train 271 lr 1.00e-05 qshape 406.3649636374647 pshape 10384.301382671883 eshape 1.0 mshape nan rep
+ train 272 lr 1.00e-05 qshape 406.4136288525519 pshape 10392.10253783191 eshape 1.0 mshape nan rep
+ train 273 lr 1.00e-05 qshape 406.4817490467596 pshape 10400.740094571753 eshape 1.0 mshape nan rep
+ train 274 lr 1.00e-05 qshape 406.52792613345025 pshape 10381.81310614206 eshape 1.0 mshape nan rep
+ train 275 lr 1.00e-05 qshape 406.58846452319034 pshape 10378.286384607662 eshape 1.0 mshape nan rep
+ train 276 lr 1.00e-05 qshape 406.65536485850055 pshape 10387.788963495826 eshape 1.0 mshape nan rep
+ train 277 lr 1.00e-05 qshape 406.6961874512383 pshape 10369.12272693402 eshape 1.0 mshape nan rep
+ train 278 lr 1.00e-05 qshape 406.75763336839384 pshape 10376.456403341976 eshape 1.0 mshape nan rep
+ train 279 lr 1.00e-05 qshape 406.81187425652183 pshape 10385.24376025175 eshape 1.0 mshape nan rep
+ train 280 lr 1.00e-05 qshape 406.8376050072461 pshape 10366.33783642082 eshape 1.0 mshape nan rep
+ train 281 lr 1.00e-05 qshape 406.8762297088209 pshape 10364.284219542482 eshape 1.0 mshape nan rep
+ train 282 lr 1.00e-05 qshape 406.92161756660346 pshape 10374.682671747743 eshape 1.0 mshape nan rep

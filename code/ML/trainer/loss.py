@@ -1,3 +1,4 @@
+import os
 import torch.nn.functional as F
 import torch
 import numpy as np
@@ -131,26 +132,26 @@ class loss:
                            "eshape" : [], "mshape" : [],
                             "rep": [], "poly"   : [] }
     # =============================================================
-    def verbose(self,e,lr,mode):
 
-        #print(e)
-        for key,value in self.loss_dict.items():
-            if len(value)==0:
-                print('empty list: key ',key,' value ',value)
-                # quit()
-                continue  # skip the printing if empty list  # HK 20220508
+    def verbose(self, e, lr, mode, log_file):
 
-            # 8: n_window_sliding
-            # mean list len is 8
-            # mean along no of batch each window_sliding ...
-            mean_list = np.mean(np.reshape(value,(-1,self.window_sliding)),axis=0)
+        # print(e)
+        for key, value in self.loss_dict.items():
+            mean_list = np.mean(np.reshape(value, (-1, self.window_sliding)), axis=0)
 
-            if key=='total' or key=='*qrmse' or key=='*prmse' or key=='*urmse' \
-                or key=='*krmse' or  key=='*ermse'  or key=='qshape':
-                print('\n {} {} lr {:.2e}'.format(mode,e,lr),end='')
-            print(' {} '.format(key) + ' '.join( str(item) for item in mean_list),end='')
+            if key in ['total', '*qrmse', '*prmse', '*urmse', '*krmse', '*ermse', 'qshape']:
+                print('\n {} {} lr {:.2e}'.format(mode, e, lr), end='')
+            print(' {} '.format(key) + ' '.join(str(item) for item in mean_list), end='')
+            if log_file is not None:
+                with open(log_file, 'a') as f:
+                    if key in ['total', '*qrmse', '*prmse', '*urmse', '*krmse', '*ermse', 'qshape']:
+                        f.write('\n {} {} lr {:.2e}'.format(mode, e, lr))
+                    f.write(f" {key} {' '.join(str(item) for item in mean_list)}")
 
-        print('\n',flush=True)
+        print('\n', flush=True)
+        if log_file is not None:
+            with open(log_file, 'a') as f:
+                f.write('\n')
 
     # =============================================================
         # HK20220426
@@ -161,24 +162,25 @@ class loss:
         # if rmse_mean_val>0.2: return max(self.poly_deg,4)
         # return max(self.poly_deg,5)
         return self.poly_deg
+
     # =============================================================
     def total_loss(self,qshape,pshape,eshape,mshape,rep,qrmse_mean_value,weight):
 
         self.loss_dict["qshape"].append(qshape.item())
         self.loss_dict["pshape"].append(pshape.item())
         self.loss_dict["eshape"].append(eshape.item())
-        #self.loss_dict["mshape"].append(mshape.item())
+        # self.loss_dict["mshape"].append(mshape.item())
 
-        #ew = self.calculate_ew(qrmse_mean_value)
+        # ew = self.calculate_ew(qrmse_mean_value)
 
-        #return qshape + pshape + ew*eshape + mshape, ew
+        # return qshape + pshape + ew*eshape + mshape, ew
         return qshape + pshape + self.ew * eshape + self.repw * rep
 
     # =============================================================
-    def loss_shape_func(self,x):
+    def loss_shape_func(self, x):
 
-        loss  = x
-        for d in range(2,self.poly_deg+1):
+        loss = x
+        for d in range(2, self.poly_deg+1):
             xt = 2*d*x
             loss = loss + (xt**d)/d
         return loss

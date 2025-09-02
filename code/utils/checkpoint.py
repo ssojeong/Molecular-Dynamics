@@ -6,7 +6,7 @@ class checkpoint:
     """
     this class to save and load checkpoints in a dictionary
     """
-    def __init__(self, net, opt):
+    def __init__(self, net, opt, log_file=None):
         """
         net_list    : network list for chk pt
         opt         : pass optimizer
@@ -19,6 +19,9 @@ class checkpoint:
         self.opt = opt
 
         print('checkpoint initialized : net ', net, 'opt ', opt)
+        if log_file is not None:
+            with open(log_file, 'a') as f:
+                f.write(f'checkpoint initialized : net {net} opt {opt}\n')
 
     # ===================================================
     def load_checkpoint(self, load_filename):

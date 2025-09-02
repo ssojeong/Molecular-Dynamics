@@ -21,7 +21,6 @@ def main():
     system_logs.print_start_logs()
 
     torch.set_default_dtype(torch.float64)
-    # torch.autograd.set_detect_anomaly(True)
 
     torch.manual_seed(34952)
     np.random.seed(34952)
@@ -94,15 +93,17 @@ def main():
 
     os.makedirs(maindict['save_dir'], exist_ok=True)
 
+    log_file_path = f"{maindict['save_dir']}/{model_id}.log"
+
     if maindict['start_epoch'] == 0:
         traindict['loadfile'] = None
     else:
         traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_{maindict['start_epoch']:06d}.pth"
 
-    utils.print_dict('trainer', traindict)
-    utils.print_dict('loss', lossdict)
-    utils.print_dict('data', data)
-    utils.print_dict('main', maindict)
+    utils.print_dict('trainer', traindict, log_file_path)
+    utils.print_dict('loss', lossdict, log_file_path)
+    utils.print_dict('data', data, log_file_path)
+    utils.print_dict('main', maindict, log_file_path)
 
     print('begin ------- check param dict -------- ', flush=True)
     check_param_dict.check_traindict(traindict)
@@ -115,7 +116,7 @@ def main():
                        data["train_pts"], data["valid_pts"], data["test_pts"])
     loader = data_loader(data_set, data["batch_size"])
 
-    train = trainer(traindict, lossdict)
+    train = trainer(traindict, lossdict, log_file=log_file_path)
 
     train.load_models()
 
@@ -130,8 +131,6 @@ def main():
 
             mydevice.load(qpl_input)
             q_traj, p_traj, q_label, p_label, l_init = utils.pack_data(qpl_input, qpl_label)
-            # q_traj, p_ttaj [traj, nsamples, nparticles, dim]
-            # q_label, p_label, l_init [nsamples, nparticles, dim]
 
             train.one_step(q_traj, p_traj, q_label, p_label, l_init)
             cntr += 1

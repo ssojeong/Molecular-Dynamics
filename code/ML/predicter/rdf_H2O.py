@@ -38,7 +38,8 @@ def pair_distribution_function(file_list, op_name):
 
     n_bins = int((math.ceil(r_max) - math.floor(r_min)) / bin_width)
     count_array = np.zeros(n_bins)
-    rho = 4 * math.pi * num_mol / (3 * box_size**3)
+    rho = num_mol / box_size**3
+    n_sample = 0
 
     for idx, f in enumerate(file_list):
         print(f'===== dealing with {idx} file: {f}')
@@ -46,6 +47,7 @@ def pair_distribution_function(file_list, op_name):
         qpl = data['qpl_trajectory']
         print('qpl shape', qpl.shape)
         q = qpl[:, 0, pt, :, :]
+        n_sample += q.size(0)
 
         dis_list = []
         for i in range(num_mol):  # loop over O atoms in molecule i
@@ -61,61 +63,41 @@ def pair_distribution_function(file_list, op_name):
         print("Min distance:", torch.min(all_d).item(), "nm", "Max distance:", torch.max(all_d).item(), "nm")
 
         # Compute histogram
-        counts, bin_edges = np.histogram(all_d,
+        counts, bin_edges = np.histogram(all_d.cpu(),
                                          bins=n_bins,
                                          range=(math.floor(r_min), math.ceil(r_max)),
                                          density=False)
 
-        grbin = []
-        bin_width = np.mean(bin_edges[1:] - bin_edges[-1:])
-        for c, r in zip(counts, bin_edges[-1:]):
-            gr = rho * c * (num_mol - 1) / (4 * math.pi * (r + bin_width)**3 - r**3)
-            grbin.append(gr)
-
-        print(type(counts), len(counts), len(bin_edges), len(grbin))
         count_array += counts
 
-    torch.save({'counts': count_array,
-                'gr': torch.tensor(grbin),
-                'edge_centers': (bin_edges[:-1] + bin_edges[1:]) / 2}, op_name)
+    grbin = []
+    # print(type(count_array), type(bin_edges))
+    for c, r in zip(count_array, bin_edges[:-1]):
+        # gr = 3 * rho * c * (num_mol - 1) / (4 * math.pi * (r + bin_width) ** 3 - r ** 3)
+        shell_volume = (4 / 3) * math.pi * ((r + bin_width) ** 3 - r ** 3)
+        gr = 2 * c / ((num_mol - 1) * rho * n_sample * shell_volume)
+        grbin.append(gr)
+        print(c, r, gr, shell_volume)
 
-    # # Convert counts → occurrence (normalized)
-    # occurrence = count_array / count_array.sum()
-    # edges = bin_edges
-    # bin_centers = (edges[:-1] + edges[1:]) / 2
-    #
-    # # ---------- Plot ----------
-    # fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 8), sharex=True)
-    #
-    # # Linear scale
-    # ax1.bar(bin_centers, occurrence, width=bin_width, align='center', edgecolor='k')
-    # ax1.set_ylabel("Occurrence")
-    # ax1.set_title("O···H Distance Histogram (Linear Y)")
-    #
-    # # Log scale
-    # ax2.bar(bin_centers, occurrence, width=bin_width, align='center', edgecolor='k')
-    # ax2.set_xlabel("Distance (nm)")
-    # ax2.set_ylabel("Occurrence")
-    # ax2.set_yscale('log')
-    # ax2.set_title("O···H Distance Histogram (Log Y)")
-    #
-    # # Dense x-axis ticks
-    # x_ticks = np.arange(0, r_max + 0.01, 0.1)
-    # ax2.set_xticks(x_ticks)
-    #
-    # # Grid
-    # for ax in [ax1, ax2]:
-    #     ax.grid(True, which='both', axis='both', linestyle='--', alpha=0.7)
-    #
-    # plt.tight_layout()
-    # plt.show()
+    print(type(counts), len(counts), len(bin_edges), len(grbin))
+    print('grbin', torch.tensor(grbin).shape, 'edge center', (bin_edges[:-1] + bin_edges[1:]).shape)
+    data = {'counts': count_array,
+            'gr': torch.tensor(grbin),
+            'edge_centers': (bin_edges[:-1] + bin_edges[1:]) / 2}
+    torch.save(data, op_name)
+
+    # ---------- Plot ----------
+    # Linear scale
+    plt.plot(data['edge_centers'], data['gr'])
+    plt.tight_layout()
+    plt.show()
 
 
 if __name__ == '__main__':
     num_mol = 8
     box_size = 2.2
     r_min = 0
-    r_max = box_size / 2 * 3 ** 0.5
+    r_max = 2
     assert box_size / 2 * 3 ** 0.5 < r_max, 'r max is smaller than diagonal of half box size'
     bin_width = 0.01
     pt = -1

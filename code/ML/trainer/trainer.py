@@ -21,7 +21,7 @@ from utils.checkpoint import checkpoint
 
 class trainer:
 
-    def __init__(self,train_dict,loss_dict):
+    def __init__(self,train_dict, loss_dict, log_file=None):
 
         self.train_dict = train_dict
 
@@ -68,7 +68,8 @@ class trainer:
                              loss_dict["reg_weight"],
                              train_dict["window_sliding"])  # remove eweight in loss
 
-        self.ckpt = checkpoint(self.mlvv, self.opt)
+        self.log_file = log_file
+        self.ckpt = checkpoint(self.mlvv, self.opt, self.log_file)
         self.grad_clip = self.train_dict["grad_clip"]
 
 # ==========================================================
@@ -144,7 +145,7 @@ class trainer:
 
         q_input_list = []
         p_input_list = []
-        for q,p in zip(q_traj_list,p_traj_list):
+        for q, p in zip(q_traj_list, p_traj_list):
             q_input_list.append(self.prepare_data_obj.prepare_q_feature_input(q, l_init))
             p_input_list.append(self.prepare_data_obj.prepare_p_feature_input(q, p, l_init))
 
@@ -178,7 +179,7 @@ class trainer:
     def checkpoint(self, filename):
         self.ckpt.save_checkpoint(filename)
         print('checkpint to file ', filename)
-        self.verbose(0, 'checkpoint values')
+        # self.verbose(0, 'checkpoint values')
 
     # ==========================================================
     def load_models(self):
@@ -197,7 +198,7 @@ class trainer:
             print('tau grad is None before gradient')
 
         cur_lr = self.opt.param_groups[0]['lr']
-        self.loss_obj.verbose(e, cur_lr, mode)
+        self.loss_obj.verbose(e, cur_lr, mode, self.log_file)
         self.loss_obj.clear()
 
         self.LLUF_update_p_obj.f_stat.print(e,  mode + ' p')
