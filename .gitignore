@@ -12,3 +12,8 @@ __pycache__/
 out.txt
 jobsub.sh
 *.log
+# JetBrains IDE
+*.iml
+.idea/
+*.ipr
+*.iws
