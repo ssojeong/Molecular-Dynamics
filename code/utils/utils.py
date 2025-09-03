@@ -9,7 +9,7 @@ from utils.mydevice import mydevice
 
 
 accept_changes = ('model_id', 'pwnet_layer', 'pwnet_dim', 'trans_layer', 'trans_dim', 'window_sliding',
-                  'batch_size', 'b', 'poly_deg', 'dpt_train', 'dpt_valid', 'load_weight', 'end_epoch')
+                  'maxlr', 'batch_size', 'b', 'poly_deg', 'dpt_train', 'dpt_valid', 'load_weight', 'end_epoch')
 
 # ===================================================
 def assert_nan(x):

@@ -19,7 +19,7 @@ if __name__ == '__main__':
         # print(data.keys())
         ax1.plot(data['edge_centers'], data['gr'], label=name)
         try:
-
+            print(f, 'counts', data['counts'].sum())
             ax2.plot(data['edge_centers'], data['counts'] / data['counts'].sum(), label=name)
         except KeyError:
             pass

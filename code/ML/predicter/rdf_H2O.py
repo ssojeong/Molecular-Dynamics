@@ -61,16 +61,17 @@ def pair_distribution_function(file_list, op_name):
 
         all_d = torch.cat(dis_list, dim=0)
         print("Min distance:", torch.min(all_d).item(), "nm", "Max distance:", torch.max(all_d).item(), "nm")
-
+        
         # Compute histogram
         counts, bin_edges = np.histogram(all_d.cpu(),
                                          bins=n_bins,
                                          range=(math.floor(r_min), math.ceil(r_max)),
                                          density=False)
-
+        print("Batch dist counts:", np.sum(counts), "should be", q.size(0)*num_mol*(num_mol-1)/2)
         count_array += counts
 
     grbin = []
+    print("Total dist counts:", np.sum(count_array), "should be", n_sample*num_mol*(num_mol-1)/2)
     # print(type(count_array), type(bin_edges))
     for c, r in zip(count_array, bin_edges[:-1]):
         # gr = 3 * rho * c * (num_mol - 1) / (4 * math.pi * (r + bin_width) ** 3 - r ** 3)
@@ -100,7 +101,8 @@ if __name__ == '__main__':
     r_max = 2
     assert box_size / 2 * 3 ** 0.5 < r_max, 'r max is smaller than diagonal of half box size'
     bin_width = 0.01
-    pt = 10000
-    # file_list = [f'../../../../Data/LLUF/300k_gap1_nvt_long.pt']
-    file_list = [f'../../../../SavedMoldel/LLUF/gap10_b0.01_n128-128-128_d256/0.02_id{i}.pt' for i in range(32)]
-    pair_distribution_function(file_list, f'../../../../Data/LLUF/300k_LLUF_histo.pt')
+    pt = -1
+    file_list = [f'../../../../Data/LLUF/300k_gap1_nvt_long.pt']
+    pair_distribution_function(file_list, f'../../../../Data/LLUF/300k_gromacs_histo.pt')
+    # file_list = [f'../../../../SavedModel/LLUF/gap10_b0.01_n128-128-128_d256/0.02_id{i}.pt' for i in range(32)]
+    # pair_distribution_function(file_list, f'../../../../Data/LLUF/300k_LLUF_10k_histo.pt')
