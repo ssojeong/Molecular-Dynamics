@@ -67,7 +67,8 @@ def main():
                  "a_list"       : a,       # [np.pi/8]
                  "maxlr"        : maxlr,   # starting learning rate # HK
                  "tau_init"     : 1,       # starting learning rate
-                 "ml_steps": 100
+                 "ml_steps": 10000,
+                 "append_strike": 10
                  }
 
     lossdict = { "polynomial_degree": 4,
@@ -77,10 +78,10 @@ def main():
 
     data = {"train_file": f'../../Data/LLUF/300k_gap10_train.pt',
             "valid_file": f'../../Data/LLUF/300k_gap10_valid.pt',
-            "test_file" : f'../../Data/LLUF/300k_gap10_valid.pt',
+            "test_file" : f'../../Data/LLUF/300k_gap1_nvt_8.pt',
             "train_pts" : args['dpt_train'],
             "valid_pts" : args['dpt_valid'],
-            "test_pts"  : 100,
+            "test_pts"  : 1000,
             "batch_size": args['batch_size'],
             "window_sliding": window_sliding}
     
@@ -88,7 +89,7 @@ def main():
                  "nitr": nitr,  # for check md trajectories
                  "tau_short": 0.002}
 
-    traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_{10:06d}.pth"
+    traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_{913:06d}.pth"
 
     utils.print_dict('data', data)
 
@@ -139,8 +140,8 @@ def main():
 
                 qpl_list = torch.stack((q_predict, p_predict, l_init), dim=1)
 
-                # if (t + 1) % traindict['append_strike'] == 0:
-                qpl_batch.append(qpl_list)
+                if (t + 1) % traindict['append_strike'] == 0:
+                    qpl_batch.append(qpl_list)
 
                 q_cur = q_predict
                 p_cur = p_predict

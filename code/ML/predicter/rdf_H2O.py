@@ -102,4 +102,5 @@ if __name__ == '__main__':
     bin_width = 0.01
     pt = -1
     file_list = [f'../../../../Data/LLUF/300k_gap1_nvt_long.pt']
+    file_list = [f'../../../../SavedMoldel/LLUF/300k_gap10_b0.01_128
     pair_distribution_function(file_list, f'../../../../Data/LLUF/300k_gromacs_histo.pt')

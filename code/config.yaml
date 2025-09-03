@@ -1,4 +1,4 @@
-model_id: test   # in case want to train many model of the same setting, to separate them
+model_id: 0   # in case want to train many model of the same setting, to separate them
 gap: 10  # part of save filename
 single_parnet_type: transformer_type # single particle neural network type
 multi_parnet_type: gnn_identity # multi particle neural network type
@@ -12,7 +12,7 @@ nnodes:       # number of nodes in neural nets (use pwnet, readout net)
 
 d_model: 256
 window_sliding: 1 # number of time points to do integration to calculate the loss
-batch_size: 4
+batch_size: 32
 ngrid: 12  # 2D -> 6 ; 3D -> 12 -- current code only for grid 12
 b: # list of grid distance; grid lattice constant for multibody interactions
   - 0.01
@@ -34,7 +34,7 @@ repw: 0 # repulsive loss weight
 poly_deg: 4 # polynomial based qloss, ploss term
 maxlr: 0.00001 # lr = 1e-5
 region: 'lg' # phase region we are interested
-dpt_train: 4 # train dataset, 520_44792 / 300_44046
-dpt_valid: 4 # valid dataset, 520_4993 /300_4961
-start_epoch: 0 # if checkpoint exist, set start epoch from saved epoch number. otherwise start epoch=0
+dpt_train: 44046 # train dataset, 520_44792 / 300_44046
+dpt_valid: 4961 # valid dataset, 520_4993 /300_4961
+start_epoch: 259 # if checkpoint exist, set start epoch from saved epoch number. otherwise start epoch=0
 end_epoch: 1000
