@@ -63,9 +63,10 @@ class checkpoint:
         else:
             print("=> no checkpoint found at '{}'".format(full_name))
             quit()
+        return checkpoint['epoch'], checkpoint['valid_loss']
 
     # ===================================================
-    def save_checkpoint(self, save_filename):
+    def save_checkpoint(self, save_filename, epoch, valid_loss):
         """
         function to record the state after each training
 
@@ -78,5 +79,7 @@ class checkpoint:
 
         full_name = save_filename
         torch.save({'net': self.net.state_dict(),
-                    'opt': self.opt.state_dict()
+                    'opt': self.opt.state_dict(),
+                    'epoch': epoch,
+                    'valid_loss': valid_loss
                     }, full_name)

@@ -1,3 +1,6 @@
+import sys
+
+import torch
 import torch.nn as nn
 import torch.optim as optim
 from utils.mydevice import mydevice
@@ -21,7 +24,7 @@ from utils.checkpoint import checkpoint
 
 class trainer:
 
-    def __init__(self,train_dict, loss_dict, log_file=None):
+    def __init__(self, train_dict, loss_dict, log_file=None):
 
         self.train_dict = train_dict
 
@@ -76,6 +79,7 @@ class trainer:
 
     def one_step(self, q_traj, p_traj, q_label, p_label, l_init):
 
+        self.mlvv.train()
         self.opt.zero_grad()
 
         # need to mask out particle itself interaction at each pw-net
@@ -145,39 +149,37 @@ class trainer:
 
         q_input_list = []
         p_input_list = []
-        for q, p in zip(q_traj_list, p_traj_list):
-            q_input_list.append(self.prepare_data_obj.prepare_q_feature_input(q, l_init))
-            p_input_list.append(self.prepare_data_obj.prepare_p_feature_input(q, p, l_init))
 
-        loss_val = 0
+        with torch.no_grad():
+            for q, p in zip(q_traj_list, p_traj_list):
+                q_input_list.append(self.prepare_data_obj.prepare_q_feature_input(q, l_init))
+                p_input_list.append(self.prepare_data_obj.prepare_p_feature_input(q, p, l_init))
 
-        for ws in range(self.train_dict["window_sliding"]):
+            loss_val = 0
 
-            # q_input_list [phi0,phi1,phi2,...]; phi is function of q at grid point
-            # p_input_list [pi0,pi1,pi2,...]; pi is momentum at grid point
-            q_input_list, p_input_list, q_predict, p_predict, l_init = self.mlvv.nsteps(q_input_list,
-                                                                                        p_input_list,
-                                                                                        q_cur,
-                                                                                        p_cur,
-                                                                                        l_init)
+            for ws in range(self.train_dict["window_sliding"]):
 
-            loss_val += self.loss_obj.eval(q_predict,
-                                           p_predict,
-                                           q_label[:, ws],
-                                           p_label[:, ws],
-                                           q_traj_list[-1],
-                                           p_traj_list[-1],
-                                           l_init,
-                                           self.weights[ws])
+                q_input_list, p_input_list, q_predict, p_predict, l_init = self.mlvv.nsteps(q_input_list,
+                                                                                            p_input_list,
+                                                                                            q_cur,
+                                                                                            p_cur,
+                                                                                            l_init)
 
-            q_cur = q_predict
-            p_cur = p_predict
+                loss_val += self.loss_obj.eval(q_predict,
+                                               p_predict,
+                                               q_label[:, ws],
+                                               p_label[:, ws],
+                                               q_traj_list[-1],
+                                               p_traj_list[-1],
+                                               l_init,
+                                               self.weights[ws])
 
-        self.mlvv.train()
+                q_cur = q_predict
+                p_cur = p_predict
     
     # ==========================================================
-    def checkpoint(self, filename):
-        self.ckpt.save_checkpoint(filename)
+    def checkpoint(self, filename, epoch, v_loss):
+        self.ckpt.save_checkpoint(filename, epoch, v_loss)
         print('checkpint to file ', filename)
         # self.verbose(0, 'checkpoint values')
 
@@ -185,7 +187,12 @@ class trainer:
     def load_models(self):
         load_file = self.train_dict["loadfile"]
         if load_file is not None:
-            self.ckpt.load_checkpoint(load_file) 
+            epoch, v_loss = self.ckpt.load_checkpoint(load_file)
+        else:
+            epoch = 1
+            v_loss = sys.maxsize
+        print(self.train_dict["loadfile"])
+        return epoch, v_loss
 
     # ==========================================================
     def verbose(self, e, mode):
@@ -198,13 +205,14 @@ class trainer:
             print('tau grad is None before gradient')
 
         cur_lr = self.opt.param_groups[0]['lr']
-        self.loss_obj.verbose(e, cur_lr, mode, self.log_file)
+        total_loss = self.loss_obj.verbose(e, cur_lr, mode, self.log_file)
         self.loss_obj.clear()
 
         self.LLUF_update_p_obj.f_stat.print(e,  mode + ' p')
         self.LLUF_update_p_obj.f_stat.clear()
         self.LLUF_update_q_obj.f_stat.print(e, mode + ' q')
         self.LLUF_update_q_obj.f_stat.clear()
+        return total_loss
 
     # ==========================================================
     def net_builder(self, train_dict):

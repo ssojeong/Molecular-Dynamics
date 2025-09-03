@@ -32,7 +32,7 @@ if __name__ == '__main__' :
         else:
             loss_weights[i] = eval(loss_weights[i])
 
-    #c = [i for i in loss_weights if i !=0]
+    # c = [i for i in loss_weights if i !=0]
 
     tlr = tqrmse[:,1]; lr = tqrmse[:,3]
     ttqrmse = tqrmse[:, 1]; vtqrmse =  vqrmse[:, 1]

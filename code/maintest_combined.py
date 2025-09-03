@@ -171,7 +171,7 @@ def main():
 
 
 if __name__ == '__main__':
-    yaml_config_path = 'config.yaml'
+    yaml_config_path = 'default_config.yaml'
     with open(yaml_config_path, 'r') as f:
         args = yaml.load(f, Loader=yaml.Loader)
     main()

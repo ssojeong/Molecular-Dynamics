@@ -8,8 +8,9 @@ import sys
 import os
 import platform
 import numpy as np
-#import psutil
+# import psutil
 from datetime import datetime
+
 
 class system_logs(object):
 
@@ -20,7 +21,7 @@ class system_logs(object):
             system_logs.__instance = object.__new__(cls)
         return system_logs.__instance
 
-    def __init__(self,mydevice):
+    def __init__(self, mydevice, log_file=None):
         system_logs.__instance.pid = os.getpid()
         system_logs.__instance.uname = platform.uname()
         system_logs.__instance.mydevice = mydevice
@@ -28,28 +29,31 @@ class system_logs(object):
         system_logs.__instance.memory_usage = []
         system_logs.__instance.time_usage = []
         system_logs.__instance.time_usage.append(system_logs.__instance.start_time)
+        system_logs.__instance.logfile = log_file
 
     @staticmethod
     def print_start_logs():
         print('pid : ', system_logs.__instance.pid)
         print('uname : ', system_logs.__instance.uname)
-        print('code run start time ',system_logs.__instance.start_time.strftime("%Y%m%d, %H:%M:%S"))
+        print('code run start time ', system_logs.__instance.start_time.strftime("%Y%m%d, %H:%M:%S"))
         system_logs.__instance.mydevice.device_name()
 
     @staticmethod
-    def record_time_usage(t):
+    def record_time_usage(txt):
         now = datetime.now()
         system_logs.__instance.time_usage.append(now)
         run_duration = now - system_logs.__instance.start_time
         dt = now - system_logs.__instance.time_usage[-2]
-        print('time usage :',run_duration,'(',dt,') at t=',t)
+        message = f"time usage :, {run_duration}, ({dt}) for {txt}"
+        print(message)
+        system_logs.save_to_logfile(message)
 
     @staticmethod
     def record_memory_usage(t):
         # mem_use = psutil.virtual_memory()[2]
         # system_logs.__instance.memory_usage.append(mem_use)
         # print('memory usage :',mem_use,' at t=',t)
-        print(' at t=',t)
+        print(' at t=', t)
 
     @staticmethod
     def argv1():
@@ -61,10 +65,14 @@ class system_logs(object):
 
         print('end date/time every checkpoint:', now.strftime("%Y%m%d, %H:%M:%S"))
         run_duration = now - system_logs.__instance.start_time
-        print('run time ',run_duration)
+        print('run time ', run_duration)
 
         # mean_memory = np.mean(system_logs.__instance.memory_usage)
         # std_memory = np.std(system_logs.__instance.memory_usage)
         # print('mean mem : ', mean_memory, ', std mem : ', std_memory )
 
-
+    @staticmethod
+    def save_to_logfile(m):
+        if system_logs.__instance.logfile is not None:
+            with open(system_logs.__instance.logfile, 'a') as log:
+                log.write(f'{m}\n')

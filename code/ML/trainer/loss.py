@@ -44,8 +44,9 @@ class loss:
 
         print('loss initialized: rthrsh', rthrsh , 'pethrsh {:.3f}'.format(peth), 'e weight', ew, 'reg weight', repw, 'reg weight2', repw2, 'weight len',
                 self.window_sliding)
+
     # =============================================================
-    def eval(self,q_list, p_list, q_label, p_label, q_init, p_init, l_list,weight):
+    def eval(self, q_list, p_list, q_label, p_label, q_init, p_init, l_list,weight):
 
         self.nsamples = q_list.shape[0]
 
@@ -97,7 +98,7 @@ class loss:
         mshape = mmae
 
         #total,eweight = self.total_loss(qshape,pshape,eshape,mshape,qrmse.item())
-        total = self.total_loss(qshape, pshape, eshape, mshape, rep, qrmse.item(),weight)
+        total = self.total_loss(qshape, pshape, eshape, mshape, rep, qrmse.item(), weight)
         # HK20220426
         self.loss_dict["total"].append(total.item())      
         self.loss_dict["*qrmse"].append(qrmse.item())      
@@ -152,10 +153,11 @@ class loss:
         if log_file is not None:
             with open(log_file, 'a') as f:
                 f.write('\n')
+        return sum(self.loss_dict['total']) / len(self.loss_dict['total'])
 
     # =============================================================
         # HK20220426
-    def calculate_poly(self,qrmse_mean_value,prmse_mean_value):
+    def calculate_poly(self, qrmse_mean_value, prmse_mean_value):
         # rmse_mean_val = max(qrmse_mean_value,prmse_mean_value)
         # if rmse_mean_val>1.0: return max(self.poly_deg,2)
         # if rmse_mean_val>0.6: return max(self.poly_deg,3)
@@ -164,7 +166,7 @@ class loss:
         return self.poly_deg
 
     # =============================================================
-    def total_loss(self,qshape,pshape,eshape,mshape,rep,qrmse_mean_value,weight):
+    def total_loss(self, qshape, pshape, eshape, mshape, rep, qrmse_mean_value, weight):
 
         self.loss_dict["qshape"].append(qshape.item())
         self.loss_dict["pshape"].append(pshape.item())
