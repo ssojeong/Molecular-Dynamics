@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import json
 
 if __name__ == '__main__':
-    # python plot_tau.py load_file_tau0.1.dict traj8ws8tau0.1ngrid12w8421ew1repw10poly1l_ \
+    # python plot_tau.py template.dict traj8ws8tau0.1ngrid12w8421ew1repw10poly1l_ \
     # results/traj_len08ws08tau0.1ngrid12api0lw8421ew1repw10poly1l_dpt100
 
     argv = sys.argv

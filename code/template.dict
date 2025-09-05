@@ -1,0 +1,6 @@
+{
+ "xx_trainqrmse" : "logfile/xx_qrmse.txt",
+ "xx_validqrmse" : "logfile/xx_qrmse_eval.txt",
+ "xx_trainprmse" : "logfile/xx_prmse.txt",
+ "xx_validprmse" : "logfile/xx_prmse_eval.txt",
+}

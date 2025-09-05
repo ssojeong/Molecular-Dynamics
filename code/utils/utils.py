@@ -85,6 +85,7 @@ def check_arg_changes(argv: list[str], schema: Dict[str, Any]) -> list[str]:
         return []
 
     tail = argv[1:]
+    print('tail of argv:', tail)
     if len(tail) % 2 != 0:
         raise ValueError("Expected --key value pairs; got an odd number of tokens.")
 

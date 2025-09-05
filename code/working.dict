@@ -1,0 +1,6 @@
+{
+ "./logfile/vanilla_0.log_trainqrmse" : "logfile/./logfile/vanilla_0.log_qrmse.txt",
+ "./logfile/vanilla_0.log_validqrmse" : "logfile/./logfile/vanilla_0.log_qrmse_eval.txt",
+ "./logfile/vanilla_0.log_trainprmse" : "logfile/./logfile/vanilla_0.log_prmse.txt",
+ "./logfile/vanilla_0.log_validprmse" : "logfile/./logfile/vanilla_0.log_prmse_eval.txt",
+}
