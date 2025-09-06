@@ -9,15 +9,16 @@ from utils.mydevice import mydevice
 
 from hamiltonian.lennard_jones2d import lennard_jones2d  # hk
 
+
 class loss:
 
-    #def __init__(self,potential_function,poly_deg,rthrsh,ew,repw,repw2=0.01):
+    # def __init__(self,potential_function,poly_deg,rthrsh,ew,repw,repw2=0.01):
     # hk
-    def __init__(self,poly_deg, rthrsh,ew,repw,window_sliding,repw2=0.01):
+    def __init__(self, poly_deg, rthrsh, ew, repw, window_sliding, repw2=0.01):
 
         # lj is use for calculating regularization on replusive force and conservation of energy
-        #self.potential_function = potential_function
-        self.potential_function = lennard_jones2d() # hk
+        # self.potential_function = potential_function
+        self.potential_function = lennard_jones2d()     # hk
 
         # HK20220426
         self.loss_dict = { "total"  : [], 
@@ -36,29 +37,30 @@ class loss:
         self.pethrsh = mydevice.load(self.pethrsh)
         self.poly_deg = poly_deg
 
-        self.ew  = ew
+        self.ew = ew
         self.repw = repw
         self.repw2 = repw2
         self.window_sliding = window_sliding
         self.m = nn.ReLU()
 
-        print('loss initialized: rthrsh', rthrsh , 'pethrsh {:.3f}'.format(peth), 'e weight', ew, 'reg weight', repw, 'reg weight2', repw2, 'weight len',
-                self.window_sliding)
+        print('loss initialized: rthrsh', rthrsh, 'pethrsh {:.3f}'.format(peth),
+              'e weight', ew, 'reg weight', repw, 'reg weight2', repw2,
+              'weight len', self.window_sliding)
 
     # =============================================================
-    def eval(self, q_list, p_list, q_label, p_label, q_init, p_init, l_list,weight):
+    def eval(self, q_list, p_list, q_label, p_label, q_init, p_init, l_list, weight):
 
         self.nsamples = q_list.shape[0]
 
         # # To normalize along nparticle, divide mean of nsamples to nparticle
-        qrmse_val = self.q_RMSE_loss(q_list, q_label,l_list) # shape [nsamples] -- [ 2.3, 0.2, 4.3 . .]
-        #print('qrmse_val', qrmse_val.tolist())
+        qrmse_val = self.q_RMSE_loss(q_list, q_label, l_list) # shape [nsamples] -- [ 2.3, 0.2, 4.3 . .]
+        # print('qrmse_val', qrmse_val.tolist())
         qrmse = torch.sum(qrmse_val) / self.nsamples         # mean over samples
 
-        qmse_val = self.q_MSE_loss(q_list, q_label,l_list)
+        qmse_val = self.q_MSE_loss(q_list, q_label, l_list)
         qmse = torch.sum(qmse_val) / self.nsamples
 
-        qmae_val = self.q_MAE_loss(q_list, q_label,l_list)
+        qmae_val = self.q_MAE_loss(q_list, q_label, l_list)
         qmae = torch.sum(qmae_val) / self.nsamples
         
         prmse_val = self.p_RMSE_loss(p_list, p_label)
@@ -71,33 +73,35 @@ class loss:
         pmae = torch.sum(pmae_val) / self.nsamples
 
         # HK
-        kmae_val,umae_val,emae_val, _ = self.conserve_MAE_eloss(q_list,p_list,q_init,p_init,l_list)
+        kmae_val, umae_val, emae_val, _ = self.conserve_MAE_eloss(q_list, p_list, q_init, p_init, l_list)
         kmae = torch.sum(kmae_val) / self.nsamples
         umae = torch.sum(umae_val) / self.nsamples
         emae = torch.sum(emae_val) / self.nsamples
 
-        krmse_val,urmse_val,ermse_val, eshape_val = self.conserve_RMSE_eloss(q_list,p_list,q_init,p_init,l_list)
+        krmse_val, urmse_val, ermse_val, eshape_val = self.conserve_RMSE_eloss(q_list, p_list, q_init, p_init, l_list)
         krmse = torch.sum(krmse_val) / self.nsamples
         urmse = torch.sum(urmse_val) / self.nsamples
         ermse = torch.sum(ermse_val) / self.nsamples
         eshape = torch.sum(eshape_val) / self.nsamples
 
-        relurep, rep = self.potential_rep(q_list,l_list)
+        # ===== changed by LW for 3d H2O =====
+        # relurep, rep = self.potential_rep(q_list, l_list)
+        relurep, rep = self.potential_rep_oo_in_h2o(q_list, l_list)
 
         # conploss shape [nsamples]
-        mmae_val = self.conserve_MAE_mloss(p_list,p_init)
+        mmae_val = self.conserve_MAE_mloss(p_list, p_init)
         mmae = torch.sum(mmae_val) / self.nsamples
 
         # HK20220426
-        self.poly_deg = self.calculate_poly(qrmse.item(),prmse.item())
+        self.poly_deg = self.calculate_poly(qrmse.item(), prmse.item())
 
-        qshape = torch.sum(self.loss_shape_func(qrmse_val))/ self.nsamples
-        pshape = torch.sum(self.loss_shape_func(prmse_val))/ self.nsamples
+        qshape = torch.sum(self.loss_shape_func(qrmse_val)) / self.nsamples
+        pshape = torch.sum(self.loss_shape_func(prmse_val)) / self.nsamples
 
-        #eshape = ermse
+        # eshape = ermse
         mshape = mmae
 
-        #total,eweight = self.total_loss(qshape,pshape,eshape,mshape,qrmse.item())
+        # total,eweight = self.total_loss(qshape,pshape,eshape,mshape,qrmse.item())
         total = self.total_loss(qshape, pshape, eshape, mshape, rep, qrmse.item(), weight)
         # HK20220426
         self.loss_dict["total"].append(total.item())      
@@ -113,7 +117,7 @@ class loss:
         self.loss_dict["-umae"].append(umae.item())
         self.loss_dict["*ermse"].append(ermse.item())
         self.loss_dict["-emae"].append(emae.item())
-        #self.loss_dict["*mmae"].append(mmae.item())
+        # self.loss_dict["*mmae"].append(mmae.item())
         self.loss_dict["*relurep"].append(relurep.item())
         self.loss_dict["rep"].append(rep.item())
         self.loss_dict["poly"].append(self.poly_deg)
@@ -204,6 +208,7 @@ class loss:
         d2 = torch.sum(dq * dq,dim=(2)) # shape is [nsamples, nparticle]
         qloss = torch.sum(d2,dim=1) / nparticle # shape [nsamples]
         return qloss
+
     # =============================================================
     def q_RMSE_loss(self,q_quantity, q_label,l_list):
 
@@ -212,6 +217,7 @@ class loss:
         d2 = torch.sqrt(torch.sum(dq * dq,dim=2)) # shape is [nsamples, nparticle]
         qloss = torch.sum(d2,dim=1) / nparticle # shape [nsamples]
         return qloss
+
     # =============================================================
     def q_MAE_loss(self,q_quantity, q_label,l_list):
 
@@ -301,11 +307,25 @@ class loss:
 
         return torch.abs(dp) / nparticles
 
-    def potential_rep(self, q_list,l_list):
+    # def potential_rep(self, q_list, l_list):
+    #
+    #     rep_pe_max = self.potential_function.repulsive_energy(q_list, l_list)
+    #     relu_pe = self.m(rep_pe_max - self.pethrsh)
+    #
+    #     rep = 1 - torch.exp(-self.repw2 * relu_pe) * (1 +self.repw2 * relu_pe)
+    #
+    #     return relu_pe, rep
 
-        rep_pe_max  = self.potential_function.repulsive_energy(q_list,l_list)
-        relu_pe = self.m(rep_pe_max - self.pethrsh)
+    @staticmethod
+    def potential_rep_oo_in_h2o(q_list, l_list):
 
-        rep = 1 - torch.exp(-self.repw2 * relu_pe) * (1 +self.repw2 * relu_pe)
+        # nsample, nparticle, dim = q_list.shape
 
-        return relu_pe, rep
+        dis_oo = q_list[:, 3::3, :] - q_list[:, :-3:3, :]
+        assert torch.mean(l_list) == l_list[0], 'Expecting a uniform pbc box size'
+        dis_oo = dis_oo - l_list[0] * torch.round(dis_oo / l_list[0])
+        print('dis_oo shape', dis_oo.shape)
+        epsilon = 1e-6  # Small value to avoid division by zero
+        p = torch.relu(((dis_oo - 0.8).abs() + epsilon) ** -12 - 1)
+
+        return p, p

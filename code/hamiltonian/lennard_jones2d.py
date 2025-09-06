@@ -59,7 +59,6 @@ class lennard_jones2d:
 
         return 4*self.epsilon*(pair12-pair06)
 
-
     def paired_distance(self,q_list,l_list):
 
         nsample = q_list.shape[0]
@@ -110,12 +109,12 @@ if __name__=='__main__':
     l_list = torch.unsqueeze(l_list,dim=1)
     l_list = torch.repeat_interleave(l_list,nparticle,dim=1)
 
-    #print('q_list ',q_list)
-    #print('l_list ',l_list)
+    # print('q_list ',q_list)
+    # print('l_list ',l_list)
 
     dq = pairwise_dq_pbc(q_list,l_list) # shape [nsample,nparticle,nparticle,dim]
     dr = torch.sqrt(torch.sum(dq*dq,dim=-1)) # shape [nsample,nparticle,nparticle]
-    #print('dr slow ',dr)
+    # print('dr slow ',dr)
 
     force_list = []
     for s in range(nsample):
