@@ -115,3 +115,11 @@ def get_args(default_argv):
         parser.add_argument(f"--{key}", type=type(value), default=value)
     args = parser.parse_args()
     return args
+
+
+def args2dict(file_name):
+    print(file_name)
+    arg_dict = {}
+    for k, v in zip(file_name[::2], file_name[1::2]):
+        arg_dict[k[2:]] = v
+    return arg_dict

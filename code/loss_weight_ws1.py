@@ -1,13 +1,16 @@
 import torch
 import numpy as np
 import sys
-import matplotlib.pyplot as plt
 import json
+# import matplotlib
+# matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
 
     argv = sys.argv
+    print(argv)
     load_files = argv[1]
     name = argv[2]
     loss_weights = argv[3].split(',')
@@ -18,47 +21,68 @@ if __name__ == '__main__':
     with open(load_files) as f:
        data = json.load(f)
 
-    tqrmse = np.genfromtxt(data['{}trainqrmse'.format(name)]); vqrmse = np.genfromtxt(data['{}validqrmse'.format(name)])
-    tqshape = np.genfromtxt(data['{}trainqshape'.format(name)]); vqshape = np.genfromtxt(data['{}validqshape'.format(name)])
-    tprmse = np.genfromtxt(data['{}trainprmse'.format(name)]); vprmse = np.genfromtxt(data['{}validprmse'.format(name)])
-    tpshape = np.genfromtxt(data['{}trainpshape'.format(name)]); vpshape = np.genfromtxt(data['{}validpshape'.format(name)])
-    # termse = np.genfromtxt(data['{}trainermse'.format(name)]); vermse = np.genfromtxt(data['{}validermse'.format(name)])
-    # teshape = np.genfromtxt(data['{}traineshape'.format(name)]); veshape = np.genfromtxt(data['{}valideshape'.format(name)])
-    # trelureg = np.genfromtxt(data['{}trainrelurep'.format(name)]); vrelureg = np.genfromtxt(data['{}validrelurep'.format(name)])
+    print(data)
+
+    tqrmse = np.genfromtxt(data[f'{name}trainqrmse'])
+    vqrmse = np.genfromtxt(data[f'{name}validqrmse'])
+    # tqshape = np.genfromtxt(data[f'{name}trainqshape'])
+    # vqshape = np.genfromtxt(data[f'{name}validqshape'])
+    tprmse = np.genfromtxt(data[f'{name}trainprmse'])
+    vprmse = np.genfromtxt(data[f'{name}validprmse'])
+    # tpshape = np.genfromtxt(data[f'{name}trainpshape'])
+    # vpshape = np.genfromtxt(data[f'{name}validpshape'])
+    # termse = np.genfromtxt(data['{}trainermse'.format(name)]);
+    # vermse = np.genfromtxt(data['{}validermse'.format(name)])
+    # teshape = np.genfromtxt(data['{}traineshape'.format(name)]);
+    # veshape = np.genfromtxt(data['{}valideshape'.format(name)])
+    # trelureg = np.genfromtxt(data['{}trainrelurep'.format(name)]);
+    # vrelureg = np.genfromtxt(data['{}validrelurep'.format(name)])
     # poly = np.genfromtxt(data['{}trainpoly'.format(name)])
     # trep = np.genfromtxt(data['{}trainrep'.format(name)]); vrep = np.genfromtxt(data['{}validrep'.format(name)])
-    ttotal = np.genfromtxt(data['{}train'.format(name)]); vtotal = np.genfromtxt(data['{}valid'.format(name)])
+    # ttotal = np.genfromtxt(data[f'{name}train'])
+    # vtotal = np.genfromtxt(data[f'{name}valid'])
 
-    for i in range(len(loss_weights)):
-        if isinstance(loss_weights[i], float):
-            loss_weights[i] = float(loss_weights[i])
-        else:
-            loss_weights[i] = eval(loss_weights[i])
+    # for i in range(len(loss_weights)):
+    #     if isinstance(loss_weights[i], float):
+    #         loss_weights[i] = float(loss_weights[i])
+    #     else:
+    #         loss_weights[i] = eval(loss_weights[i])
 
     # c = [i for i in loss_weights if i !=0]
 
-    tlr = tqrmse[:,1]; lr = tqrmse[:,3]
-    ttqrmse = tqrmse[:, 1]; vtqrmse =  vqrmse[:, 1]
+    tlr = tqrmse[:, 1]
+    lr = tqrmse[:, 3]
+    ttqrmse = tqrmse[:, 1]
+    vtqrmse = vqrmse[:, 1]
 
-    qrmse_t = tqrmse[:, 5:]; qrmse_v = vqrmse[:, 5:]
+    qrmse_t = tqrmse[:, 5:]
+    qrmse_v = vqrmse[:, 5:]
 
-    qshape_t = tqshape[:, 5:]; qshape_v = vqshape[:, 5:]  # mode train
+    # qshape_t = tqshape[:, 5:]
+    # qshape_v = vqshape[:, 5:]  # mode train
 
-    prmse_t = tprmse[:, 5:]; prmse_v = vprmse[:, 5:]  # mode train
-    pshape_t = tpshape[:, 5:]; pshape_v = vpshape[:, 5:]  # mode train
+    prmse_t = tprmse[:, 5:]
+    prmse_v = vprmse[:, 5:]  # mode train
+    # pshape_t = tpshape[:, 5:]
+    # pshape_v = vpshape[:, 5:]  # mode train
 
-    # ermse_t = termse[:, 5:]; ermse_v = vermse[:, 5:]  # mode train
-    # eshape_t = teshape[:, 5:]; eshape_v = veshape[:,5:]  # mode train
+    # ermse_t = termse[:, 5:];
+    # ermse_v = vermse[:, 5:]  # mode train
+    # eshape_t = teshape[:, 5:];
+    # eshape_v = veshape[:,5:]  # mode train
 
-    # relureg_t = trelureg[:, 5:]; relureg_v = vrelureg[:, 5:]  # mode train
+    # relureg_t = trelureg[:, 5:];
+    # relureg_v = vrelureg[:, 5:]  # mode train
 
     # rep_t = trep[:, 1:]; rep_v = vrep[:, 1:]  # mode train
     # poly_t = poly[:, 1]; poly_v = poly[:, 1]  # mode train
 
-    loss_t = ttotal[:, 5:]; loss_v = vtotal[:, 5:]  # mode train
+    # loss_t = ttotal[:, 5:]; loss_v = vtotal[:, 5:]  # mode train
 
     tepoch = ttqrmse
     vepoch = vtqrmse
+
+    # plt.ion()
 
     fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
     #print(qrmse_t)
@@ -90,6 +114,9 @@ if __name__ == '__main__':
 
     fig.suptitle("# {}".format(title), fontsize=12)
     plt.tight_layout()
+    # plt.show()
     plt.show()
-    plt.close()
-
+    # plt.ioff()
+    # plt.pause(1)  # give the GUI event loop time to render
+    # plt.close()
+    # plt.draw()

@@ -148,12 +148,23 @@ if __name__ == '__main__':
     qp = rearrange(file['qp'][:, ::gap, :, :, :], 'traj tpts atom dim qp -> traj qp tpts atom dim')
     l = 2.2 * torch.ones(qp.size(0), 1, qp.size(2), qp.size(3), qp.size(4), dtype=qp.dtype, device=qp.device)   # box size 2.2
     qpl_trajectory = torch.cat((qp, l), dim=1)
+
     times = file['times'][::gap]
     print('qpl_trajectory shape', qpl_trajectory.shape)
-    data = {'qpl_trajectory': qpl_trajectory,
-            'times': times,
-            'traj_id': file['traj_id'],
-            'atom_id': file['atom_id'],
+
+    split = int(qpl_trajectory.size(0) * 0.9)
+    data = {'qpl_trajectory': qpl_trajectory[:split].clone(),
+            'times': times[:split].clone(),
+            'traj_id': file['traj_id'][:split].clone(),
+            'atom_id': file['atom_id'][:split],
             'tau_short': tau_short,
             'tau_long': tau_long}
-    torch.save(data, f'../../../Data/LLUF/300k_gap{gap}_valid.pt')
+    torch.save(data, f'../../../Data/LLUF/300k_100ktraj_gap{gap}_train.pt')
+
+    data = {'qpl_trajectory': qpl_trajectory[split:].clone(),
+            'times': times[split:].clone(),
+            'traj_id': file['traj_id'][split:].clone(),
+            'atom_id': file['atom_id'][split:],
+            'tau_short': tau_short,
+            'tau_long': tau_long}
+    torch.save(data, f'../../../Data/LLUF/300k_100ktraj_gap{gap}_valid.pt')
