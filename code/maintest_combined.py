@@ -5,16 +5,12 @@ import yaml
 
 from ML.trainer.trainer          import trainer
 from ML.predicter.predicter      import predicter
-from utils                       import check_param_dict
 from utils                       import utils
 from utils.system_logs           import system_logs
 from utils.mydevice              import mydevice
 from data_loader.data_loader import data_loader
 from data_loader.data_loader import my_data
 import numpy  as np
-
-# python maintest_combined.py api0lw8421ew1repw10poly1lowrho transformer_type gnn_identity mlp_type
-# 16 0.035 0.46 0.1 8 809 1000 6 0.2 0 0,1/8,0,1/4,0,1/2,0,1 600000 g 1
 
 
 def main():
@@ -26,33 +22,31 @@ def main():
 
     torch.manual_seed(34952)
 
-    model_id = args['model_id']
-    gap = args['gap']
+    model_id = args.model_id
+    gap = args.gap
     tau_long = gap * 0.002
-    window_sliding = args['window_sliding']
-    ngrid = args['ngrid']
-    b = args['b']
-    a = args['a']
-    nitr = args['nitr']
-    ew = args['ew']
-    repw = args['repw']
-    poly_deg = args['poly_deg']
-    maxlr = args['maxlr']
-    nnodes = [args['pwnet_dim']] * args['pwnet_layer']
-    d_model = args['trans_dim']
-    model_name = f"gap{gap}_b{b[0]}_n{'-'.join([str(i) for i in nnodes])}_d{d_model}"
-    gamma = 10
-    temp = 300
+    window_sliding = args.window_sliding
+    ngrid = args.ngrid
+    b = args.b
+    a = args.a
+    nitr = args.nitr
+    ew = args.ew
+    repw = args.repw
+    poly_deg = args.poly_deg
+    maxlr = args.maxlr
+    d_model = args.trans_dim
+    # ==========================
+    nnodes = [args.pwnet_dim] * args.pwnet_layer
 
-    traindict = {"net_nnodes"   : args['nnodes'],       # number of nodes in neural nets
+    traindict = {"net_nnodes"   : nnodes,       # number of nodes in neural nets
                  "pw4mb_nnodes" : 128,                  # number of nodes in neural nets
                  "pw_output_dim": 3,                    # 20250803: change from 2D to 3D, psi
                  "optimizer"    : 'Adam',
-                 "single_particle_net_type": args['single_parnet_type'],
-                 "multi_particle_net_type" : args['multi_parnet_type'],
-                 "readout_step_net_type"   : args['readout_net_type'],
-                 "n_encoder_layers" : args['trans_layer'],
-                 "n_gnn_layers"     : args['gnn_layer'],
+                 "single_particle_net_type": args.single_parnet_type,
+                 "multi_particle_net_type" : args.multi_parnet_type,
+                 "readout_step_net_type"   : args.readout_net_type,
+                 "n_encoder_layers" : args.trans_layer,
+                 "n_gnn_layers"     : args.gnn_layer,
                  "edge_attention"   : True,
                  "d_model"      : d_model,
                  "nhead"        : 8,
@@ -60,34 +54,37 @@ def main():
                  "grad_clip"    : 0.5,    # clamp the gradient for neural net parameters
                  "tau_traj_len" : 8 * tau_long,  # n evaluations in integrator
                  "tau_long"     : tau_long,
-                 "loss_weights"  : args['loss_weights'][-window_sliding:],
+                 "loss_weights"  : args.loss_weights[-window_sliding:],
                  "window_sliding": window_sliding,  # number of times to do integration before cal the loss
                  "ngrids"       : ngrid,   # 6*len(b_list)
                  "b_list"       : b,       # grid lattice constant for multibody interactions
                  "a_list"       : a,       # [np.pi/8]
                  "maxlr"        : maxlr,   # starting learning rate # HK
                  "tau_init"     : 1,       # starting learning rate
-                 "ml_steps": 1000,
-                 "append_strike": 10
                  }
 
-    lossdict = { "polynomial_degree": 4,
-                 "rthrsh": 0.7,
-                 "e_weight": 1,
-                 "reg_weight": 10}
+    lossdict = {"polynomial_degree": poly_deg,
+                "rthrsh"           : 0.7,
+                "e_weight"         : ew,
+                "reg_weight"       : repw}
 
-    data = {"train_file": f'../../Data/LLUF/300k_gap10_train.pt',
-            "valid_file": f'../../Data/LLUF/300k_gap10_valid.pt',
-            "test_file" : f'../../Data/LLUF/300k_gap1_nvt_8.pt',
-            "train_pts" : args['dpt_train'],
-            "valid_pts" : args['dpt_valid'],
+    data = {"train_file": f'../../Data/LLUF/300k_100ktraj_gap{gap}_train.pt',
+            "valid_file": f'../../Data/LLUF/300k_100ktraj_gap{gap}_valid.pt',
+            "test_file" : f'../../Data/LLUF/300k_100ktraj_gap{gap}_valid.pt',
+            "train_pts" : args.dpt_train,
+            "valid_pts" : args.dpt_valid,
             "test_pts"  : 1000,
-            "batch_size": args['batch_size'],
+            "batch_size": args.batch_size,
             "window_sliding": window_sliding}
-    
-    maindict = {"save_dir": f'../../SavedModel/LLUF/{model_name}',
-                 "nitr": nitr,  # for check md trajectories
-                 "tau_short": 0.002}
+
+    maindict = {"end_epoch"       : args.end_epoch,
+                # "save_dir"        : f'../../SavedModel/LLUF/{model_name}',
+                "tau_short"       : 1e-4,
+                "nitr"            : nitr,  # for check md trajectories
+                "append_strike"   : nitr,  # for check md trajectories
+                "ckpt_interval"   : 5,     # for check pointing
+                "val_interval"    : 1,     # no use of valid for now
+                "verb"            : 1  }   # period for printing out losses
 
     # traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_{913:06d}.pth"
     traindict['loadfile'] = '/home/project/13003073/SJ/water20250904/results/gap10_b0.01_n128-128-128_d256_ws4_poly1_lr0.0001/0_000040.pth'
@@ -174,6 +171,8 @@ def main():
 if __name__ == '__main__':
     yaml_config_path = 'default_config.yaml'
     with open(yaml_config_path, 'r') as f:
-        args = yaml.load(f, Loader=yaml.Loader)
+        default_args = yaml.load(f, Loader=yaml.Loader)
+    overridden_argv = utils.check_arg_changes(sys.argv, default_args)
+    main_args = utils.get_args(default_args)
     main()
 
