@@ -33,7 +33,7 @@ repw: 0 # repulsive loss weight
 poly_deg: 1 # polynomial based qloss, ploss term
 maxlr: 0.0001 # lr = 1e-4
 region: 'lg' # phase region we are interested
-dpt_train: 44046 # train dataset, 520_44792 / 300_44046
-dpt_valid: 4961 # valid dataset, 520_4993 /300_4961
+dpt_train: 85815 # train dataset, 520_44792 / 300_85815
+dpt_valid: 9536 # valid dataset, 520_4993 /300_9536
 load_weight: best   # accept best(keep this as default)/null(train fro scratch)/epoch_no(int) #TODO add 'last'
 end_epoch: 2000

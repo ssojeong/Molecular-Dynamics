@@ -38,8 +38,8 @@ def main():
     repw = args['repw']
     poly_deg = args['poly_deg']
     maxlr = args['maxlr']
-    nnodes = args['nnodes']
-    d_model = args['d_model']
+    nnodes = [args['pwnet_dim']] * args['pwnet_layer']
+    d_model = args['trans_dim']
     model_name = f"gap{gap}_b{b[0]}_n{'-'.join([str(i) for i in nnodes])}_d{d_model}"
     gamma = 10
     temp = 300
@@ -67,7 +67,7 @@ def main():
                  "a_list"       : a,       # [np.pi/8]
                  "maxlr"        : maxlr,   # starting learning rate # HK
                  "tau_init"     : 1,       # starting learning rate
-                 "ml_steps": 10000,
+                 "ml_steps": 1000,
                  "append_strike": 10
                  }
 
@@ -89,8 +89,8 @@ def main():
                  "nitr": nitr,  # for check md trajectories
                  "tau_short": 0.002}
 
-    traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_{913:06d}.pth"
-
+    # traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_{913:06d}.pth"
+    traindict['loadfile'] = '/home/project/13003073/SJ/water20250904/results/gap10_b0.01_n128-128-128_d256_ws4_poly1_lr0.0001/0_000040.pth'
     utils.print_dict('data', data)
 
     print(traindict)
@@ -158,7 +158,8 @@ def main():
             print('====== load no batch ', cntr, '==== shape ', qpl_in.shape,qpl_batch.shape)
             qpl_batch_cat = torch.cat((qpl_in, qpl_batch), dim=2)   # stack traj initial + window-sliding
 
-            tmp_filename = maindict["save_dir"] + str(traindict['tau_long']) + f'_id{cntr}.pt'
+            # tmp_filename = maindict["save_dir"] + str(traindict['tau_long']) + f'_id{cntr}.pt'
+            tmp_filename = maindict["save_dir"] + str(traindict['tau_long']) + f'ws4_id{cntr}.pt'
             print('saved qpl list shape', qpl_batch_cat.shape)
             torch.save({'qpl_trajectory': qpl_batch_cat,
                         'tau_short': maindict['tau_short'],

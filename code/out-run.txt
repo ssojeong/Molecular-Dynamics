@@ -1,33 +1,34 @@
+tail of argv: ['--window_sliding', '8', '--trans_layer', '4', '--trans_dim', '512', '--bathc_size', '16']
 Traceback (most recent call last):
-  File "/home/project/13003073/LW/GitHub/Molecular-Dynamics/code/maintrain.py", line 170, in <module>
+  File "/home/project/13003073/LW/GitHub/Molecular-Dynamics/code/maintrain.py", line 173, in <module>
     overridden_argv = utils.check_arg_changes(sys.argv, default_args)
-  File "/home/project/13003073/LW/GitHub/Molecular-Dynamics/code/utils/utils.py", line 97, in check_arg_changes
+  File "/home/project/13003073/LW/GitHub/Molecular-Dynamics/code/utils/utils.py", line 98, in check_arg_changes
     raise KeyError(f"Unknown option '--{k}'. Existing keys: {', '.join(sorted(schema.keys()))}")
-KeyError: "Unknown option '--max_lr'. Existing keys: a, b, batch_size, dpt_train, dpt_valid, end_epoch, ew, gap, gnn_layer, load_weight, loss_weights, maxlr, model_id, multi_parnet_type, ngrid, nitr, poly_deg, pwnet_dim, pwnet_layer, readout_net_type, region, repw, single_parnet_type, trans_dim, trans_layer, window_sliding"
+KeyError: "Unknown option '--bathc_size'. Existing keys: a, b, batch_size, dpt_train, dpt_valid, end_epoch, ew, gap, gnn_layer, load_weight, loss_weights, maxlr, model_id, multi_parnet_type, ngrid, nitr, poly_deg, pwnet_dim, pwnet_layer, readout_net_type, region, repw, single_parnet_type, trans_dim, trans_layer, window_sliding"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			Resource Usage on 2025-09-03 22:10:51.897530:
+			Resource Usage on 2025-09-07 12:06:32.169782:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	JobId: 83166.pbs111
+	JobId: 84083.pbs111
 	Project: 13003073
 	Exit Status: 1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	NCPUs: Requested(14), Used(14)
 	CPU Time Used: 00:00:04
-	Memory: Requested(235gb), Used(324200kb)
-	Vmem Used: 4070384kb
-	Walltime: Requested(24:00:00), Used(00:00:05)
+	Memory: Requested(235gb), Used(591904kb)
+	Vmem Used: 0kb
+	Walltime: Requested(24:00:00), Used(00:00:08)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Execution Nodes Used: (a2ap-dgx039:ngpus=1:mem=246415360kb:ncpus=14)
+	Execution Nodes Used: (a2ap-dgx038:ngpus=1:mem=246415360kb:ncpus=14)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	GPU Duration: 8.05secs
+	GPU Duration: 10.68secs
 	GPU Power Consumed: 0W
 	GPU Max GPU Memory Used: 0.0B
-	Memory Throughput Rate (Average): a2ap-dgx039:(gpu7:0%)
-	Memory Throughput Rate (Max): a2ap-dgx039:(gpu7:0%)
-	Memory Throughput Rate (Min): a2ap-dgx039:(gpu7:0%)
-	GPU SM Utilization (Average): a2ap-dgx039:(gpu7:0%)
-	GPU SM Utilization (Max): a2ap-dgx039:(gpu7:0%)
-	GPU SM Utilization (Min): a2ap-dgx039:(gpu7:0%)
+	Memory Throughput Rate (Average): a2ap-dgx038:(gpu3:0%)
+	Memory Throughput Rate (Max): a2ap-dgx038:(gpu3:0%)
+	Memory Throughput Rate (Min): a2ap-dgx038:(gpu3:0%)
+	GPU SM Utilization (Average): a2ap-dgx038:(gpu3:0%)
+	GPU SM Utilization (Max): a2ap-dgx038:(gpu3:0%)
+	GPU SM Utilization (Min): a2ap-dgx038:(gpu3:0%)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Warning: All GPUs have a percentage of 0 utilisation.
 GPU application profile: Idle

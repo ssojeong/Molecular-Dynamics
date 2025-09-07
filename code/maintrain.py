@@ -70,9 +70,9 @@ def main(args, model_name):
                 "e_weight"         : ew,
                 "reg_weight"       : repw}
 
-    data = {"train_file": f'../../Data/LLUF/300k_gap{gap}_train.pt',
-            "valid_file": f'../../Data/LLUF/300k_gap{gap}_valid.pt',
-            "test_file" : f'../../Data/LLUF/300k_gap{gap}_valid.pt',
+    data = {"train_file": f'../../Data/LLUF/300k_100ktraj_gap{gap}_train.pt',
+            "valid_file": f'../../Data/LLUF/300k_100ktraj_gap{gap}_valid.pt',
+            "test_file" : f'../../Data/LLUF/300k_100ktraj_gap{gap}_valid.pt',
             "train_pts" : args.dpt_train,
             "valid_pts" : args.dpt_valid,
             "test_pts"  : 1000,
@@ -84,7 +84,7 @@ def main(args, model_name):
                 "tau_short"       : 1e-4,
                 "nitr"            : nitr,  # for check md trajectories
                 "append_strike"   : nitr,  # for check md trajectories
-                "ckpt_interval"   : 10,     # for check pointing
+                "ckpt_interval"   : 5,     # for check pointing
                 "val_interval"    : 1,     # no use of valid for now
                 "verb"            : 1  }   # period for printing out losses
 
@@ -97,7 +97,10 @@ def main(args, model_name):
     if args.load_weight.lower() in ('null', 'none'):
         traindict['loadfile'] = None
     elif args.load_weight.lower() == 'best':
-        traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_best.pth"
+        if os.path.exists(f"{maindict['save_dir']}/{model_id}_best.pth"):
+            traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_best.pth"
+        else:
+            traindict['loadfile'] = None
     else:
         traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_epoch_{args.load_weight}.pth"
 
@@ -170,7 +173,7 @@ if __name__ == '__main__':
     overridden_argv = utils.check_arg_changes(sys.argv, default_args)
     main_args = utils.get_args(default_args)
 
-    ignore_list = ['model_id', 'batch_size', 'load_weight', 'end_epoch', 'poly_deg', 'window_sliding']
+    ignore_list = ['model_id', 'batch_size', 'load_weight', 'end_epoch']
     overridden_argv = [k for k in overridden_argv if k not in ignore_list]
     if len(overridden_argv) == 0:
         main_model_name = 'vanilla'

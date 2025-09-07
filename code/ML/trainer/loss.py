@@ -180,6 +180,7 @@ class loss:
         # ew = self.calculate_ew(qrmse_mean_value)
 
         # return qshape + pshape + ew*eshape + mshape, ew
+        # print(qshape.shape, pshape.shape, self.ew, eshape.shape, self.repw, rep.shape)
         return qshape + pshape + self.ew * eshape + self.repw * rep
 
     # =============================================================
@@ -322,10 +323,13 @@ class loss:
         # nsample, nparticle, dim = q_list.shape
 
         dis_oo = q_list[:, 3::3, :] - q_list[:, :-3:3, :]
-        assert torch.mean(l_list) == l_list[0], 'Expecting a uniform pbc box size'
-        dis_oo = dis_oo - l_list[0] * torch.round(dis_oo / l_list[0])
-        print('dis_oo shape', dis_oo.shape)
+        # print(type(l_list), l_list.shape, torch.mean(l_list), l_list)
+        box_size = l_list.flatten()[0]
+        assert torch.allclose(l_list.min(), l_list.max(), rtol=1e-4), \
+                f'Expecting a uniform pbc box size, got min {l_list.min()}, max {l_list.max()}'
+        dis_oo = dis_oo - box_size * torch.round(dis_oo / box_size)
+        # print('dis_oo shape', dis_oo.shape)
         epsilon = 1e-6  # Small value to avoid division by zero
-        p = torch.relu(((dis_oo - 0.8).abs() + epsilon) ** -12 - 1)
-
+        p = torch.relu(((dis_oo - 0.8).abs() + epsilon) ** -2 - 1)
+        p = torch.sum(p)
         return p, p
