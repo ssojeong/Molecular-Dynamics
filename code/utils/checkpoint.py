@@ -63,7 +63,10 @@ class checkpoint:
         else:
             print("=> no checkpoint found at '{}'".format(full_name))
             quit()
-        return checkpoint['epoch'], checkpoint['valid_loss']
+        try:
+            return checkpoint['epoch'], checkpoint['valid_loss']
+        except KeyError:
+            return 0, 9999
 
     # ===================================================
     def save_checkpoint(self, save_filename, epoch, valid_loss):
