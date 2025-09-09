@@ -35,7 +35,7 @@ def main():
     poly_deg = args.poly_deg
     maxlr = args.maxlr
     d_model = args.trans_dim
-    gamma = 10
+    gamma = 0
     temp = 300
     # ==========================
     nnodes = [args.pwnet_dim] * args.pwnet_layer
@@ -63,8 +63,8 @@ def main():
                  "a_list"       : a,       # [np.pi/8]
                  "maxlr"        : maxlr,   # starting learning rate # HK
                  "tau_init"     : 1,       # starting learning rate
-                 "ml_steps"     : 10000,
-                 "append_strike": 10
+                 "ml_steps"     : 1,
+                 "append_strike": 1
                  }
 
     lossdict = {"polynomial_degree": poly_deg,
@@ -86,12 +86,12 @@ def main():
                 "tau_short"       : 1e-4,
                 "nitr"            : nitr,  # for check md trajectories
                 "append_strike"   : nitr,  # for check md trajectories
-                "ckpt_interval"   : 5,     # for check pointing
+                "ckpt_interval"   : 1,     # for check pointing
                 "val_interval"    : 1,     # no use of valid for now
                 "verb"            : 1  }   # period for printing out losses
 
     # traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_{913:06d}.pth"
-    traindict['loadfile'] = '/home/project/13003073/SJ/water20250904/results/gap10_b0.01_n128-128-128_d256_ws8_poly1_lr0.0001/0_000060.pth'
+    traindict['loadfile'] = '/home/project/13003073/SJ/water20250904/results/gap10_b0.01_n128-128-128_d256_ws8_poly1_lr0.0001/0_000110.pth'
     utils.print_dict('data', data)
 
     print(traindict)
@@ -160,8 +160,8 @@ def main():
             qpl_batch_cat = torch.cat((qpl_in, qpl_batch), dim=2)   # stack traj initial + window-sliding
 
             # tmp_filename = maindict["save_dir"] + str(traindict['tau_long']) + f'_id{cntr}.pt'
-            tmp_filename = maindict["save_dir"] + str(traindict['tau_long']) + f'ws8_id{cntr}.pt'
-            print('saved qpl list shape', qpl_batch_cat.shape)
+            tmp_filename = maindict["save_dir"] + str(traindict['tau_long']) + f'ws8_test_id{cntr}.pt'
+            print('batch', cntr, 'saved qpl list shape', qpl_batch_cat.shape)
             torch.save({'qpl_trajectory': qpl_batch_cat,
                         'tau_short': maindict['tau_short'],
                         'tau_long': traindict["tau_long"]}, tmp_filename)

@@ -101,8 +101,8 @@ if __name__ == '__main__':
     r_max = 2
     assert box_size / 2 * 3 ** 0.5 < r_max, 'r max is smaller than diagonal of half box size'
     bin_width = 0.01
-    pt = -1
+    pt = 10
     # file_list = [f'../../../../Data/LLUF/300k_gap1_nvt_long.pt']
     # pair_distribution_function(file_list, f'../../../../Data/LLUF/300k_gromacs_histo.pt')
-    file_list = [f'../../../../SavedModel/LLUF/0.02ws8_id{i}.pt' for i in range(32)]
-    pair_distribution_function(file_list, f'../../../../Data/LLUF/300k_LLUF_ws8_10k_histo.pt')
+    file_list = [f'../../../../SavedModel/LLUF/0.02ws8_short_id{i}.pt' for i in range(32)]
+    pair_distribution_function(file_list, f'../../../../Data/LLUF/300k_LLUF_ws8_{pt}_histo.pt')
