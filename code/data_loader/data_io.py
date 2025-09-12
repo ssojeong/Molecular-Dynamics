@@ -113,6 +113,33 @@ class data_io:
     # ================================================
 
 
+def merge_pt(file_list, out_path):
+    for i, f_path in enumerate(file_list):
+        print(i, f'==== dealing with {f_path} ====')
+        f = torch.load(f_path)
+        if i == 0:
+            qpl = f['qpl_trajectory']
+            times = f['times']
+            traj_id = f['traj_id']
+            atom_id = f['atom_id']
+            tau_short = f['tau_short']
+            tau_long = f['tau_long']
+        else:
+            qpl = torch.cat([qpl, f['qpl_trajectory']])
+            times = torch.cat([times, f['times']])
+            traj_id = torch.cat([traj_id, f['traj_id']])
+            atom_id = atom_id + f['atom_id']
+        print('qpl', qpl.shape)
+
+    data = {'qpl_trajectory': qpl,
+            'times': times,
+            'traj_id': traj_id,
+            'atom_id': atom_id,
+            'tau_short': tau_short,
+            'tau_long': tau_long}
+    torch.save(data, out_path)
+
+
 if __name__ == '__main__':
     from einops import rearrange
 
@@ -143,7 +170,7 @@ if __name__ == '__main__':
     gap = int(round(ratio))
     assert abs(ratio - gap) < 1e-9, f"target_dt/origin_dt must be integer; got {ratio}"
 
-    filename = '../../../Data/LLUF/300k_valid.pt'
+    filename = '../../../Data/LLUF/300k_100ktraj_1.pt'
     file = torch.load(filename)
     qp = rearrange(file['qp'][:, ::gap, :, :, :], 'traj tpts atom dim qp -> traj qp tpts atom dim')
     l = 2.2 * torch.ones(qp.size(0), 1, qp.size(2), qp.size(3), qp.size(4), dtype=qp.dtype, device=qp.device)   # box size 2.2
@@ -151,7 +178,7 @@ if __name__ == '__main__':
 
     times = file['times'][::gap]
     print('qpl_trajectory shape', qpl_trajectory.shape)
-
+    
     split = int(qpl_trajectory.size(0) * 0.9)
     data = {'qpl_trajectory': qpl_trajectory[:split].clone(),
             'times': times[:split].clone(),
@@ -159,12 +186,20 @@ if __name__ == '__main__':
             'atom_id': file['atom_id'][:split],
             'tau_short': tau_short,
             'tau_long': tau_long}
-    torch.save(data, f'../../../Data/LLUF/300k_100ktraj_gap{gap}_train.pt')
-
+    # torch.save(data, f'../../../Data/LLUF/300k_100ktraj_gap{gap}_1_train.pt')
+    
     data = {'qpl_trajectory': qpl_trajectory[split:].clone(),
             'times': times[split:].clone(),
             'traj_id': file['traj_id'][split:].clone(),
             'atom_id': file['atom_id'][split:],
             'tau_short': tau_short,
             'tau_long': tau_long}
-    torch.save(data, f'../../../Data/LLUF/300k_100ktraj_gap{gap}_valid.pt')
+    # torch.save(data, f'../../../Data/LLUF/300k_100ktraj_gap{gap}_1_valid.pt')
+
+    f_list = [f'../../../Data/LLUF/300k_100ktraj_gap10_train.pt',
+              f'../../../Data/LLUF/300k_100ktraj_gap10_1_train.pt']
+    merge_pt(f_list, f'../../../Data/LLUF/300k_150ktraj_gap10_train.pt')
+
+    f_list = [f'../../../Data/LLUF/300k_100ktraj_gap10_valid.pt',
+              f'../../../Data/LLUF/300k_100ktraj_gap10_1_valid.pt']
+    merge_pt(f_list, f'../../../Data/LLUF/300k_150ktraj_gap10_valid.pt')

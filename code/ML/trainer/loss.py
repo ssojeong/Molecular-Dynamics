@@ -224,8 +224,8 @@ class loss:
 
         nsamples, nparticle, DIM = q_label.shape
         dq = self.del_q_adjust(q_quantity,q_label, l_list) # shape is [nsamples, nparticle, DIM]
-        d2 = torch.sum(torch.abs(dq),dim=2) # shape is [nsamples, nparticle]
-        qloss = torch.sum(d2,dim=1) / nparticle # shape [nsamples]
+        d2 = torch.sum(torch.abs(dq),dim=2)         # shape is [nsamples, nparticle]
+        qloss = torch.sum(d2, dim=1) / nparticle    # shape [nsamples]
         return qloss
 
     # =============================================================

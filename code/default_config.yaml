@@ -10,7 +10,7 @@ trans_layer: 2  # transformer layer
 trans_dim: 256
 gnn_layer: 2  # graph neural network layer, no use anymore
 
-window_sliding: 1 # number of time points to do integration to calculate the loss
+window_sliding: 8 # number of time points to do integration to calculate the loss
 batch_size: 32
 ngrid: 12  # 2D -> 6 ; 3D -> 12 -- current code only for grid 12
 b: # list of grid distance; grid lattice constant for multibody interactions

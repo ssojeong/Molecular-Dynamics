@@ -5,12 +5,13 @@ import yaml
 
 from ML.trainer.trainer          import trainer
 from ML.predicter.predicter      import predicter
+from ML.predicter.rdf_H2O        import count2rdf, q2dis
+from ML.trainer.loss             import loss
 from utils                       import utils
 from utils.system_logs           import system_logs
 from utils.mydevice              import mydevice
 from data_loader.data_loader import data_loader
 from data_loader.data_loader import my_data
-import numpy  as np
 
 
 def main():
@@ -22,7 +23,6 @@ def main():
 
     torch.manual_seed(34952)
 
-    model_id = args.model_id
     gap = args.gap
     tau_long = gap * 0.002
     window_sliding = args.window_sliding
@@ -63,7 +63,7 @@ def main():
                  "a_list"       : a,       # [np.pi/8]
                  "maxlr"        : maxlr,   # starting learning rate # HK
                  "tau_init"     : 1,       # starting learning rate
-                 "ml_steps"     : 1,
+                 "ml_steps"     : 8,
                  "append_strike": 1
                  }
 
@@ -74,11 +74,11 @@ def main():
 
     data = {"train_file": f'../../Data/LLUF/300k_100ktraj_gap{gap}_train.pt',
             "valid_file": f'../../Data/LLUF/300k_100ktraj_gap{gap}_valid.pt',
-            "test_file" : f'../../Data/LLUF/300k_100ktraj_gap{gap}_valid.pt',
+            "test_file" : f'../../Data/LLUF/300k_100ktraj_gap{gap}_train.pt',
             "train_pts" : args.dpt_train,
             "valid_pts" : args.dpt_valid,
-            "test_pts"  : 1000,
-            "batch_size": args.batch_size,
+            "test_pts"  : 6400,
+            "batch_size": args.batch_size * 2,
             "window_sliding": window_sliding}
 
     maindict = {"end_epoch"       : args.end_epoch,
@@ -88,10 +88,9 @@ def main():
                 "append_strike"   : nitr,  # for check md trajectories
                 "ckpt_interval"   : 1,     # for check pointing
                 "val_interval"    : 1,     # no use of valid for now
-                "verb"            : 1  }   # period for printing out losses
+                "verb"            : 1}   # period for printing out losses
 
-    # traindict['loadfile'] = f"{maindict['save_dir']}/{model_id}_{913:06d}.pth"
-    traindict['loadfile'] = '/home/project/13003073/SJ/water20250904/results/gap10_b0.01_n128-128-128_d256_ws8_poly1_lr0.0001/0_000110.pth'
+    traindict['loadfile'] = '../../SavedModel/LLUF/0_000110.pth'
     utils.print_dict('data', data)
 
     print(traindict)
@@ -101,8 +100,6 @@ def main():
     tau_long = traindict["tau_long"]
 
     traj_len_prep = round(tau_traj_len / tau_long, 4) - 1  # e.g. tau_traj_len=4*2 , tau_traj_prep = 8 - 2
-
-    # print('traj len prep ', traj_len_prep, 't max', traindict['ml_steps']*tau_long, 'predict ml step ', traindict['ml_steps'])
 
     data_set = my_data(data["train_file"], data["valid_file"], data["test_file"],
                        traindict["tau_long"], traindict["window_sliding"], traindict["tau_traj_len"],
@@ -116,60 +113,88 @@ def main():
     train.mlvv.eval()
     
     predict = predicter(train.prepare_data_obj, train.mlvv)
+    loss_obj = loss(lossdict["polynomial_degree"],
+                    lossdict["rthrsh"],
+                    lossdict["e_weight"],
+                    lossdict["reg_weight"],
+                    traindict["window_sliding"])  # remove eweight in loss
 
     with torch.no_grad():
 
         cntr = 0
+        qpl_epoch = []
+        q_rmse_epoch = []
+        p_rmse_epoch = []
 
         for qpl_input, qpl_label in loader.test_loader:
 
             mydevice.load(qpl_input)
             q_traj, p_traj, q_label, p_label, l_init = utils.pack_data(qpl_input, qpl_label)
+            print('q traj shape', q_traj.shape, 'q label shape', q_label.shape, 'qpl label', qpl_label.shape)
 
             q_input_list, p_input_list, q_cur, p_cur = predict.prepare_input_list(q_traj, p_traj, l_init)
             qpl_in = torch.unsqueeze(torch.stack((q_cur, p_cur, l_init), dim=1), dim=2)   # use concat initial state
 
             qpl_batch = []
+            q_rmse_batch = torch.zeros(traindict['ml_steps'], requires_grad=False)
+            p_rmse_batch = torch.zeros(traindict['ml_steps'], requires_grad=False)
             start_time = time.time()
-
             for t in range(traindict['ml_steps']):
 
-                print('====== t=', round(traj_len_prep + t * tau_long, 3), ' window sliding ', t+1,
-                      't=', round((t+1) * tau_long + traj_len_prep, 3), flush=True)
+                # print('==== t=', round(traj_len_prep + t * tau_long, 3), ' window sliding ', t+1,
+                #       't=', round((t+1) * tau_long + traj_len_prep, 3), flush=True)
 
-                q_input_list, p_input_list, q_predict, p_predict, l_init = predict.eval(q_input_list,p_input_list, q_cur,p_cur,l_init, t+1, gamma, temp, tau_long)
+                q_input_list, p_input_list, q_predict, p_predict, l_init = predict.eval(q_input_list, p_input_list, q_cur, p_cur, l_init, t+1, gamma, temp, tau_long)
 
                 qpl_list = torch.stack((q_predict, p_predict, l_init), dim=1)
 
                 if (t + 1) % traindict['append_strike'] == 0:
                     qpl_batch.append(qpl_list)
+                    # print('qpl length', len(qpl_batch))
 
                 q_cur = q_predict
                 p_cur = p_predict
 
+                q_rmse_batch[t] += loss_obj.q_RMSE_loss(q_predict, q_label[:, t], l_init).mean().item()
+                p_rmse_batch[t] += loss_obj.q_RMSE_loss(q_predict, q_label[:, t], l_init).mean().item()
+                # quit()
+            # print(q_rmse_batch, p_rmse_batch)
             sec = time.time() - start_time
             # sec = sec / maindict["nitr"]
             # mins, sec = divmod(sec, 60)
-            print("{} nitr --- {:.03f} sec ---".format(traindict['ml_steps'], sec))
-            print("samples {}, one forward step timing --- {:.03f} sec ---".format(data["batch_size"], sec/traindict['ml_steps']))
+            # print(f"{traindict['ml_steps']} nitr --- {sec:.03f} sec ---")
+            print(f"samples {data['batch_size']}, one forward step timing --- {sec/traindict['ml_steps']:.03f} sec ---")
 
             qpl_batch = torch.stack(qpl_batch, dim=2)   # shape [nsamples,3, traj_len, nparticles,dim]
             # qpl_batch [nsamples,3,traj,nparticles,dim]
 
-            print('====== load no batch ', cntr, '==== shape ', qpl_in.shape,qpl_batch.shape)
+            print('==== load batch ', cntr, '==== shape ', qpl_in.shape, qpl_batch.shape)
             qpl_batch_cat = torch.cat((qpl_in, qpl_batch), dim=2)   # stack traj initial + window-sliding
 
-            # tmp_filename = maindict["save_dir"] + str(traindict['tau_long']) + f'_id{cntr}.pt'
-            tmp_filename = maindict["save_dir"] + str(traindict['tau_long']) + f'ws8_test_id{cntr}.pt'
-            print('batch', cntr, 'saved qpl list shape', qpl_batch_cat.shape)
-            torch.save({'qpl_trajectory': qpl_batch_cat,
-                        'tau_short': maindict['tau_short'],
-                        'tau_long': traindict["tau_long"]}, tmp_filename)
-            # if i == 3*step: quit()
+            # print('batch', cntr, 'saved qpl list shape', qpl_batch_cat.shape)
+
+            qpl_epoch.append(qpl_batch_cat)
+            q_rmse_epoch.append(q_rmse_batch)
+            p_rmse_epoch.append(p_rmse_batch)
             cntr += 1
-            # if cntr%10==0: print('.', end='', flush=True)
- 
-# system_logs.print_end_logs()
+
+        qpl_epoch = torch.cat(qpl_epoch)
+        q_rmse_epoch = torch.stack(q_rmse_epoch).mean(dim=0)
+        p_rmse_epoch = torch.stack(p_rmse_epoch).mean(dim=0)
+        # print(q_rmse_epoch.shape, p_rmse_epoch.shape)
+        print('qpl epoch', qpl_epoch.shape)
+        # print('q rmse', q_rmse_epoch, 'p rmse', p_rmse_epoch)
+
+        rho = 8 / 2.2 ** 3
+
+        for i in range(traindict['ml_steps']):
+            counts, bin_edges = q2dis(qpl_epoch[:, 0, i+1], num_mol=8, n_bins=200, r_min=0, r_max=2, box_size=2.2)
+            grbin = count2rdf(counts, bin_edges, rho, n_sample=qpl_epoch.size(0), num_mol=8)
+            # print(grbin)
+            data = {'counts': counts,
+                    'gr': torch.tensor(grbin),
+                    'edge_centers': (bin_edges[:-1] + bin_edges[1:]) / 2}
+            torch.save(data, f'train_ws{i}.pt')
 
 
 if __name__ == '__main__':

@@ -8,10 +8,13 @@ import numpy as np
 
 if __name__ == '__main__':
 
-    hist_list = ['../../../../Data/LLUF/300k_gromacs_histo.pt',
-                 '../../../../Data/LLUF/300k_LLUF_10k_histo.pt',
-                 '../../../../Data/LLUF/gromacs_rdf.pt']
-    name = ['Gromacs', 'LUFNet', 'Gromacs Control']
+    # hist_list = ['../../../../Data/LLUF/300k_gromacs_histo.pt',
+    #              '../../../../Data/LLUF/300k_LLUF_10k_histo.pt',
+    #              '../../../../Data/LLUF/gromacs_rdf.pt']
+    # name = ['Gromacs', 'LUFNet', 'Gromacs Control']
+
+    hist_list = ['../../../../Data/LLUF/300k_gromacs_histo.pt'] + [f'train_ws{i}.pt' for i in range(8)]
+    name = ['Gromacs'] + [f'ws{i+1}' for i in range(8)]
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), sharex=True)
     for f, name in zip(hist_list, name):
