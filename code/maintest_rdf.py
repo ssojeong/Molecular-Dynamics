@@ -3,6 +3,8 @@ import time
 import sys
 import yaml
 
+import matplotlib.pyplot as plt
+
 from ML.trainer.trainer          import trainer
 from ML.predicter.predicter      import predicter
 from ML.predicter.rdf_H2O        import count2rdf, q2dis
@@ -77,7 +79,7 @@ def main():
             "test_file" : f'../../Data/LLUF/300k_100ktraj_gap{gap}_train.pt',
             "train_pts" : args.dpt_train,
             "valid_pts" : args.dpt_valid,
-            "test_pts"  : 6400,
+            "test_pts"  : 1280,
             "batch_size": args.batch_size * 2,
             "window_sliding": window_sliding}
 
@@ -90,7 +92,7 @@ def main():
                 "val_interval"    : 1,     # no use of valid for now
                 "verb"            : 1}   # period for printing out losses
 
-    traindict['loadfile'] = '../../SavedModel/LLUF/0_000110.pth'
+    traindict['loadfile'] = '../../SavedModel/LLUF/0_000027.pth'
     utils.print_dict('data', data)
 
     print(traindict)
@@ -152,11 +154,14 @@ def main():
                     qpl_batch.append(qpl_list)
                     # print('qpl length', len(qpl_batch))
 
+                # q_noise = 0.1 * torch.rand(q_predict.shape, device=q_predict.device)
+                # print(torch.std(q_noise))
+                # q_predict += q_noise
                 q_cur = q_predict
                 p_cur = p_predict
 
                 q_rmse_batch[t] += loss_obj.q_RMSE_loss(q_predict, q_label[:, t], l_init).mean().item()
-                p_rmse_batch[t] += loss_obj.q_RMSE_loss(q_predict, q_label[:, t], l_init).mean().item()
+                p_rmse_batch[t] += loss_obj.p_RMSE_loss(p_predict, p_label[:, t]).mean().item()
                 # quit()
             # print(q_rmse_batch, p_rmse_batch)
             sec = time.time() - start_time
@@ -181,12 +186,20 @@ def main():
         qpl_epoch = torch.cat(qpl_epoch)
         q_rmse_epoch = torch.stack(q_rmse_epoch).mean(dim=0)
         p_rmse_epoch = torch.stack(p_rmse_epoch).mean(dim=0)
-        # print(q_rmse_epoch.shape, p_rmse_epoch.shape)
         print('qpl epoch', qpl_epoch.shape)
-        # print('q rmse', q_rmse_epoch, 'p rmse', p_rmse_epoch)
+        print('q rmse', q_rmse_epoch, 'p rmse', p_rmse_epoch)
 
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), sharex=True)
+        ax1.plot(range(len(q_rmse_epoch)), q_rmse_epoch, label='q rmse')
+        ax2.plot(range(len(p_rmse_epoch)), p_rmse_epoch, label='p rmse')
+        plt.suptitle('1/8-1/7-...-1')
+        ax1.legend()
+        ax2.legend()
+        ax1.grid()
+        ax2.grid()
+        plt.show()
         rho = 8 / 2.2 ** 3
-
+        #
         for i in range(traindict['ml_steps']):
             counts, bin_edges = q2dis(qpl_epoch[:, 0, i+1], num_mol=8, n_bins=200, r_min=0, r_max=2, box_size=2.2)
             grbin = count2rdf(counts, bin_edges, rho, n_sample=qpl_epoch.size(0), num_mol=8)
@@ -194,7 +207,7 @@ def main():
             data = {'counts': counts,
                     'gr': torch.tensor(grbin),
                     'edge_centers': (bin_edges[:-1] + bin_edges[1:]) / 2}
-            torch.save(data, f'train_ws{i}.pt')
+            torch.save(data, f'train_1-1-ws{i}.pt')
 
 
 if __name__ == '__main__':
