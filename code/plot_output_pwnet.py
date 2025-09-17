@@ -11,20 +11,20 @@ import matplotlib.pyplot as plt
 
 def plot_pw_graph(r, features, ncols, fig_filename):
 
-        fig, ax = plt.subplots(nrows=1, ncols=ncols, figsize=(10, 6))
+        fig, ax = plt.subplots(nrows=1, ncols=ncols, figsize=(16, 6))
         for i in range(ncols):
-            ax[i].plot(r, features[:,i],'o',label='feature {}'.format(i+1))
+            ax[i].plot(r, features[:, i], 'o', label='feature {}'.format(i+1))
             # ax[1].set_title('feature 2')
 
         for j in range(ncols):
             ax[j].grid()
-            ax[j].set_xticks([1,2,3])
+            # ax[j].set_xticks([1, 2, 3])
             ax[j].tick_params(axis='x', labelsize=15)
             ax[j].tick_params(axis='y', labelsize=15)
             # ax[j].legend(loc='upper right', fontsize=10)
-            # ax[j].set_ylim([-2.5, 3.5])
+            ax[j].set_xlim([-0.3, 2.3])
             ax[j].legend(fontsize=15)
-            ax[j].set_xlabel('r',fontsize=15)
+            ax[j].set_xlabel('r', fontsize=15)
 
         # fig.suptitle('6 grids centered of particle {} and interacted with particle {}, {}'.format(i+1,k+1, fig_filename), fontsize=16)
         fig.suptitle('{}'.format(fig_filename), fontsize=16)
@@ -33,12 +33,12 @@ def plot_pw_graph(r, features, ncols, fig_filename):
         # fig.savefig(fig_filename + '_par{}_{}.pdf'.format(i+1,k+1), bbox_inches='tight', dpi=200)
 
 
-def l_max_distance(l_list):
-    boxsize = torch.mean(l_list)
-    L_h = boxsize / 2.
-    q_max = math.sqrt(L_h * L_h + L_h * L_h)
-    print('boxsize', boxsize.item(), 'maximum distance dq = {:.2f}, dq^2 = {:.2f}'.format(q_max, q_max * q_max))
-    return boxsize, q_max
+# def l_max_distance(l_list):
+#     boxsize = torch.mean(l_list)
+#     L_h = boxsize / 2.
+#     q_max = math.sqrt(L_h * L_h + L_h * L_h)
+#     print('boxsize', boxsize.item(), 'maximum distance dq = {:.2f}, dq^2 = {:.2f}'.format(q_max, q_max * q_max))
+#     return boxsize, q_max
 
 
 if __name__ == '__main__':
@@ -60,13 +60,11 @@ if __name__ == '__main__':
     #     quit()
     #
     # loadfile = argv[1]
-    title = 'pwNet'
 
-    traindict = {"loadfile"     : '../../SaveModel/0_000027.pth',  # to load previously trained model
-                 "net_nnodes"   : 128,   # number of nodes in neural nets
+    traindict = {"loadfile"     : '../../SavedModel/LLUF/0_000027.pth',  # to load previously trained model
+                 "net_nnodes"   : [128] * 3,   # number of nodes in neural nets
                  "pw4mb_nnodes" : 128,   # number of nodes in neural nets
                  "pw_output_dim" : 3,
-                 "init_weights"   : 'tanh',
                  "optimizer" : 'Adam',
                  "single_particle_net_type" : 'transformer_type',  # mlp_type       transformer_type    transformer_type
                  "multi_particle_net_type"  : 'gnn_identity',      # gnn_identity   gnn_identity        gnn_transformer_type
@@ -81,7 +79,7 @@ if __name__ == '__main__':
                  "tau_traj_len" : 8*0.1,  # n evaluations in integrator
                  "tau_long"     : 0.1,
                  "loss_weights": '0,1/8,0,1/4,0,1/2,0,1',
-                 "window_sliding" : 8,      # number of times to do integration before cal the loss
+                 "window_sliding": 8,      # number of times to do integration before cal the loss
                  "ngrids"       : 12,       # for multibody interactions
                  "b_list"       : [0.2],    # [0.4],
                  "a_list"       : [0],      # [np.pi/8],
@@ -121,25 +119,43 @@ if __name__ == '__main__':
     # utils.print_dict('data', data)
     # utils.print_dict('main', maindict)
 
-    r = np.arange(0, 2, 0.01)
+    r = np.arange(0.01, 2, 0.01)
 
     train = trainer(traindict, lossdict)
+
     r = torch.tensor(r)
     mydevice.load(r)
     # print(r.is_cuda)
     r = torch.unsqueeze(r, dim=1)
+    print(r.shape, r.device)
 
-    pair_wise = train.mlvv.prepare_data.net(r)
-    pw_output_dim = traindict["pw_output_dim"]
+    title_list = [
+        'Intra-molecular O→H',
+        'Intra-molecular H→O',
+        'Intra-molecular H→H',
+        'Inter-molecular O→H',
+        'Inter-molecular H→O',
+        'Inter-molecular H→H',
+        'Inter-molecular O→O',
+        'Self→Self'
+    ]
 
-    # plot_pw_graph(r.detach().cpu().numpy(), pair_wise.detach().cpu().numpy(), pw_output_dim, 'b4training')
+    for i, title in enumerate(title_list):
+        embed_r = torch.zeros(r.size(0), 8, r.size(1))
+        embed_r[:, i, :] = r
 
-    train.load_models()
-    train.mlvv.eval()
+        embed_r = mydevice.load(embed_r)
+        pair_wise = train.mlvv.prepare_data.net(embed_r)
+        pw_output_dim = traindict["pw_output_dim"]
 
-    pair_wise = train.mlvv.prepare_data.net(r)
+        # plot_pw_graph(r.detach().cpu().numpy(), pair_wise.detach().cpu().numpy(), pw_output_dim, 'b4training')
 
-    plot_pw_graph(r.detach().cpu().numpy(), pair_wise.detach().cpu().numpy(), pw_output_dim, title)
+        train.load_models()
+        train.mlvv.eval()
+
+        pair_wise = train.mlvv.prepare_data.net(embed_r)
+
+        plot_pw_graph(r.detach().cpu().numpy(), pair_wise.detach().cpu().numpy(), pw_output_dim, title)
 
 
 

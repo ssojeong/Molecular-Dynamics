@@ -18,7 +18,7 @@ class checkpoint:
         self.net = net
         self.opt = opt
 
-        print('checkpoint initialized : net ', net, 'opt ', opt)
+        # print('checkpoint initialized : net ', net, 'opt ', opt)
         if log_file is not None:
             with open(log_file, 'a') as f:
                 f.write(f'checkpoint initialized : net {net} opt {opt}\n')

@@ -26,12 +26,14 @@ class PWNet3DH2O(nn.Module):
 
         # Numerical stabilizers/params as buffers, so they move with .to(device)
         self.register_buffer("epsilon", torch.tensor(1e-1, dtype=torch.float32))
+        print(self.epsilon.device)
         self.inv_max_expon = 3  # keep as Python int (used in exponent)
 
     def factor(self, r_square):
         """
         r_square: (nsamples * nparticles * nparticles, 1, ngrids) nonnegative
         """
+        print(r_square.device, self.epsilon.device)
         return 1.0 / (r_square**self.inv_max_expon + self.epsilon)
 
     def forward(self, x):
