@@ -37,10 +37,11 @@ class torch_dataset(Dataset):
             raise ValueError('idx ' + str(idx) +' exceed length of data: ' + str(self.__len__()))
         return self.qpl_list_input[idx], self.qpl_list_label[idx] 
 
+
 # ===========================================================
 class my_data:
-    def __init__(self,train_filename,val_filename,test_filename,tau_long, window_sliding,
-                      tau_traj_len,train_pts=0,val_pts=0,test_pts=0):
+    def __init__(self, train_filename, val_filename, test_filename, tau_long, window_sliding,
+                 tau_traj_len, train_pts=0, val_pts=0, test_pts=0):
 
         traj_len_index = round(tau_traj_len/tau_long)
         label_index = int((traj_len_index - 1) + window_sliding)
@@ -56,23 +57,23 @@ class my_data:
         # perform subsampling of data when specified
         # this is important when we need to perform quick debugging with
         # few data points
-        if train_pts > 0:
-            if train_pts > len(self.train_set):
-                print('available ', len(self.train_set))
-                raise ValueError("ERROR: request more than subspace set")
-            self.train_set = self.sample(self.train_set, train_pts)
+        # if train_pts > 0:
+        #     if train_pts > len(self.train_set):
+        #         print('available ', len(self.train_set))
+        #         raise ValueError("ERROR: request more than subspace set")
+        self.train_set = self.sample(self.train_set, train_pts)
 
-        if val_pts > 0:
-            if val_pts > len(self.val_set):
-                print('available ', len(self.val_set))
-                raise ValueError("ERROR: request more than subspace set")
-            self.val_set = self.sample(self.val_set, val_pts)
+        # if val_pts > 0:
+        #     if val_pts > len(self.val_set):
+        #         print('available ', len(self.val_set))
+        #         raise ValueError("ERROR: request more than subspace set")
+        self.val_set = self.sample(self.val_set, val_pts)
 
-        if test_pts > 0:
-            if test_pts > len(self.test_set):
-                print('available ', len(self.test_set))
-                raise ValueError("ERROR: request more than subspace set")
-            self.test_set = self.sample(self.test_set, test_pts)
+        # if test_pts > 0:
+        #     if test_pts > len(self.test_set):
+        #         print('available ', len(self.test_set))
+        #         raise ValueError("ERROR: request more than subspace set")
+        self.test_set = self.sample(self.test_set, test_pts)
 
         print('my_data initialized : train_filename ',train_filename,' val_filename ',
                val_filename,' test_filename ',test_filename,' train_pts ',train_pts,
@@ -82,6 +83,7 @@ class my_data:
     def check_md_trajectory(self,q_init,p_init,q_final,p_final,l_list,neval,tau,nitr,append_strike):
         assert(self.train_set.check_load.md_trajectory(q_init,p_init,q_final,p_final,
                             l_list,neval,tau,nitr,append_strike )),'data_loader.py:82 error'
+
     # ===========================================================
     # sample data_set with num_pts of points
     # ===========================================================
@@ -92,9 +94,7 @@ class my_data:
         # few data points
         if num_pts > 0:
             if num_pts > len(data_set):
-                print("error: request more than CIFAR10 set")
-                print('available ',len(self.train_set))
-                quit()
+                raise ValueError("ERROR: request more than subspace set")
 
         data_set.qpl_list_input = data_set.qpl_list_input[:num_pts]
         data_set.qpl_list_label = data_set.qpl_list_label[:num_pts]

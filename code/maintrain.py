@@ -70,12 +70,12 @@ def main(args, model_name):
                 "e_weight"         : ew,
                 "reg_weight"       : repw}
 
-    data = {"train_file": f'../../Data/LLUF/300k_100ktraj_gap{gap}_train.pt',
-            "valid_file": f'../../Data/LLUF/300k_100ktraj_gap{gap}_valid.pt',
-            "test_file" : f'../../Data/LLUF/300k_100ktraj_gap{gap}_valid.pt',
+    data = {"train_file": f'../../Data/LLUF/300k_8ktraj_gap{gap}_train.pt',
+            "valid_file": f'../../Data/LLUF/300k_8ktraj_gap{gap}_train.pt',
+            "test_file" : f'../../Data/LLUF/300k_8ktraj_gap{gap}_valid.pt',
             "train_pts" : args.dpt_train,
             "valid_pts" : args.dpt_valid,
-            "test_pts"  : 1000,
+            "test_pts"  : 4,
             "batch_size": args.batch_size,
             "window_sliding": window_sliding}
 
@@ -84,7 +84,7 @@ def main(args, model_name):
                 "tau_short"       : 1e-4,
                 "nitr"            : nitr,  # for check md trajectories
                 "append_strike"   : nitr,  # for check md trajectories
-                "ckpt_interval"   : 5,     # for check pointing
+                "ckpt_interval"   : 500,     # for check pointing
                 "val_interval"    : 1,     # no use of valid for now
                 "verb"            : 1  }   # period for printing out losses
 
@@ -94,7 +94,7 @@ def main(args, model_name):
     _ = system_logs(mydevice, log_file_path)
     system_logs.print_start_logs()
 
-    if args.load_weight.lower() in ('null', 'none'):
+    if args.load_weight is None or args.load_weight.lower() == 'none':
         traindict['loadfile'] = None
     elif args.load_weight.lower() == 'best':
         if os.path.exists(f"{maindict['save_dir']}/{model_id}_best.pth"):

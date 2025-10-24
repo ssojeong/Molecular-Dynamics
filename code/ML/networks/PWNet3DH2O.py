@@ -33,7 +33,7 @@ class PWNet3DH2O(nn.Module):
         """
         r_square: (nsamples * nparticles * nparticles, 1, ngrids) nonnegative
         """
-        print(r_square.device, self.epsilon.device)
+        # print(r_square.device, self.epsilon.device)
         return 1.0 / (r_square**self.inv_max_expon + self.epsilon)
 
     def forward(self, x):

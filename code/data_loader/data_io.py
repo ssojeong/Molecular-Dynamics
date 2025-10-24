@@ -170,15 +170,21 @@ if __name__ == '__main__':
     gap = int(round(ratio))
     assert abs(ratio - gap) < 1e-9, f"target_dt/origin_dt must be integer; got {ratio}"
 
-    filename = '../../../Data/LLUF/300k_100ktraj_1.pt'
+    filename = '../../../Data/LLUF/300k_new8k.pt'
     file = torch.load(filename)
     qp = rearrange(file['qp'][:, ::gap, :, :, :], 'traj tpts atom dim qp -> traj qp tpts atom dim')
-    l = 2.2 * torch.ones(qp.size(0), 1, qp.size(2), qp.size(3), qp.size(4), dtype=qp.dtype, device=qp.device)   # box size 2.2
+    # box size 2.2
+    mass = torch.tensor([8, 1, 1] * 8)
+    mass_center = torch.sum(qp[:, 0, :, :, :] * mass[:, None], dim=-2) / torch.sum(mass)
+    mass_dis = torch.sum((mass_center[:, 0, :] - mass_center[:, -1, :]) ** 2, dim=-1)
+    print('ratio of unchanged mass center', torch.sum(mass_dis < 0.1) / len(mass_dis))
+    print('qp shape', qp.shape)
+    qp = qp[mass_dis < 0.1]
+    print('qp shape', qp.shape)
+    l = 2.2 * torch.ones(qp.size(0), 1, qp.size(2), qp.size(3), qp.size(4), dtype=qp.dtype, device=qp.device)
     qpl_trajectory = torch.cat((qp, l), dim=1)
-
-    times = file['times'][::gap]
     print('qpl_trajectory shape', qpl_trajectory.shape)
-    
+    times = file['times'][::gap]
     split = int(qpl_trajectory.size(0) * 0.9)
     data = {'qpl_trajectory': qpl_trajectory[:split].clone(),
             'times': times[:split].clone(),
@@ -186,7 +192,7 @@ if __name__ == '__main__':
             'atom_id': file['atom_id'][:split],
             'tau_short': tau_short,
             'tau_long': tau_long}
-    # torch.save(data, f'../../../Data/LLUF/300k_100ktraj_gap{gap}_1_train.pt')
+    torch.save(data, f'../../../Data/LLUF/300k_8ktraj_gap{gap}_train.pt')
     
     data = {'qpl_trajectory': qpl_trajectory[split:].clone(),
             'times': times[split:].clone(),
@@ -194,12 +200,12 @@ if __name__ == '__main__':
             'atom_id': file['atom_id'][split:],
             'tau_short': tau_short,
             'tau_long': tau_long}
-    # torch.save(data, f'../../../Data/LLUF/300k_100ktraj_gap{gap}_1_valid.pt')
+    torch.save(data, f'../../../Data/LLUF/300k_8ktraj_gap{gap}_valid.pt')
 
-    f_list = [f'../../../Data/LLUF/300k_100ktraj_gap10_train.pt',
-              f'../../../Data/LLUF/300k_100ktraj_gap10_1_train.pt']
-    merge_pt(f_list, f'../../../Data/LLUF/300k_150ktraj_gap10_train.pt')
-
-    f_list = [f'../../../Data/LLUF/300k_100ktraj_gap10_valid.pt',
-              f'../../../Data/LLUF/300k_100ktraj_gap10_1_valid.pt']
-    merge_pt(f_list, f'../../../Data/LLUF/300k_150ktraj_gap10_valid.pt')
+    # f_list = [f'../../../Data/LLUF/300k_100ktraj_gap10_train.pt',
+    #           f'../../../Data/LLUF/300k_100ktraj_gap10_1_train.pt']
+    # merge_pt(f_list, f'../../../Data/LLUF/300k_150ktraj_gap10_train.pt')
+    #
+    # f_list = [f'../../../Data/LLUF/300k_100ktraj_gap10_valid.pt',
+    #           f'../../../Data/LLUF/300k_100ktraj_gap10_1_valid.pt']
+    # merge_pt(f_list, f'../../../Data/LLUF/300k_150ktraj_gap10_valid.pt')

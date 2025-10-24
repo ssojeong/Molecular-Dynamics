@@ -1,14 +1,6 @@
 {
- "window_sliding=4_0.log_trainqrmse" : "logfile/window_sliding=4_0.log_qrmse.txt",
- "window_sliding=4_0.log_validqrmse" : "logfile/window_sliding=4_0.log_qrmse_eval.txt",
- "window_sliding=4_0.log_trainprmse" : "logfile/window_sliding=4_0.log_prmse.txt",
- "window_sliding=4_0.log_validprmse" : "logfile/window_sliding=4_0.log_prmse_eval.txt",
- "trans_dim=512-window_sliding=4_0.log_trainqrmse" : "logfile/trans_dim=512-window_sliding=4_0.log_qrmse.txt",
- "trans_dim=512-window_sliding=4_0.log_validqrmse" : "logfile/trans_dim=512-window_sliding=4_0.log_qrmse_eval.txt",
- "trans_dim=512-window_sliding=4_0.log_trainprmse" : "logfile/trans_dim=512-window_sliding=4_0.log_prmse.txt",
- "trans_dim=512-window_sliding=4_0.log_validprmse" : "logfile/trans_dim=512-window_sliding=4_0.log_prmse_eval.txt",
- "trans_layer=4-window_sliding=4_0.log_trainqrmse" : "logfile/trans_layer=4-window_sliding=4_0.log_qrmse.txt",
- "trans_layer=4-window_sliding=4_0.log_validqrmse" : "logfile/trans_layer=4-window_sliding=4_0.log_qrmse_eval.txt",
- "trans_layer=4-window_sliding=4_0.log_trainprmse" : "logfile/trans_layer=4-window_sliding=4_0.log_prmse.txt",
- "trans_layer=4-window_sliding=4_0.log_validprmse" : "logfile/trans_layer=4-window_sliding=4_0.log_prmse_eval.txt"
+ "vanilla_2.log_trainqrmse" : "logfile/vanilla_2.log_qrmse.txt",
+ "vanilla_2.log_validqrmse" : "logfile/vanilla_2.log_qrmse_eval.txt",
+ "vanilla_2.log_trainprmse" : "logfile/vanilla_2.log_prmse.txt",
+ "vanilla_2.log_validprmse" : "logfile/vanilla_2.log_prmse_eval.txt"
 }
