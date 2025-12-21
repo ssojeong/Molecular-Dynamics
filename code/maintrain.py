@@ -20,8 +20,8 @@ def main(args, model_name):
 
     torch.set_default_dtype(torch.float64)
 
-    torch.manual_seed(34952)
-    np.random.seed(34952)
+    torch.manual_seed(34953)
+    np.random.seed(34953)
 
     model_id = args.model_id
     gap = args.gap
@@ -40,8 +40,8 @@ def main(args, model_name):
     nnodes = [args.pwnet_dim] * args.pwnet_layer
     # ==========================
 
-    traindict = {"net_nnodes"   : nnodes,       # number of nodes in neural nets
-                 "pw4mb_nnodes" : 128,                  # number of nodes in neural nets
+    traindict = {"net_nnodes"   : nnodes,               # number of nodes in neural nets
+                 "pw4mb_nnodes" : args.pwnet_dim,       # number of nodes in neural nets
                  "pw_output_dim": 3,                    # 20250803: change from 2D to 3D, psi
                  "optimizer"    : 'Adam',
                  "single_particle_net_type": args.single_parnet_type,
@@ -122,7 +122,8 @@ def main(args, model_name):
     train = trainer(traindict, lossdict, log_file=log_file_path)
 
     start_epoch, best_v_loss = train.load_models()
-
+    print("start_epoch", start_epoch)
+    quit()
     print('------- initial learning configurations -------- ')
     # train.verbose(0, 'init_config')     # TODO what is this for??
     train.loss_obj.clear()
@@ -162,6 +163,8 @@ def main(args, model_name):
             if val_loss < best_v_loss:
                 best_v_loss = val_loss
                 train.checkpoint(f"./{maindict['save_dir']}/{model_id}_best.pth", e, val_loss)
+
+        print([i.item() for i in train.tau_params])
 
     system_logs.print_end_logs()
 

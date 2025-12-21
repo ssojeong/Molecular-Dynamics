@@ -186,21 +186,22 @@ if __name__ == '__main__':
     print('qpl_trajectory shape', qpl_trajectory.shape)
     times = file['times'][::gap]
     split = int(qpl_trajectory.size(0) * 0.9)
-    data = {'qpl_trajectory': qpl_trajectory[:split].clone(),
-            'times': times[:split].clone(),
-            'traj_id': file['traj_id'][:split].clone(),
-            'atom_id': file['atom_id'][:split],
-            'tau_short': tau_short,
-            'tau_long': tau_long}
-    torch.save(data, f'../../../Data/LLUF/300k_8ktraj_gap{gap}_train.pt')
-    
-    data = {'qpl_trajectory': qpl_trajectory[split:].clone(),
-            'times': times[split:].clone(),
-            'traj_id': file['traj_id'][split:].clone(),
-            'atom_id': file['atom_id'][split:],
-            'tau_short': tau_short,
-            'tau_long': tau_long}
-    torch.save(data, f'../../../Data/LLUF/300k_8ktraj_gap{gap}_valid.pt')
+    print(len(file['atom_id']), file['atom_id'])
+    # data = {'qpl_trajectory': qpl_trajectory[:split].clone(),
+    #         'times': times[:split].clone(),
+    #         'traj_id': file['traj_id'][:split].clone(),
+    #         'atom_id': file['atom_id'][:split],
+    #         'tau_short': tau_short,
+    #         'tau_long': tau_long}
+    # torch.save(data, f'../../../Data/LLUF/300k_8ktraj_gap{gap}_train.pt')
+    #
+    # data = {'qpl_trajectory': qpl_trajectory[split:].clone(),
+    #         'times': times[split:].clone(),
+    #         'traj_id': file['traj_id'][split:].clone(),
+    #         'atom_id': file['atom_id'][split:],
+    #         'tau_short': tau_short,
+    #         'tau_long': tau_long}
+    # torch.save(data, f'../../../Data/LLUF/300k_8ktraj_gap{gap}_valid.pt')
 
     # f_list = [f'../../../Data/LLUF/300k_100ktraj_gap10_train.pt',
     #           f'../../../Data/LLUF/300k_100ktraj_gap10_1_train.pt']

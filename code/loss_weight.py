@@ -2,13 +2,9 @@ import torch
 import numpy as np
 import sys
 import json
-# import matplotlib
-# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-
 if __name__ == '__main__':
-
     argv = sys.argv
     print(argv)
     load_files = argv[1]
@@ -19,58 +15,57 @@ if __name__ == '__main__':
     print(load_files, name, title)
 
     with open(load_files) as f:
-       data = json.load(f)
-
-    print(data)
+        data = json.load(f)
 
     tqrmse = np.genfromtxt(data[f'{name}trainqrmse'])
     vqrmse = np.genfromtxt(data[f'{name}validqrmse'])
     tprmse = np.genfromtxt(data[f'{name}trainprmse'])
     vprmse = np.genfromtxt(data[f'{name}validprmse'])
 
-    tlr = tqrmse[:, 1]
-    lr = tqrmse[:, 3]
-    ttqrmse = tqrmse[:, 1]
-    vtqrmse = vqrmse[:, 1]
-
+    tepoch = tqrmse[:, 1]
+    vepoch = vqrmse[:, 1]
     qrmse_t = tqrmse[:, 5:]
     qrmse_v = vqrmse[:, 5:]
-
-    print('qrmse_t', qrmse_t.shape, qrmse_t[0, :])
     prmse_t = tprmse[:, 5:]
-    prmse_v = vprmse[:, 5:]  # mode train
+    prmse_v = vprmse[:, 5:]
 
-    tepoch = ttqrmse
-    vepoch = vtqrmse
+    # --- Create subplots ---
+    fig, ax = plt.subplots(nrows=ws, ncols=2, figsize=(10, 8), sharex='col')
 
-    # plt.ion()
-    fig, ax = plt.subplots(nrows=ws, ncols=2, figsize=(10, 8))  # Increased height for multiple rows
-    # Handle the case when ws=1 (ax becomes 1D instead of 2D)
+    # Handle case when ws = 1
     if ws == 1:
-        ax = np.array([ax])
-    print('ws', ws, 'ax', ax.shape)
+        ax = np.expand_dims(ax, axis=0)
+
+    # --- Plot each subplot ---
     for i in range(ws):
-        # Use i to index the appropriate column in your data arrays
-        ax[i, 0].plot(tepoch, qrmse_t[:, i], 'bo-', label='train', zorder=2)
-        ax[i, 0].plot(vepoch, qrmse_v[:, i], 'o-', label='valid', c='orange', zorder=1)
-        ax[i, 1].plot(tepoch, prmse_t[:, i], 'bo-', label='train', zorder=2)
-        ax[i, 1].plot(vepoch, prmse_v[:, i], 'o-', label='valid', c='orange', zorder=1)
+        # Left column: qRMSE
+        ax[i, 0].plot(tepoch, qrmse_t[:, i], 'b-', label='Train', zorder=2)
+        ax[i, 0].plot(vepoch, qrmse_v[:, i], '-', color='orange', label='Valid', zorder=1)
 
-        # Set labels and titles for each row
-        ax[i, 0].set_ylabel(f'$L_{i+1}$', fontsize=15)
+        # Right column: pRMSE
+        ax[i, 1].plot(tepoch, prmse_t[:, i], 'b-', label='Train', zorder=2)
+        ax[i, 1].plot(vepoch, prmse_v[:, i], '-', color='orange', label='Valid', zorder=1)
 
-        # Apply grid and legend to both subplots in this row
+        # Y-labels per row
+        ax[i, 0].set_ylabel(f'$L_{{{i+1}}}$', fontsize=13)
+
+        # Grid for all
         for j in range(2):
-            ax[i, j].grid()
-            ax[i, j].legend(loc='upper right', fontsize=10)
-            ax[-1, j].set_xlabel('epochs', fontsize=15)
+            ax[i, j].grid(alpha=0.3)
 
-    ax[0, 0].set_title(f'q L2 norm', fontsize=12)
-    ax[0, 1].set_title(f'p L2 norm', fontsize=12)
-    fig.suptitle(f"{title}", fontsize=12)
-    plt.tight_layout()
+    # --- Shared x-labels per column ---
+    for j in range(2):
+        ax[-1, j].set_xlabel('Epochs', fontsize=14)
 
-    print("About to display plot...")
+    # --- Titles per column ---
+    ax[0, 0].set_title('q L2 norm', fontsize=14)
+    ax[0, 1].set_title('p L2 norm', fontsize=14)
+
+    # --- Legend only in the top-left subplot ---
+    ax[0, 0].legend(frameon=False, fontsize=12, loc='upper right')
+
+    # --- Overall title ---
+    fig.suptitle(title, fontsize=14, y=0.95)
+
+    # plt.tight_layout(rect=[0, 0, 1, 0.96])  # leave space for suptitle
     plt.show()
-    print("Plot display completed")
-

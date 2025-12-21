@@ -20,14 +20,15 @@ class HalfStepUpdate(nn.Module):
         self.update_step = ReadoutStep(readout_step_net)
 
         self.tau_init = np.random.rand(nnet) * t_init  # change form 0.01 to 0.001
+        # self.tau_init = 1.
         self.tau = nn.Parameter(torch.tensor(self.tau_init, device=mydevice.get()))
         self.f_stat = force_stat()
 
     # for update q <- q + tau[2]*p + f_q
     # see LLUF_MD for use of this function
 
-    def forward(self,q_input_list,p_input_list,q_prev):
-        x = self.prepare_data.cat_qp(q_input_list,p_input_list)
+    def forward(self, q_input_list, p_input_list, q_prev):
+        x = self.prepare_data.cat_qp(q_input_list, p_input_list)
         # shape [nsamples, nparticles, traj_len, ngrids * DIM * (q,p)]
         x = self.single_par.eval(x)
         # shape [nsample, nparticle, embed_dim]
@@ -36,6 +37,6 @@ class HalfStepUpdate(nn.Module):
         x = self.update_step.eval(x)
         # shape=[nsample,nparticle,dim=2]
         self.f_stat.accumulate(x)
-        return x * torch.abs(self.tau) # return the update step
+        return x * torch.abs(self.tau)     # return the update step
 
 

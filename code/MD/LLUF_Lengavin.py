@@ -16,10 +16,10 @@ class LLUF_Lengavin(nn.Module):
         self.prepare_data = prepare_data
         self.LLUF_update_p = LLUF_update_p
         self.LLUF_update_q = LLUF_update_q
-        self.tau_init = np.random.rand(nnet) * t_init  # change form 0.01 to 0.001
+        # self.tau_init = np.random.rand(nnet) * t_init  # change form 0.01 to 0.001
+        self.tau_init = 0.02        # changed by LW
 
         self.tau = nn.Parameter(torch.tensor(self.tau_init, device=mydevice.get()))
-        print(' velocity verletx ')
 
         # assert(self.modef == 'ff'),'hf mode not implemented in velocity_verlet3'
 
@@ -31,14 +31,26 @@ class LLUF_Lengavin(nn.Module):
         # phi0.shape = [nsamples*nparticles, ngrids*DIM]
         # p_input_list [pi0,pi1,pi2,...]
 
+        # print('self tau', self.tau)
+
+        # ========================
+        # print('pred q', self.LLUF_update_q(q_input_list, p_input_list, q_pre))
         q_cur = q_pre + p_pre * self.tau + self.LLUF_update_q(q_input_list, p_input_list, q_pre)
+        # q_cur = q_pre + 0 * self.LLUF_update_q(q_input_list, p_input_list, q_pre)
+        # q_cur = q_pre + p_pre * 0.02 + self.LLUF_update_q(q_input_list, p_input_list, q_pre)
+        # ========================
+
         q_cur = pbc(q_cur, l_list)
 
         q_input_next = self.prepare_data.prepare_q_feature_input(q_cur, l_list)
         q_input_list.append(q_input_next)
         q_input_list.pop(0)
 
+        # ========================
+        # print('pred p', self.LLUF_update_p(q_input_list, p_input_list, q_pre))
         p_cur = p_pre + self.LLUF_update_p(q_input_list, p_input_list, q_cur)
+        # p_cur = p_pre + 0 * self.LLUF_update_p(q_input_list, p_input_list, q_cur)
+        # ========================
 
         p_cur = thermostat_ML(p_cur, gamma, temp, tau_long)
 
@@ -52,7 +64,7 @@ class LLUF_Lengavin(nn.Module):
 
     def nsteps(self, q_input_list, p_input_list, q_pre, p_pre, l_list):
 
-        #assert(n_chain==1),'MD/velocity_verletx,py: error only n_chain = 1 is implemented '
+        # assert(n_chain==1),'MD/velocity_verletx,py: error only n_chain = 1 is implemented '
 
         # our mbpw-net model chain up to predict the new configuration for n-times
         q_input_list, p_input_list, q_cur, p_cur, l_list = \

@@ -12,46 +12,16 @@ class SingleParticleTransformerNet(nn.Module):
         self.ngrids = ngrids
         self.output_dim = output_dim
         self.prep_output_dim = round(input_dim / self.ngrids / self.traj_len)
-
-        self.trans_o = SingleParticleTransformerNetOriginal(input_dim, output_dim, traj_len, ngrids, d_model,
-                                                            nhead, n_encoder_layers, p)
-        self.trans_h = SingleParticleTransformerNetOriginal(input_dim, output_dim, traj_len, ngrids, d_model,
-                                                            nhead, n_encoder_layers, p)
-
-    def forward(self, x):
-        x_o = x[::3, :, :]
-        idx_all = torch.arange(x.size(0), device=x.device)
-        idx_rest = idx_all[torch.arange(x.size(0)) % 3 != 0]
-        x_h = x[idx_rest, :, :]
-
-        # --- pass through transformers ---
-        out_o = self.trans_o(x_o)
-        out_h = self.trans_h(x_h)
-
-        # print(out_o.shape, out_h.shape)
-        x = torch.cat([out_o, out_h], dim=0)
-        return x
-
-
-class SingleParticleTransformerNetOriginal(nn.Module):
-
-    def __init__(self, input_dim, output_dim, traj_len, ngrids, d_model, nhead, n_encoder_layers, p):
-        super().__init__()
-
-        self.traj_len = traj_len
-        self.ngrids = ngrids
-        self.output_dim = output_dim
-        self.prep_output_dim = round(input_dim / self.ngrids / self.traj_len)
         # 20250803: print shape
-        print('single particle transformer net : d_model', d_model, 'output_dim', output_dim)
+        print('single particle transformer net : d_model', d_model, 'output_dim',output_dim)
         print('single-particle tranformer net : ngrid', self.ngrids, 'input dim', input_dim, 'traj len', self.traj_len,
               'prep output dim', self.prep_output_dim)
-
         self.feat_embedder = nn.Linear(self.ngrids * self.prep_output_dim, d_model)        # 4 for 2d of p & q
         self.pos_embed = nn.Parameter(torch.randn(1, traj_len, d_model) * .02)
-        print(self.ngrids, self.traj_len, input_dim)
         # assert input_dim == self.ngrids * 4 * self.traj_len
         self.next_pt = nn.Parameter(torch.randn(1, 1, d_model) * .02)
+
+        print('!!!!! single par transformer_net', input_dim, output_dim, self.prep_output_dim, traj_len, ngrids)
 
         # use default setting: activation function=relu, dropout=0.1
         if n_encoder_layers > 0:
@@ -71,7 +41,7 @@ class SingleParticleTransformerNetOriginal(nn.Module):
         x = x + self.pos_embed                  # add position info, same shape as above
         x = torch.cat([x, self.next_pt.expand(x.size(0), -1, -1)], dim=1)  # shape: [nsamples * nparticles, traj_len+1, d_model]
         x = self.transformer(x)                 # same shape as above
-        x = x[:, -1, :]
+        x = x[:, -1, :]                         # shape: [nsample * nparticle, output_dim]    # changed by LW 12Nov2025
         return x
 
 
@@ -89,15 +59,11 @@ class EncoderLayer(nn.Module):
                                  act_fn(),
                                  nn.Dropout(p),
                                  nn.Linear(dim * mlp_ratio, dim),
-                                 # act_fn(),
+                                 act_fn(),
                                  nn.Dropout(p))
-        self.linear = nn.Linear(dim, dim, bias=False)
 
     def forward(self, x):
         # x = x + self.attn(self.norm1(x))        # changed by LW 12Nov2025
-        # x = x + self.attn(x)  # changed by LW 12Nov2025
-        # x = self.linear(x)
-        x = x + self.linear(self.attn(self.norm1(x)))
         x = x + self.mlp(self.norm2(x))
         return x
 

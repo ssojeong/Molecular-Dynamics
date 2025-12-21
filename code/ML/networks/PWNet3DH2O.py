@@ -14,7 +14,6 @@ class PWNet3DH2O(nn.Module):
         self.channel_per_group = nnodes[0]
 
         self.first_layer = nn.Conv1d(input_dim, nnodes[0] * self.group, kernel_size=1, groups=self.group)
-
         layers = []
         in_chs = [nnodes[0] * self.group] + nnodes[1:]
         out_chs = nnodes[1:] + [output_dim]

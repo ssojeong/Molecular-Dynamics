@@ -1,6 +1,6 @@
 {
- "vanilla_2.log_trainqrmse" : "logfile/vanilla_2.log_qrmse.txt",
- "vanilla_2.log_validqrmse" : "logfile/vanilla_2.log_qrmse_eval.txt",
- "vanilla_2.log_trainprmse" : "logfile/vanilla_2.log_prmse.txt",
- "vanilla_2.log_validprmse" : "logfile/vanilla_2.log_prmse_eval.txt"
+ "vanilla_2trans_noatten.log_trainqrmse" : "logfile/vanilla_2trans_noatten.log_qrmse.txt",
+ "vanilla_2trans_noatten.log_validqrmse" : "logfile/vanilla_2trans_noatten.log_qrmse_eval.txt",
+ "vanilla_2trans_noatten.log_trainprmse" : "logfile/vanilla_2trans_noatten.log_prmse.txt",
+ "vanilla_2trans_noatten.log_validprmse" : "logfile/vanilla_2trans_noatten.log_prmse_eval.txt"
 }

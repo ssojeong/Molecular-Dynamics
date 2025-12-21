@@ -54,7 +54,7 @@ def one_plot(argv_list):
 
     title_keys = ['sample_size', 'maxlr', 'poly_deg', 'pwnet_layer', 'pwnet_dim', 'trans_layer', 'trans_dim', ]
     args_dict = vars(main_args)
-    args_dict['sample_size'] = 16
+    args_dict['sample_size'] = 64
     title = ' '.join([f'{k}={args_dict[k]}' for k in title_keys])
     # cmd = ["python", "loss_weight_ws1.py", "working.dict", f"{log_file_path[10:]}_", "0", log_file_path[10:-6]]
     cmd = ["python", "loss_weight.py", "working.dict", f"{log_file_path[10:]}_", title, str(args_dict['window_sliding'])]

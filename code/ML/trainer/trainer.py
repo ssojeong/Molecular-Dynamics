@@ -44,12 +44,12 @@ class trainer:
         self.LLUF_update_q_obj = HalfStepUpdate(self.prepare_data_obj, single_particle_net_list[1],
                                                 multi_particle_gnn_net_list[1],
                                                 readout_step_mlp_net_list[1],
-                                                train_dict["tau_init"])
+                                                train_dict["tau_init"] * 0.01)         # changed by LW
 
-        self.mlvv = LLUF_Lengavin(self.prepare_data_obj, self.LLUF_update_p_obj,self.LLUF_update_q_obj)
+        self.mlvv = LLUF_Lengavin(self.prepare_data_obj, self.LLUF_update_p_obj, self.LLUF_update_q_obj)
         # 3 tau here. tau[0] for update p, tau[1],tau[2] for update q
 
-        self.tau_params = [self.LLUF_update_p_obj.tau, self.LLUF_update_q_obj.tau,self.mlvv.tau] # for printing
+        self.tau_params = [self.LLUF_update_p_obj.tau, self.LLUF_update_q_obj.tau, self.mlvv.tau]   # for printing
 
         if train_dict["optimizer"] == 'SGD':
             print("optim given .... sgd.....")
@@ -130,6 +130,9 @@ class trainer:
 
         nn.utils.clip_grad_value_(self.mlvv.parameters(), clip_value=self.grad_clip)
 
+        # ========== zero the gradient of tau ==========
+        self.mlvv.tau.grad.zero_()
+        # ==============================================
         self.opt.step()
         # print('params', self.opt.param_groups[0]["params"])
 
@@ -228,6 +231,7 @@ class trainer:
         factor = round(tau_traj_len/tau_long)
         # input_dim = 2 * ngrids * dim * factor # each of 6 grids, func of q (f1,f2), p (p1,p2)
         input_dim = ngrids * (pw4mb_dim + psi_feature_dim) * factor     # 20250807
+        # print('input dim', input_dim, ngrids, pw4mb_dim, psi_feature_dim, factor)
         # each of 6 grids, func of q (f1,f2), p (p1,p2)
 
         single_particle_net_list = []

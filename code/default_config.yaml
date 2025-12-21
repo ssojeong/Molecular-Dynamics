@@ -1,16 +1,16 @@
-model_id: 2   # in case want to train many model of the same setting, to separate them
+model_id: 2trans_morelinear  # in case want to train many model of the same setting, to separate them
 gap: 10  # part of save filename
 single_parnet_type: transformer_type # single particle neural network type
 multi_parnet_type: gnn_identity # multi particle neural network type
 readout_net_type: mlp_type # readout neural network type
 
 pwnet_layer: 3  # pwnet layer
-pwnet_dim: 128
+pwnet_dim: 256
 trans_layer: 2  # transformer layer
-trans_dim: 256
+trans_dim: 512
 gnn_layer: 2  # graph neural network layer, no use anymore
 
-window_sliding: 2 # number of time points to do integration to calculate the loss
+window_sliding: 3 # number of time points to do integration to calculate the loss
 batch_size: 4
 ngrid: 12  # 2D -> 6 ; 3D -> 12 -- current code only for grid 12
 b: # list of grid distance; grid lattice constant for multibody interactions
@@ -31,9 +31,9 @@ loss_weights: # loss = w1L1 +  w2L2 + w3L3 + w4L4 + w5L5 + w6L6 + w7L7 + w8L8
 ew: 0 # energy loss weight
 repw: 0 # repulsive loss weight
 poly_deg: 1 # polynomial based qloss, ploss term
-maxlr: 0.0001 # lr = 1e-4
+maxlr: 0.00001 # lr = 1e-4
 region: 'lg' # phase region we are interested
-dpt_train: 16 # train dataset, 520_44792 / 300_85815
-dpt_valid: 4 # valid dataset, 520_4993 /300_9536
-load_weight: best   # accept best(keep this as default)/null(train fro scratch)/epoch_no(int) #TODO add 'last'
-end_epoch: 16000
+dpt_train: 64 # train dataset, 520_44792 / 300_85815
+dpt_valid: 64 # valid dataset, 520_4993 /300_9536
+load_weight: 'best'   # accept best(keep this as default)/null(train fro scratch)/epoch_no(int) #TODO add 'last'
+end_epoch: 20000

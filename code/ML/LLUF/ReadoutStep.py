@@ -8,10 +8,11 @@ class ReadoutStep(nn.Module):
 
     # take in output of single_particle
     # and output to update_step
-    # x.shape=[nsample,nparticle,embed_dim]
-    # output shape=[nsample,nparticle,dim]
+    # x.shape=[nsample, nparticle, embed_dim]
+    # output shape=[nsample, nparticle, dim]
+
     def eval(self, x):
-        nsample,nparticle,embed_dim = x.shape
-        x = x.reshape(nsample*nparticle,embed_dim)
+        nsample, nparticle, embed_dim = x.shape
+        x = x.reshape(nsample*nparticle, embed_dim)
         y = self.net(x)
         return y.reshape(nsample,nparticle,-1)
