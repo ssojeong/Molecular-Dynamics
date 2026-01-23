@@ -5,6 +5,13 @@ __pycache__/
 #Ignore Zone.Identifier files from WSL
 *:Zone.Identifier
 
+# documentation
+.idea/
+
+# My configurations:
+data_sets/*
+data_sets/*pt
+
 # Ignore macOS files
 .DS_Store
 
